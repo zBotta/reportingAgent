@@ -8,7 +8,7 @@ import sys, os
 from pathlib import Path
 root_path = str(Path(__file__).absolute().parent)
 sys.path.append(root_path) # import root project to env
-print(f"\nAdded ENV = {root_path}")
+
 
 class Setup():
 
@@ -33,6 +33,7 @@ class Setup():
         env_path = os.path.join(root_path,".env")
         self.config = dotenv_values(env_path)
         print(f"\n Loading environment variables from: {env_path}")
+
 
 if __name__ == "__main__":
   from projectSetup import Setup

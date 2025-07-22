@@ -33,6 +33,9 @@ class ReportGenerator:
                 raise ValueError("Tokenizer has no eos_token_id defined.")
 
         return pad_token_id, eos_token_id
+    
+    # TODO: Discuss with Samd, the predifined or default parameters highly affects the outputs of the models. \
+    # We should think on charging the defult parameters of the charged model and change them accordingly / relatively
 
     def generate_report(
         self,
