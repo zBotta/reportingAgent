@@ -23,6 +23,7 @@ class ModelLoader:
         """
 
         model_kwargs = {}
+        model_kwargs['token'] = hf_token
 
         if 'gpt2' in self.model_id.lower():
             tokenizer_class = GPT2Tokenizer
@@ -36,8 +37,6 @@ class ModelLoader:
             # model_kwargs['trust_remote_code'] = True
             if hf_token == "":
                 ConnectionError("Hugging Face token is needed for loading to Llama or Janus models")
-            else:
-                model_kwargs['token'] = hf_token
 
 
         # Load tokenizer and model
