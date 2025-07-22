@@ -30,7 +30,7 @@ class Setup():
               device={self.device}, torch_dtype={self.torch_dtype}")
 
     def __load_env_variables(self):
-        self.config = dotenv_values(root_path + os.sep + ".env")
+        self.config = dotenv_values( os.path.join(root_path,".env"))
 
 if __name__ == "__main__":
   from projectSetup import Setup
