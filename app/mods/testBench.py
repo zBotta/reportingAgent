@@ -5,7 +5,7 @@ testBench.py
 import pandas as pd
 from conf.projectConfig import Config as cf
 from mods.metricsEvaluator import MetricsEvaluator
-from mods.dataHandler import DataHandler
+from mods.dataHandler import DataHandler, Report
 from mods.promptGenerator import PromptGenerator
 from mods.reportGenerator import ReportGenerator
 

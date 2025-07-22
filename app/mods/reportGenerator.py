@@ -37,15 +37,15 @@ class ReportGenerator:
     def generate_report(
         self,
         prompt: str,
-        max_length: int = cf.MODEL.MAX_NEW_TOKENS,
-        temperature: float = 0.3,
-        top_p: float = 0.9,
-        top_k: int = 50,
-        repetition_penalty: float = 1.0,
-        do_sample: bool = True,
-        num_beams: int = 1, # Use num_beam > 1 ONLY if do_sample == False
-        pad_token_id: int = None,
-        eos_token_id: int = None,
+        # max_length: int = cf.MODEL.MAX_NEW_TOKENS,
+        # temperature: float = 0.3,
+        # top_p: float = 0.9,
+        # top_k: int = 50,
+        # repetition_penalty: float = 1.0,
+        # do_sample: bool = True,
+        # num_beams: int = 1, # Use num_beam > 1 ONLY if do_sample == False
+        # pad_token_id: int = None,
+        # eos_token_id: int = None,
         **kwargs):
         """
         Text generation from the model. Since we are using the outlines library,
@@ -55,20 +55,20 @@ class ReportGenerator:
 
         # inputs = self.tokenizer(prompt, return_tensors="pt")
 
-        pad_token_id, eos_token_id = self.prepare_token_ids(pad_token_id, eos_token_id)
+        # pad_token_id, eos_token_id = self.prepare_token_ids(pad_token_id, eos_token_id)
 
-        generation_args = {
-            "max_length": max_length,
-            "temperature": temperature,
-            "top_p": top_p,
-            "top_k": top_k,
-            "repetition_penalty": repetition_penalty,
-            "do_sample": do_sample,
-            "num_beams": num_beams,
-            "pad_token_id": pad_token_id,
-            "eos_token_id": eos_token_id,
-        }
-
+        # generation_args = {
+        #     "max_length": max_length,
+        #     "temperature": temperature,
+        #     "top_p": top_p,
+        #     "top_k": top_k,
+        #     "repetition_penalty": repetition_penalty,
+        #     "do_sample": do_sample,
+        #     "num_beams": num_beams,
+        #     "pad_token_id": pad_token_id,
+        #     "eos_token_id": eos_token_id,
+        # }
+        generation_args = {"max_new_tokens": cf.MODEL.MAX_NEW_TOKENS}
         generation_args.update(kwargs)
 
         output = self.model(prompt, output_type=self.output_type, **generation_args)
