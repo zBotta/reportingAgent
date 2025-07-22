@@ -2,6 +2,7 @@ reporting-agent/PoC.ipynb
 .env
 .pytest_cache/
 .vscode/
+__pycache__/
 **/__pycache__/
 **/**/__pycache__/
 **/**/**/__pycache__/
