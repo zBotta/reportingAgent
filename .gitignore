@@ -1,2 +1,3 @@
 reporting-agent/PoC.ipynb
 .env
+**/__pycache__/
