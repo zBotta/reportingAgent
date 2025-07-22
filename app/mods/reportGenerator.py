@@ -4,6 +4,7 @@
 from mods.dataHandler import Report, DataHandler
 from conf.projectConfig import Config as cf
 
+
 class ReportGenerator:
 
     def __init__(self, model, tokenizer, output_type :Report):
