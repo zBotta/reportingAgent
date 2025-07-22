@@ -2,7 +2,7 @@
 """
 
 from mods.dataHandler import Report, DataHandler
-
+from ..conf.projectConfig import Config as cf
 
 class ReportGenerator:
 
@@ -36,7 +36,7 @@ class ReportGenerator:
     def generate_report(
         self,
         prompt: str,
-        max_length: int = 1000,
+        max_length: int = cf.MODEL.MAX_NEW_TOKENS,
         temperature: float = 0.3,
         top_p: float = 0.9,
         top_k: int = 50,
