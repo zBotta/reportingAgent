@@ -35,7 +35,7 @@ class ModelLoader:
         if 'llama' in self.model_id.lower() or 'janus' in self.model_id.lower():
             # model_kwargs['trust_remote_code'] = True
             if hf_token == "":
-                ConnectionError("Hugging Face token needed for loading to Llama or Janus models")
+                ConnectionError("Hugging Face token is needed for loading to Llama or Janus models")
             else:
                 model_kwargs['token'] = hf_token
 

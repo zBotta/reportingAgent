@@ -8,8 +8,13 @@ class TestBench():
    T_MODELS = {"bs_model": "distilbert-base-uncased", "be_model": "all-MiniLM-L6-v2", "ce_model": "ms-marco-MiniLM-L6-v2"}
 
 
+class Model():
+   MAX_NEW_TOKENS = 300
+
+
 class Config():
     TEST_BENCH = TestBench 
+    MODEL = Model
 
 
 if __name__ == "__main__":

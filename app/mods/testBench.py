@@ -27,7 +27,7 @@ class TestBench:
       for prompt_method in self.prompt_methods:
         prompt = prompt_gen.create_prompt(prompt_method)
         # The model in the report generator has a structured output with outlines library
-        output = report_generator.generate_report(prompt, max_new_tokens = 200)
+        output = report_generator.generate_report(prompt, max_new_tokens = cf.MODEL.MAX_NEW_TOKENS)
         # obtain title and report from the structured output
         title, report = self.dh.get_title_and_report(model_output = output) 
         ref_report = report_data.event_description[report_idx]
