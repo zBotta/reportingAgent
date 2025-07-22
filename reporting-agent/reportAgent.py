@@ -7,7 +7,7 @@ main app script
 """
 import sys
 from pathlib import Path
-sys.path.append(str(Path(__file__).absolute().parent.parent))
+sys.path.append(str(Path(__file__).absolute().parent.parent)) # import root project to env
 
 from setup import Setup
 from mods.metricsEvaluator import MetricsEvaluator
