@@ -29,6 +29,6 @@ class Setup():
         self.config = dotenv_values(".env")
 
 if __name__ == "__main__":
-  from setup import Setup
+  from projectSetup import Setup
 
   env = Setup()

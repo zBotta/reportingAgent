@@ -7,9 +7,11 @@ main app script
 """
 import sys
 from pathlib import Path
-sys.path.append(str(Path(__file__).absolute().parent.parent)) # import root project to env
+root_path = str(Path(__file__).absolute().parent.parent)
+sys.path.append(root_path) # import root project to env
+print(f"\nAdded ENV = {root_path}")
 
-from setup import Setup
+from projectSetup import Setup
 from mods.metricsEvaluator import MetricsEvaluator
 from mods.dataHandler import DataHandler, Report
 from mods.testBench import TestBench

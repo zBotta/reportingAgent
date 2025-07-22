@@ -2,7 +2,7 @@ from mods.dataHandler import DataHandler, Report
 from mods.promptGenerator import PromptGenerator
 from mods.modelLoader import ModelLoader
 import outlines
-from ...setup import Setup
+from ...projectSetup import Setup
 
 
 def test_structured_outputs():
