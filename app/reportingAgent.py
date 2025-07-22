@@ -36,7 +36,7 @@ def main():
     df_prompts = tb.eval_diff_prompts(df_reports, 
                                       report_idx_list = report_idx_list, 
                                       report_generator = rg )
-    df_prompts
+    print(df_prompts)
 
 
 if __name__ == "__main__":
