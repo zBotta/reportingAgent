@@ -4,7 +4,11 @@ setup.py file
 """
 import torch
 from dotenv import dotenv_values
-
+import sys
+from pathlib import Path
+root_path = str(Path(__file__).absolute().parent)
+sys.path.append(root_path) # import root project to env
+print(f"\nAdded ENV = {root_path}")
 
 class Setup():
 
@@ -26,9 +30,10 @@ class Setup():
               device={self.device}, torch_dtype={self.torch_dtype}")
 
     def __load_env_variables(self):
-        self.config = dotenv_values(".env")
+        self.config = dotenv_values(root_path + "\\.env")
 
 if __name__ == "__main__":
   from projectSetup import Setup
 
   env = Setup()
+#   print(env.config["HF_TOKEN"])

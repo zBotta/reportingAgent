@@ -42,8 +42,8 @@ class DataHandler:
 
     Output: A tuple with the title and the report texts
     """
-    title = output_structure.model_validate_json(model_output).title
-    report = output_structure.model_validate_json(model_output).report
+    title = output_structure.model_validate_json(model_output).title.strip()
+    report = output_structure.model_validate_json(model_output).report.strip()
     return title, report
 
 
