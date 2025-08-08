@@ -25,14 +25,14 @@ dh = DataHandler()
 # Nested structure
 class ApiReport(BaseModel):
     report_name: str
-    What: str
-    When: str
-    Where: str
-    Who: str
-    How: str
-    Why: str
-    ContingencyActions: str
-    Report: str
+    what: str
+    when: str
+    where: str
+    who: str
+    how: str
+    why: str
+    contingency_actions: str
+    report: str
 
 class ApiReports(BaseModel):
   reports: list[ApiReport]
