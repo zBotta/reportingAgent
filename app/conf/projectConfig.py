@@ -13,6 +13,9 @@ class TestBench():
 
 class Model():
    MAX_NEW_TOKENS = 300
+   DEFAULT_PROMPT_METHOD = "C"
+   PARAM_LIST = ["temperature", "top_k", "top_p", "max_new_tokens", "repetition_penalty", 
+                 "frequency_penalty", "presence_penalty", "stop", "do_sample"]
 
 
 class Api():

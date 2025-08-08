@@ -2,8 +2,9 @@
 """
 
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer, GPT2LMHeadModel, GPT2Tokenizer
+from transformers import AutoModelForCausalLM, AutoTokenizer, GPT2LMHeadModel, GPT2Tokenizer, GenerationConfig
 import outlines
+from conf.projectConfig import Config as cf
 
 
 class ModelLoader:
@@ -53,4 +54,10 @@ class ModelLoader:
         model_outlines = outlines.from_transformers(model, tokenizer)
 
         return model_outlines, tokenizer
-    
+
+    def get_default_parameters(self):
+        gc = GenerationConfig.from_pretrained(self.model_id)
+        param_dict = {}
+        for param_name in cf.MODEL.PARAM_LIST:
+            param_dict.update({param_name,gc.__getattribute__(param_name)})
+        return param_dict

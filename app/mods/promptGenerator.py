@@ -50,11 +50,11 @@ class PromptGenerator:
       text = f"\nwhat: {self.what} \nwhen: {self.when} \nwhere: {self.where} \nwho: {self.who} \nhow: {self.how} \nwhy: {self.why} \ncontingency actions: {self.contingency_actions}.\n"
       return f"""
       You are a reporting agent.
-      You task is to create a report when provided the what, when, why, who, how and where questions about the events. 
+      Your task is to create a report when provided the what, when, why, who, how and where questions about the events. 
       You are also given information about the contingency actions regarding the event. 
 
       Guidelines:
-      - Generate only one report given the informations about the event
+      - Generate only one report given the information about the event
       - Generate the report as text in one paragraph and a title
 
       Input:
@@ -113,5 +113,3 @@ class PromptGenerator:
       Output: Provide your response as a JSON in the given structure.
         
       """.strip()
-
-
