@@ -55,9 +55,19 @@ class ModelLoader:
 
         return model_outlines, tokenizer
 
+
     def get_default_parameters(self):
-        gc = GenerationConfig.from_pretrained(self.model_id)
+        generation_config = GenerationConfig.from_pretrained(self.model_id) # changed gc to generation_config, collides with gc module (garbage collector )
         param_dict = {}
         for param_name in cf.MODEL.PARAM_LIST:
-            param_dict.update({param_name,gc.__getattribute__(param_name)})
+            try:
+                att_val = generation_config.__getattribute__(param_name)
+            except AttributeError:
+                att_val = None
+                print(f"No attribute '{param_name}' found in GenerationConfig for model '{self.model_id}'")
+            except Exception as e:
+                att_val = None
+                print(f"An unexpected error occurred while getting attribute '{param_name}': {e}")
+            finally:
+                param_dict[param_name] = att_val  # Assign directly to the dictionary
         return param_dict
