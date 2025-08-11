@@ -3,8 +3,13 @@ projectConfig.py
 """
 
 from pathlib import Path
-root_path = str(Path(__file__).absolute().parent.parent.resolve())
+root_path = str(Path(__file__).absolute().parent.parent.parent.resolve())
+app_path = str(Path(__file__).absolute().parent.parent.resolve())
 
+
+class Data():
+   DF_COLUMNS = ['type', 'what', 'when', 'where', 'who', 'how', 'why', 'contingency_actions', 'event_description', 'NbChr']
+   APP_RESULTS_FOLDER = "results"
 
 class TestBench():
    PROMPT_METHODS = ['A', 'B', 'C']
@@ -16,9 +21,10 @@ class Model():
    DEFAULT_PROMPT_METHOD = "C"
    PARAM_LIST = ["temperature", "top_k", "top_p", "max_new_tokens", "repetition_penalty", 
                  "frequency_penalty", "presence_penalty", "stop", "do_sample"]
-
+   VAL_IF_NOT_IN_PARAM_LIST = None
 
 class Api():
+   APP_GEN_REPORTS_FOLDER = "results/api"  # The folder to export the generated API reports
    GPT_API_MODEL = "gpt-4.1-mini"
    # ChatGPT API (pay)
    # OPTIONS: 
@@ -40,7 +46,9 @@ class Api():
 class Config():
     TEST_BENCH = TestBench 
     MODEL = Model
+    DATA = Data
     PROJECT_PATH = root_path
+    APP_PATH = app_path
     API = Api()
 
 

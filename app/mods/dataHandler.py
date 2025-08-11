@@ -28,11 +28,40 @@ class DataHandler:
     pass
   
   def import_reports(self, xlsx_file_name = "Reports_dataset.xlsx"):
-      data_path = os.path.join(cf.PROJECT_PATH, "datasets", xlsx_file_name)
-      df_reports = pd.read_excel(data_path)
-      df_reports.columns = ['type', 'what', 'when', 'where', 'who', 'how', 'why', 'contingency_actions', 'event_description', 'NbChr']
-      print(f"\nDataset loaded from path : {data_path}")
-      return df_reports
+      data_path = os.path.join(cf.APP_PATH, "datasets", xlsx_file_name)
+      file_exists = self.check_file_exists(data_path)
+      if file_exists:
+        df_reports = pd.read_excel(data_path)
+        df_reports.columns = cf.DATA.DF_COLUMNS
+        print(f"\nDataset loaded from path : {data_path}")
+        return df_reports
+
+  def check_file_exists(self, file_path: str):
+    """ Checks files destination. If does not exist, throws an error """
+    if not os.path.exists(file_path):
+      raise FileExistsError(f"File does not exist in {file_path}")
+    else:
+      return True
+
+  def check_folder_exists(self, folder_path: str):
+    """ Checks folder destination and creates it if does not exist """
+    if not os.path.isdir(folder_path):
+      os.makedirs(folder_path)
+      print(f"Folder does not exist, creating new folder in: {folder_path}")
+
+  def export_df_to_excel(self, 
+                         df: pd.DataFrame.dtypes,
+                         xlsx_file_name: str, 
+                         app_folder_destination: str = cf.DATA.APP_RESULTS_FOLDER):
+    # Add time of creation to filename
+    dt_creation = dt.now().strftime("%d-%m%Y %H-%M-%S")
+    _xlsx_file_name = xlsx_file_name + "-" + dt_creation + ".xlsx"
+    # Check folder destination and create it if does not exist
+    folder_path = os.path.join(cf.APP_PATH, app_folder_destination).__str__()
+    self.check_folder_exists(folder_path)
+    excel_path = os.path.join(cf.APP_PATH, app_folder_destination, _xlsx_file_name).__str__()
+    print(f"Saving df to excel in: {excel_path}")
+    df.to_excel(excel_path, index=False)
 
   def get_title_and_report(self, model_output: str, output_structure = Report) -> tuple:
     """
@@ -49,9 +78,11 @@ class DataHandler:
     return title, report
 
 
-  def export_to_excel_from_response(self, report_data :pd.DataFrame.dtypes, model_name :str, filename :str):
+  def export_to_excel_from_api_response(self, 
+                                        report_data :pd.DataFrame.dtypes, 
+                                        model_name :str, filename :str):
     """
-    Takes the model output (response) and converts it into a dataframe, then it saves it in datasets/tests
+    Takes the model output (response) and converts it into a dataframe, then it saves it in datasets
     """
     # FastAPI exposes jsonable_encoder which essentially performs that same transformation on an arbitrarily nested structure of BaseModel:
     df = pd.DataFrame(jsonable_encoder(report_data)) 
@@ -61,12 +92,15 @@ class DataHandler:
       if model_name.__contains__(":"):
         model_name = model_name.split(":")[0]
 
-    # Add time of creation to filename
-    dt_creation = dt.now().strftime("%d-%m%Y %H-%M-%S")
-    xlsx_file_name = filename + "-" + model_name + "-" + dt_creation + ".xlsx"
-    excel_path = os.path.join(cf.PROJECT_PATH, "datasets", "tests", xlsx_file_name).__str__()
-    print(f"Saving excel with reports to: {excel_path}")
-    df.to_excel(excel_path, index=False)
+
+    xlsx_file_name = filename + "-" + model_name
+    self.export_df_to_excel(df=df,
+                            xlsx_file_name=xlsx_file_name,
+                            app_folder_destination=cf.API.APP_GEN_REPORTS_FOLDER)
+
+#  def export_test_bench_results_to_excel(self, test_bench_results: pd.DataFrame.dtypes, filename = "tb-experiment"):
+
+
 
 
 # if __name__ == "__main__":
