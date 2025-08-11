@@ -180,7 +180,7 @@ class ApiReportGenerator():
       # report_data, model_name = call_open_router_api(messages)
         report_data, model_name = self.__call_groq_api(messages, model=cf.API.GROQ_API_MODEL)
   
-      dh.export_to_excel_from_response(report_data, model_name, filename)
+      dh.export_to_excel_from_api_response(report_data, model_name, filename)
 
 
 if __name__ == "__main__":  
@@ -188,7 +188,7 @@ if __name__ == "__main__":
     from conf.projectConfig import Config as cf
 
     api = ApiReportGenerator()
-    N_REPORTS = 5
+    N_REPORTS = 1
     api.generate_reports(n_reports=N_REPORTS,
                         report_id=cf.API.TRAFFIC_REPORT_ID,
                         use_chat_gpt_api=True)
