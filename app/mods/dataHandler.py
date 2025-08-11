@@ -52,7 +52,7 @@ class DataHandler:
   def export_df_to_excel(self, 
                          df: pd.DataFrame.dtypes,
                          xlsx_file_name: str, 
-                         app_folder_destination: str = cf.DATA.APP_RESULTS_FOLDER):
+                         app_folder_destination: str = cf.DATA.DH_DEFAULT_RESULTS_F):
     # Add time of creation to filename
     dt_creation = dt.now().strftime("%d-%m%Y %H-%M-%S")
     _xlsx_file_name = xlsx_file_name + "-" + dt_creation + ".xlsx"
@@ -96,7 +96,7 @@ class DataHandler:
     xlsx_file_name = filename + "-" + model_name
     self.export_df_to_excel(df=df,
                             xlsx_file_name=xlsx_file_name,
-                            app_folder_destination=cf.API.APP_GEN_REPORTS_FOLDER)
+                            app_folder_destination=cf.API.API_GEN_REPORTS_F)
 
 #  def export_test_bench_results_to_excel(self, test_bench_results: pd.DataFrame.dtypes, filename = "tb-experiment"):
 

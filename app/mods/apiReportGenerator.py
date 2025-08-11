@@ -188,7 +188,7 @@ if __name__ == "__main__":
     from conf.projectConfig import Config as cf
 
     api = ApiReportGenerator()
-    N_REPORTS = 1
+    N_REPORTS = 5
     api.generate_reports(n_reports=N_REPORTS,
                         report_id=cf.API.TRAFFIC_REPORT_ID,
                         use_chat_gpt_api=True)

@@ -1,18 +1,11 @@
-import sys
-from pathlib import Path
-root_path = str(Path(__file__).absolute().parent.parent.parent.resolve())
-app_path = str(Path(__file__).absolute().parent.parent.resolve())
-sys.path.append(root_path)
-sys.path.append(app_path)
 
-
+import pandas as pd
+import os
+import shutil
 from projectSetup import Setup
 from conf.projectConfig import Config as cf
 from mods.dataHandler import DataHandler, Report
 from mods.apiReportGenerator import ApiReport, ApiReports
-import pandas as pd
-import os
-import shutil
 
 def test_import_excel():
     dh = DataHandler()
@@ -55,7 +48,7 @@ def test_api_export():
         )
     report_data = ApiReports(reports=[api_rep])
 
-    app_folder_dest = cf.API.APP_GEN_REPORTS_FOLDER
+    app_folder_dest = cf.API.API_GEN_REPORTS_F
     filename_prefix = "test-api-export"
     folder_path = os.path.join(cf.APP_PATH, app_folder_dest)
     if os.path.isdir(folder_path): # delete folder with previous tests files

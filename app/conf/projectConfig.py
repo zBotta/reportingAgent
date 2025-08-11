@@ -9,12 +9,13 @@ app_path = str(Path(__file__).absolute().parent.parent.resolve())
 
 class Data():
    DF_COLUMNS = ['type', 'what', 'when', 'where', 'who', 'how', 'why', 'contingency_actions', 'event_description', 'NbChr']
-   APP_RESULTS_FOLDER = "results"
+   DH_DEFAULT_RESULTS_F = "results"
 
 class TestBench():
    PROMPT_METHODS = ['A', 'B', 'C']
    T_MODELS = {"bs_model": "distilbert-base-uncased", "be_model": "all-MiniLM-L6-v2", "ce_model": "ms-marco-MiniLM-L6-v2"}
-
+   FILENAME_PREFIX = "tb-experiment"
+   TB_RESULTS_F = "results/test-bench" # Folder to put the test-bench results
 
 class Model():
    MAX_NEW_TOKENS = 300
@@ -24,7 +25,7 @@ class Model():
    VAL_IF_NOT_IN_PARAM_LIST = None
 
 class Api():
-   APP_GEN_REPORTS_FOLDER = "results/api"  # The folder to export the generated API reports
+   API_GEN_REPORTS_F = "results/api"  # The folder to export the generated API reports
    GPT_API_MODEL = "gpt-4.1-mini"
    # ChatGPT API (pay)
    # OPTIONS: 
