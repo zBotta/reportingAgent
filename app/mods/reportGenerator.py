@@ -36,19 +36,27 @@ class ReportGenerator:
     
     # TODO: Discuss with Samd, the predifined or default parameters highly affects the outputs of the models. \
     # We should think on charging the defult parameters of the charged model and change them accordingly / relatively
+    # Samd: for our reportingAgent, proposal to restrict the generation parameters to temperature, top_p or top_k, max_new_tokens, repetition_penalty, do_sample (always set to True, otherwise, top_p and top_k have no effect). pad_token_id and eos_token_id are not tunable, but may be needed to control the generation process.
+
+    # TODO: Discuss with Samd, a better way to call this method is to pass the paramters straight as a dict
+    # e.g.      output = report_generator.generate_report(prompt=gen_prompt, 
+    #                                                     kwargs=gen_param)
 
     def generate_report(
         self,
         prompt: str,
         # max_length: int = cf.MODEL.MAX_NEW_TOKENS,
-        # temperature: float = 0.3,
-        # top_p: float = 0.9,
-        # top_k: int = 50,
-        # repetition_penalty: float = 1.0,
-        # do_sample: bool = True,
-        # num_beams: int = 1, # Use num_beam > 1 ONLY if do_sample == False
-        # pad_token_id: int = None,
-        # eos_token_id: int = None,
+        temperature: float = 1.0,
+        top_k: int = 50,
+        top_p: float = 1.0,
+        max_new_tokens: int = 300,
+        repetition_penalty: float = 1.0,
+        # frequency_penalty: = None,
+        # presence_penalty: None,
+        do_sample: bool = True,
+        num_beams: int = 1, # Use num_beam > 1 ONLY if do_sample == False
+        pad_token_id: int = None,
+        eos_token_id: int = None,
         **kwargs):
         """
         Text generation from the model. Since we are using the outlines library,
@@ -58,23 +66,26 @@ class ReportGenerator:
 
         # inputs = self.tokenizer(prompt, return_tensors="pt")
 
-        # pad_token_id, eos_token_id = self.prepare_token_ids(pad_token_id, eos_token_id)
+        pad_token_id, eos_token_id = self.prepare_token_ids(pad_token_id, eos_token_id)
 
-        # generation_args = {
-        #     "max_length": max_length,
-        #     "temperature": temperature,
-        #     "top_p": top_p,
-        #     "top_k": top_k,
-        #     "repetition_penalty": repetition_penalty,
-        #     "do_sample": do_sample,
-        #     "num_beams": num_beams,
-        #     "pad_token_id": pad_token_id,
-        #     "eos_token_id": eos_token_id,
-        # }
-        generation_args = {"max_new_tokens": cf.MODEL.MAX_NEW_TOKENS}
+        generation_args = {
+            # "max_length": max_length,
+            "temperature": temperature,
+            "top_k": top_k,
+            "top_p": top_p,
+            "max_new_tokens": max_new_tokens,
+            "repetition_penalty": repetition_penalty,
+            # "frequency_penalty": frequency_penalty,
+            # "presence_penalty": presence_penalty,
+            "do_sample": do_sample,
+            "num_beams": num_beams,
+            "pad_token_id": pad_token_id,
+            "eos_token_id": eos_token_id,
+        }
+        # generation_args = {"max_new_tokens": cf.MODEL.MAX_NEW_TOKENS}
         generation_args.update(kwargs)
 
         output = self.model(prompt, output_type=self.output_type, **generation_args)
         # outputs = self.model.generate(**inputs, **generation_args)
         # text = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)[0]
-        return output
+        return output, generation_args

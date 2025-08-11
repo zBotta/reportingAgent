@@ -57,6 +57,7 @@ class ModelLoader:
 
         return model_outlines, tokenizer
 
+<<<<<<< HEAD
     def get_default_parameters(self, verbose = False) -> dict:
         """ Get the default parameters of the model
         verbose: If True, the missing parameters are printed out
@@ -81,3 +82,21 @@ class ModelLoader:
         tunable_param = {k: v for k, v in def_param.items() if v is not cf.MODEL.VAL_IF_NOT_IN_PARAM_LIST}
         return tunable_param
     
+=======
+
+    def get_default_parameters(self):
+        generation_config = GenerationConfig.from_pretrained(self.model_id) # changed gc to generation_config, collides with gc module (garbage collector )
+        param_dict = {}
+        for param_name in cf.MODEL.PARAM_LIST:
+            try:
+                att_val = generation_config.__getattribute__(param_name)
+            except AttributeError:
+                att_val = None
+                print(f"No attribute '{param_name}' found in GenerationConfig for model '{self.model_id}'")
+            except Exception as e:
+                att_val = None
+                print(f"An unexpected error occurred while getting attribute '{param_name}': {e}")
+            finally:
+                param_dict[param_name] = att_val  # Assign directly to the dictionary
+        return param_dict
+>>>>>>> be646dc5bbc3923eb585f37e1c81d76509eeac73
