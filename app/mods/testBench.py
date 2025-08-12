@@ -183,7 +183,7 @@ class TestBench:
                               ):
     """ Generates a report with one set of parameters (gen_param)
     """
-    log.info(f"Generating text with parameters\n{gen_param}")
+    log.info(f"Generating text with the following parameters:\n{gen_param}")
     output, gen_param = report_generator.generate_report(prompt=gen_prompt, **gen_param)
     log.debug(f"\nThe output of the model {self.ml.model_id} is: \n{output}")
 
