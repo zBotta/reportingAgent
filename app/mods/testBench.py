@@ -111,22 +111,25 @@ class TestBench:
      Raises an error if the if the given parameters are not part of the tunable parameters 
      or if param_dict does not have a good type."""
     
-    tunable_params = self.ml.get_default_tunable_parameters()
-    if not set(param_dict) <= set(tunable_params): # is the set of given param included in set of tunable param
-      not_tunable_params = set(param_dict) - set(tunable_params)
-      raise ValueError(f"Warning: The given parameters: {not_tunable_params} are not tunable parameters") 
-    else:
-        # check all values in param_dict are lists
-        v_is_list = True
-        for k, v in param_dict.items():
-          v_is_list = True * v_is_list if type(v) is list else False
-        # check param_dict is a dict
-        is_dict = type(param_dict) is dict
-        if not is_dict:
-          raise TypeError(f"Argument param_dict must be a dictionary, e.g. : ('param_name': [val1, val2, val3, ...])")
-        if not v_is_list:
-          raise TypeError(f"Argument param_dict must have a list as values:  e.g. : ('param_name': [val1, val2, val3, ...])")
-        
+    # TODO: Discuss if this should be done to check parameters. 
+    #       For instance, max_new_tokens is not in the tunable_parameters but it is actually a parameter. This throws an error.
+    # tunable_params = self.ml.get_default_tunable_parameters()
+    # if not set(param_dict) <= set(tunable_params): # is the set of given param included in set of tunable param
+    #   not_tunable_params = set(param_dict) - set(tunable_params)
+    #   raise ValueError(f"Warning: The given parameters: {not_tunable_params} are not tunable parameters") 
+    # else:
+    
+    # check all values in param_dict are lists
+    v_is_list = True
+    for k, v in param_dict.items():
+      v_is_list = True * v_is_list if type(v) is list else False
+    # check param_dict is a dict
+    is_dict = type(param_dict) is dict
+    if not is_dict:
+      raise TypeError(f"Argument param_dict must be a dictionary, e.g. : ('param_name': [val1, val2, val3, ...])")
+    if not v_is_list:
+      raise TypeError(f"Argument param_dict must have a list as values:  e.g. : ('param_name': [val1, val2, val3, ...])")
+      
   def param_grid_search(self, 
                         report_data : pd.DataFrame.dtypes, 
                         report_idx : int,
