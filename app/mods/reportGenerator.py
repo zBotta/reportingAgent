@@ -34,17 +34,11 @@ class ReportGenerator:
 
         return pad_token_id, eos_token_id
     
-    # TODO: Discuss with Samd, the predifined or default parameters highly affects the outputs of the models. \
-    # We should think on charging the defult parameters of the charged model and change them accordingly / relatively
-    # Samd: for our reportingAgent, proposal to restrict the generation parameters to temperature, top_p or top_k, max_new_tokens, repetition_penalty, do_sample (always set to True, otherwise, top_p and top_k have no effect). pad_token_id and eos_token_id are not tunable, but may be needed to control the generation process.
-
-    # TODO: Discuss with Samd, a better way to call this method is to pass the paramters straight as a dict
-    # e.g.      output = report_generator.generate_report(prompt=gen_prompt, 
-    #                                                     kwargs=gen_param)
-
     # TODO: 
     # - Discuss errors on generation "Unterminated string" ? I think I found the error, the max_new_tokens was needed in gpt2 to generate something on the report object.
-    # - Merge the methods and change the notebooks with his changes in model loader.
+    # - Merge the methods and change the notebooks with his changes in report generator.
+    # - What are the essential needed parameters ? 
+    # - Now we can now return a tuple
 
     def generate_report(
         self,
@@ -74,12 +68,13 @@ class ReportGenerator:
         #     "pad_token_id": pad_token_id,
         #     "eos_token_id": eos_token_id,
         # }
-        # generation_args = {"max_new_tokens": cf.MODEL.MAX_NEW_TOKENS}
-        # generation_args.update(kwargs)
+        generation_args = {}
+        generation_args.update(kwargs)
 
-        if not "max_new_tokens" in kwargs:
-            kwargs.update({"max_new_tokens": cf.MODEL.MAX_NEW_TOKENS})
+        # TODO: Discuss with Samd
+        if not "max_new_tokens" in generation_args:
+            generation_args.update({"max_new_tokens": cf.MODEL.MAX_NEW_TOKENS})
 
-        output = self.model(prompt, output_type=self.output_type, **kwargs)
+        output = self.model(prompt, output_type=self.output_type, **generation_args)
         
-        return output, kwargs
+        return output, generation_args

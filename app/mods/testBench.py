@@ -162,12 +162,12 @@ class TestBench:
                                     prompt_method = prompt_method)
     else:  # No parameters given -> Generate with default parameters
       self.generate_one_param_set(res=res,
-                                      gen_prompt = gen_prompt,
-                                      gen_param = gen_param,
-                                      report_data = report_data,
-                                      report_idx = report_idx,
-                                      report_generator = report_generator,
-                                      prompt_method = prompt_method)
+                                  gen_prompt = gen_prompt,
+                                  gen_param = gen_param,
+                                  report_data = report_data,
+                                  report_idx = report_idx,
+                                  report_generator = report_generator,
+                                  prompt_method = prompt_method)
         
   def generate_one_param_set(self,
                               res: dict, 
@@ -181,8 +181,7 @@ class TestBench:
     """ Generates a report with one set of parameters (gen_param)
     """
     log.info(f"Generating text with parameters\n{gen_param}")
-    output, gen_param = report_generator.generate_report(prompt=gen_prompt, 
-                                                         kwargs=gen_param)
+    output, gen_param = report_generator.generate_report(prompt=gen_prompt, **gen_param)
     log.debug(f"\nThe output of the model {self.ml.model_id} is: \n{output}")
 
     # obtain title and report from the structured output

@@ -82,7 +82,8 @@ def test_several_prompts_several_params():
                                 report_generator = rg,
                                 prompt_method_list=["C"],
                                 param_dict={"temperature": [0.7, 1.3],
-                                            "top_p": [0.6, 1]} )
+                                            "top_p": [0.6, 1],
+                                            "max_new_tokens": [300]} )
     
     # Check the file creation, check the string prefix in the filename
     for filenames in os.listdir(folder_path):
