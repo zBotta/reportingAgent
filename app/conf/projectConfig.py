@@ -2,14 +2,27 @@
 projectConfig.py
 """
 
+import logging
+import os
 from pathlib import Path
 root_path = str(Path(__file__).absolute().parent.parent.parent.resolve())
 app_path = str(Path(__file__).absolute().parent.parent.resolve())
 
 
+class Logger():
+   LOG_NAME = "reportAgent"
+   LOG_LEVEL = logging.INFO # log file output, options: INFO, WARNING
+   CONSOLE_LEVEL = logging.WARNING # console output, options: INFO, WARNING
+   FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+   DATE_TIME_FORMAT = "%m/%d/%Y %H:%M:%S"
+   LOG_FILE = os.path.join(app_path, "logs", "logfile.log")
+   LOG_DIR = os.path.join(app_path, "logs")
+
+
 class Data():
    DF_COLUMNS = ['type', 'what', 'when', 'where', 'who', 'how', 'why', 'contingency_actions', 'event_description', 'NbChr']
    DH_DEFAULT_RESULTS_F = "results"
+
 
 class TestBench():
    PROMPT_METHODS = ['A', 'B', 'C']
@@ -17,12 +30,14 @@ class TestBench():
    FILENAME_PREFIX = "tb-experiment"
    TB_RESULTS_F = "results/test-bench" # Folder to put the test-bench results
 
+
 class Model():
    MAX_NEW_TOKENS = 300
    DEFAULT_PROMPT_METHOD = "C"
    PARAM_LIST = ["temperature", "top_k", "top_p", "max_new_tokens", "repetition_penalty", 
                  "frequency_penalty", "presence_penalty", "stop", "do_sample"]
    VAL_IF_NOT_IN_PARAM_LIST = None
+
 
 class Api():
    API_GEN_REPORTS_F = "results/api"  # The folder to export the generated API reports
@@ -51,9 +66,5 @@ class Config():
     PROJECT_PATH = root_path
     APP_PATH = app_path
     API = Api()
+    LOG = Logger()
 
-
-if __name__ == "__main__":
-  from projectConfig import Config
-
-  print(Config.TEST_BENCH.PROMPT_METHODS)

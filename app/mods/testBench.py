@@ -4,11 +4,19 @@ testBench.py
 
 import pandas as pd
 from conf.projectConfig import Config as cf
+import logging
+from app.conf.logManager import Logger
 from mods.metricsEvaluator import MetricsEvaluator
 from mods.dataHandler import DataHandler, Report
 from mods.promptGenerator import PromptGenerator
 from mods.reportGenerator import ReportGenerator
 from mods.modelLoader import ModelLoader
+from itertools import product
+
+
+logging.setLoggerClass(Logger)
+log = logging.getLogger(__name__)
+
 
 class TestBench:
   """ A test bench for making tests on a single model. 
@@ -22,7 +30,7 @@ class TestBench:
     self.dh = DataHandler
     self.ml = ModelLoader
     self.clear_df_results()
-    print("\n Test Bench loaded")
+    log.info("Test Bench loaded")
   
   def clear_df_results(self):
     self.df_res : pd.DataFrame.dtypes = pd.DataFrame({})
@@ -30,33 +38,33 @@ class TestBench:
   def set_model_loader(self, ModelLoader: ModelLoader):
     self.ml = ModelLoader
 
-  def eval_diff_prompts(self, 
-                        report_data : pd.DataFrame.dtypes, 
-                        report_idx_list : list, 
-                        report_generator: ReportGenerator):
-    scores = {}
-    gen_param = self.ml.get_default_tunable_parameters()
-    for report_idx in report_idx_list:
-      row = report_data.loc[report_idx, 'what':'contingency_actions']
-      prompt_gen = PromptGenerator(**row.to_dict())
-      for prompt_method in cf.TEST_BENCH.PROMPT_METHODS:
-        prompt = prompt_gen.create_prompt(prompt_method)
-        # The model in the report generator has a structured output with outlines library
-        output = report_generator.generate_report(prompt)
-        print(f"\nThe model output is: \n{output}")
-        # obtain title and report from the structured output
-        title, report = self.dh.get_title_and_report(model_output = output) 
-        ref_report = report_data.event_description[report_idx]
-        t_models = cf.TEST_BENCH.T_MODELS
-        self.m_eval.proc_scores(ref_text = ref_report, pred_text_list = [report], t_models = t_models, is_test_bench = True)
-        # update row of the DataFrame
-        scores.update({'report_idx': report_idx, 'prompt_method': prompt_method})
-        scores.update(self.m_eval.get_scores())
-        scores.update(gen_param)
-        scores.update({"title": title, "report": report})
-        self.df_res = pd.concat([self.df_res, pd.DataFrame.from_dict(scores)], axis=0) 
+  # def eval_diff_prompts(self, 
+  #                       report_data : pd.DataFrame.dtypes, 
+  #                       report_idx_list : list, 
+  #                       report_generator: ReportGenerator):
+  #   scores = {}
+  #   gen_param = self.ml.get_default_tunable_parameters()
+  #   for report_idx in report_idx_list:
+  #     row = report_data.loc[report_idx, 'what':'contingency_actions']
+  #     prompt_gen = PromptGenerator(**row.to_dict())
+  #     for prompt_method in cf.TEST_BENCH.PROMPT_METHODS:
+  #       prompt = prompt_gen.create_prompt(prompt_method)
+  #       # The model in the report generator has a structured output with outlines library
+  #       output = report_generator.generate_report(prompt)
+  #       log.debug(f"\nThe model output is: \n{output}")
+  #       # obtain title and report from the structured output
+  #       title, report = self.dh.get_title_and_report(model_output = output) 
+  #       ref_report = report_data.event_description[report_idx]
+  #       t_models = cf.TEST_BENCH.T_MODELS
+  #       self.m_eval.proc_scores(ref_text = ref_report, pred_text_list = [report], t_models = t_models, is_test_bench = True)
+  #       # update row of the DataFrame
+  #       scores.update({'report_idx': report_idx, 'prompt_method': prompt_method})
+  #       scores.update(self.m_eval.get_scores())
+  #       scores.update(gen_param)
+  #       scores.update({"title": title, "report": report})
+  #       self.df_res = pd.concat([self.df_res, pd.DataFrame.from_dict(scores)], axis=0) 
 
-    return self.df_res
+  #   return self.df_res
 
   def eval_gs_param(self, 
                     report_data : pd.DataFrame.dtypes, 
@@ -132,24 +140,26 @@ class TestBench:
     param_dict: Generates a grid search for a given dict with the parameters range to test:
                 e.g. {"temperature": [0.1, 0.3, 0.6], top_p: [0.5, 0.6, 0.7]}
                 If empty, the method generates once with the default parameters.
+                In this example, the grid search will test: temperature = 0.1 with all the values of top_p.
+                                                            temperature = 0.3 with all the values of top_p.
+                                                            temperature = 0.6 with all the values of top_p.
     """
     res = {} # results dict saved as a row
     gen_prompt = prompt_gen.create_prompt(prompt_method)
+    # Create a new dict (gen_param) to update it with new grid search param
     gen_param = self.ml.get_default_tunable_parameters()
-
-    if len(param_dict) > 0:# Set of parameters given -> Generate with grid search
-      for param_k, param_vals in param_dict.items():
-        for param_v in param_vals:
-            gen_param.update(self.ml.get_default_tunable_parameters())
-            # The model in the report generator has a structured output with outlines library
-            gen_param.update({param_k: param_v})
-            self.generate_one_param_set(res=res,
-                                        gen_prompt = gen_prompt,
-                                        gen_param = gen_param,
-                                        report_data = report_data,
-                                        report_idx = report_idx,
-                                        report_generator = report_generator,
-                                        prompt_method = prompt_method)
+    
+    if len(param_dict) > 0:# A set of parameters is given -> Generate with grid search
+      param_combi_list = self.get_param_combinations(param_dict)
+      for new_gen_param in param_combi_list:
+        gen_param.update(new_gen_param)
+        self.generate_one_param_set(res=res,
+                                    gen_prompt = gen_prompt,
+                                    gen_param = gen_param,
+                                    report_data = report_data,
+                                    report_idx = report_idx,
+                                    report_generator = report_generator,
+                                    prompt_method = prompt_method)
     else:  # No parameters given -> Generate with default parameters
       self.generate_one_param_set(res=res,
                                       gen_prompt = gen_prompt,
@@ -170,10 +180,10 @@ class TestBench:
                               ):
     """ Generates a report with one set of parameters (gen_param)
     """
-    print(f"Generating text with parameters\n{gen_param}")
-    output = report_generator.generate_report(prompt=gen_prompt, 
-                                              kwargs=gen_param)
-    # print(f"\nThe model output is: \n{output}")
+    log.info(f"Generating text with parameters\n{gen_param}")
+    output, gen_param = report_generator.generate_report(prompt=gen_prompt, 
+                                                         kwargs=gen_param)
+    log.debug(f"\nThe output of the model {self.ml.model_id} is: \n{output}")
 
     # obtain title and report from the structured output
     title, report = self.dh.get_title_and_report(model_output = output)         
@@ -188,4 +198,35 @@ class TestBench:
     res.update({"title": title, "report": report})
     self.df_res = pd.concat([self.df_res, pd.DataFrame.from_dict(res)], axis=0)
     return title, report
+
+  def get_param_combinations(self, 
+                             param_dict: dict) -> list:
+    """ Take the param_dict with all the parameters and keys and calculate the combination of each parameter.
+        The method uses product (cartesian product) to obtain the combination of each parameter.
+        e.g. If we have give param_dict = {"a": [1, 2, 3], "b": [4, 5, 6], "c": [9]}
+
+              The result is a list of dictionaries with the combined tuning parameters:
+              [ {'a': 1, 'b': 4, 'c': 9},
+                {'a': 1, 'b': 5, 'c': 9},
+                {'a': 1, 'b': 6, 'c': 9},
+                {'a': 2, 'b': 4, 'c': 9},
+                {'a': 2, 'b': 5, 'c': 9},
+                {'a': 2, 'b': 6, 'c': 9},
+                {'a': 3, 'b': 4, 'c': 9},
+                {'a': 3, 'b': 5, 'c': 9},
+                {'a': 3, 'b': 6, 'c': 9}]
+
+        @param_dict: a dictionary with parameter names as keys and a list of param values
+        return: A list of dictionary with each combination
+    """
+    res_list = list(product(*param_dict.values()))
+    key_list = [k for k in param_dict.keys()]
+    combi_list = []
+    tmp = {}
+
+    for param_list in res_list:
+      tmp = {k: v for k, v in zip(key_list, param_list)}
+      combi_list.append(tmp)
+
+    return combi_list
 

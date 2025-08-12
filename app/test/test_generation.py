@@ -1,3 +1,6 @@
+"""
+test_generation.py script
+"""
 
 import os
 import shutil
@@ -42,6 +45,7 @@ def test_structured_outputs():
     prompt_method = cf.MODEL.DEFAULT_PROMPT_METHOD
     gen_prompt = prompt_gen.create_prompt(prompt_method)
     gen_param = ml.get_default_tunable_parameters()
+    gen_param.update({"max_new_tokens": 300})
     tb.clear_df_results()
     title, report = tb.generate_one_param_set(res={},
                                               gen_prompt = gen_prompt,

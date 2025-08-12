@@ -5,11 +5,18 @@ reportAgent.py
 main app script
 
 """
+from conf.logManager import Logger
+import logging
+
 import sys
 from pathlib import Path
 root_path = str(Path(__file__).absolute().parent.parent)
 sys.path.append(root_path) # import root project to env
-print(f"\nAdded ENV = {root_path}")
+
+logging.setLoggerClass(Logger)
+log = logging.getLogger(__name__)
+log.info(f"Added ENV = {root_path}")
+
 
 from projectSetup import Setup
 from mods.metricsEvaluator import MetricsEvaluator
@@ -24,7 +31,7 @@ def main():
     met_eval = MetricsEvaluator()
     # Load data
     dh = DataHandler()
-    df_reports = dh.import_reports() # CHECK: If dataset increases, move from github repo
+    df_reports = dh.import_reports() 
     # Load model
     tb = TestBench(MetricsEvaluator = met_eval, DataHandler=dh)
     ml = ModelLoader(model_id='microsoft/phi-2', device=env.device, torch_dtype=env.torch_dtype)
@@ -33,10 +40,12 @@ def main():
 
     # Test different prompts on model
     report_idx_list = [20]
-    df_prompts = tb.eval_diff_prompts(df_reports, 
-                                      report_idx_list = report_idx_list, 
-                                      report_generator = rg )
-    print(df_prompts)
+    tb.eval_gs_param(report_data=df_reports,
+                     report_idx_list = report_idx_list, 
+                     report_generator = rg,
+                     prompt_method_list=["C"],
+                     param_dict={"temperature": [0.7, 1.3],
+                                 "top_p": [0.6, 1]} )
 
 
 if __name__ == "__main__":

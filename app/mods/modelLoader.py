@@ -5,6 +5,11 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, GPT2LMHeadModel, GPT2Tokenizer, GenerationConfig
 import outlines
 from conf.projectConfig import Config as cf
+from app.conf.logManager import Logger
+
+import logging
+logging.setLoggerClass(Logger)
+log = logging.getLogger(__name__)
 
 
 class ModelLoader:
@@ -14,7 +19,7 @@ class ModelLoader:
         self.device = device
         self.torch_dtype = torch_dtype
         torch.set_default_device(self.device)
-        print(f"The default parameters of the model are:\n {self.get_default_tunable_parameters(verbose=True)}")
+        log.info(f"The default parameters of the model are:\n {self.get_default_tunable_parameters(verbose=True)}")
 
     def load_model(self, hf_token = ""):
         """ Imports the model and tokenizer from HF and returns a tuple with the model and the tokenizer.
@@ -57,7 +62,6 @@ class ModelLoader:
 
         return model_outlines, tokenizer
 
-<<<<<<< HEAD
     def get_default_parameters(self, verbose = False) -> dict:
         """ Get the default parameters of the model
         verbose: If True, the missing parameters are printed out
@@ -69,9 +73,8 @@ class ModelLoader:
                 att_val = gc.__getattribute__(param_name)
             except Exception as e:
                 att_val = cf.MODEL.VAL_IF_NOT_IN_PARAM_LIST
-                # TODO: change this print to debug in log
                 if verbose:
-                    print(f"No attribute {param_name} found in GenerationConfig, for model_id={self.model_id}")
+                    log.warning(f"No attribute {param_name} found in GenerationConfig, for model_id={self.model_id}")
             finally:    
                 param_dict.update({param_name: att_val})
         return param_dict
@@ -82,21 +85,3 @@ class ModelLoader:
         tunable_param = {k: v for k, v in def_param.items() if v is not cf.MODEL.VAL_IF_NOT_IN_PARAM_LIST}
         return tunable_param
     
-=======
-
-    def get_default_parameters(self):
-        generation_config = GenerationConfig.from_pretrained(self.model_id) # changed gc to generation_config, collides with gc module (garbage collector )
-        param_dict = {}
-        for param_name in cf.MODEL.PARAM_LIST:
-            try:
-                att_val = generation_config.__getattribute__(param_name)
-            except AttributeError:
-                att_val = None
-                print(f"No attribute '{param_name}' found in GenerationConfig for model '{self.model_id}'")
-            except Exception as e:
-                att_val = None
-                print(f"An unexpected error occurred while getting attribute '{param_name}': {e}")
-            finally:
-                param_dict[param_name] = att_val  # Assign directly to the dictionary
-        return param_dict
->>>>>>> be646dc5bbc3923eb585f37e1c81d76509eeac73

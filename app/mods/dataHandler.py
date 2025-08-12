@@ -3,12 +3,16 @@ dataHandler.py
 """
 
 from conf.projectConfig import Config as cf
+from app.conf.logManager import Logger
 import os
+import logging
 import pandas as pd
 from pydantic import BaseModel
 from fastapi.encoders import jsonable_encoder
 from datetime import datetime as dt
 
+logging.setLoggerClass(Logger)
+log = logging.getLogger(__name__)
 
 class Report(BaseModel):
   """
@@ -33,7 +37,7 @@ class DataHandler:
       if file_exists:
         df_reports = pd.read_excel(data_path)
         df_reports.columns = cf.DATA.DF_COLUMNS
-        print(f"\nDataset loaded from path : {data_path}")
+        log.info(f"Dataset loaded from path : {data_path}")
         return df_reports
 
   def check_file_exists(self, file_path: str):
@@ -47,7 +51,7 @@ class DataHandler:
     """ Checks folder destination and creates it if does not exist """
     if not os.path.isdir(folder_path):
       os.makedirs(folder_path)
-      print(f"Folder does not exist, creating new folder in: {folder_path}")
+      log.warning(f"Folder does not exist, creating new folder in: {folder_path}")
 
   def export_df_to_excel(self, 
                          df: pd.DataFrame.dtypes,
@@ -60,7 +64,7 @@ class DataHandler:
     folder_path = os.path.join(cf.APP_PATH, app_folder_destination).__str__()
     self.check_folder_exists(folder_path)
     excel_path = os.path.join(cf.APP_PATH, app_folder_destination, _xlsx_file_name).__str__()
-    print(f"Saving df to excel in: {excel_path}")
+    log.info(f"Saving df to excel in: {excel_path}")
     df.to_excel(excel_path, index=False)
 
   def get_title_and_report(self, model_output: str, output_structure = Report) -> tuple:
@@ -73,11 +77,13 @@ class DataHandler:
 
     Output: A tuple with the title and the report texts
     """
-    title = output_structure.model_validate_json(model_output).title.strip()
-    report = output_structure.model_validate_json(model_output).report.strip()
-    return title, report
-
-
+    try:
+      title = output_structure.model_validate_json(model_output).title.strip()
+      report = output_structure.model_validate_json(model_output).report.strip()
+      return title, report
+    except Exception as e:
+      log.error(f"Error while unpacking title or report from model output. Error: {e}")
+    
   def export_to_excel_from_api_response(self, 
                                         report_data :pd.DataFrame.dtypes, 
                                         model_name :str, filename :str):
@@ -97,10 +103,6 @@ class DataHandler:
     self.export_df_to_excel(df=df,
                             xlsx_file_name=xlsx_file_name,
                             app_folder_destination=cf.API.API_GEN_REPORTS_F)
-
-#  def export_test_bench_results_to_excel(self, test_bench_results: pd.DataFrame.dtypes, filename = "tb-experiment"):
-
-
 
 
 # if __name__ == "__main__":

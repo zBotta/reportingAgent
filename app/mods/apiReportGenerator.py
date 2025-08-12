@@ -14,11 +14,15 @@ app_path = str(Path(__file__).absolute().parent.parent.resolve())
 sys.path.append(root_path)
 sys.path.append(app_path) # add root and app project path to environment -> permits module import 
 
+import logging
+from app.conf.logManager import Logger
 from conf.projectConfig import Config as cf
 from mods.dataHandler import DataHandler
 from projectSetup import Setup
 
 
+logging.setLoggerClass(Logger)
+log = logging.getLogger(__name__)
 env_dict = Setup().config  # API keys saved in environment variables
 dh = DataHandler()
 
@@ -173,7 +177,7 @@ class ApiReportGenerator():
         messages = self.get_pharma_context(n_reports=n_reports)
         filename = "pharma_reports"
       
-      print("Sending API call to model...retrieving reports...")
+      log.info("Sending API call to model...retrieving reports...")
       if use_chat_gpt_api:
         report_data, model_name = self.__call_gpt_api(messages, model=cf.API.GPT_API_MODEL)
       else:

@@ -58,7 +58,7 @@ class PromptGenerator:
       - Generate the report as text in one paragraph and a title
 
       Input:
-      \"\"\{text}\"\"\"
+      \"\"\"{text}\"\"\"
 
       Output: Provide your response as a JSON in the given structure.
         
@@ -77,11 +77,11 @@ class PromptGenerator:
       Guidelines:
       - Generate only one report given the informations about the event
       - Generate the report as text in one paragraph and a title
-      - It is important to focus on accuracy and coherence when generating the report so that the description content matches the information provided (what, when, where, who, how , why, contingency actions).\ 
+      - It is important to focus on accuracy and coherence when generating the report so that the description content matches the information provided (what, when, where, who, how , why, contingency actions).
        If an information is not provided in (what, when, where, who, how , why, contingency actions), it must not be part of the generated text description.
       
       Input:
-      \"\"\{text}\"\"\"
+      \"\"\"{text}\"\"\"
 
       Output: Provide your response as a JSON in the given structure.
         
@@ -100,7 +100,7 @@ class PromptGenerator:
       Guidelines:
       - Generate only one report given the informations about the event
       - Generate the report as text in one paragraph and a title
-      - It is important to focus on accuracy and coherence when generating the report so that the description content matches the information provided (what, when, where, who, how , why, contingency actions).\ 
+      - It is important to focus on accuracy and coherence when generating the report so that the description content matches the information provided (what, when, where, who, how , why, contingency actions). 
        If an information is not provided in (what, when, where, who, how , why, contingency actions), it must not be part of the generated text description.
       - Take the information in the input example and output example to improve the report.
         
@@ -108,7 +108,7 @@ class PromptGenerator:
       Output example:   {{ "title": "Wrong tablet counting", "report": "On July 2, 2025, at 3:30 PM, Erik Hansen loaded the wrong tablet counting disk during changeover on Bottle Packaging Line 2 for Batch RX500 of Neurocet 50 mg. Sarah Yoon from QA discovered the issue during AQL sampling. The line was stopped, 500 bottles were segregated, and rework and retraining were initiated." }} 
       
       Input:
-      \"\"\{text}\"\"\"
+      \"\"\"{text}\"\"\"
 
       Output: Provide your response as a JSON in the given structure.
         
