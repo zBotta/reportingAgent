@@ -28,6 +28,11 @@ from mods.modelLoader import ModelLoader
 # in tests: change results/test-bench to test/test-bench
 
 def main(**param_dict):
+    for k, v in param_dict.items():
+        print("Passing the following param_dict to main:\n}")
+        print(f"{k} = {v}")
+        log.info("Passing the following param_dict to main:\n}")
+        log.info(f"{k} = {v}")
     env = Setup()
     met_eval = MetricsEvaluator()
     # Load data
