@@ -40,18 +40,20 @@ def clear_test_bench_folder():
 def test_structured_outputs():
     """ Test that the structured outputs work with outlines """
     report_idx = 20
-    row = report_data.loc[report_idx, 'what':'contingency_actions']
-    prompt_gen = PromptGenerator(**row.to_dict())
+    row = report_data.loc[report_idx]
+    # Generate prompt
+    five_ws = row.loc['what':'contingency_actions']
+    prompt_gen = PromptGenerator(**five_ws.to_dict())
     prompt_method = cf.MODEL.DEFAULT_PROMPT_METHOD
     gen_prompt = prompt_gen.create_prompt(prompt_method)
+    # Generate parameters
     gen_param = ml.get_default_tunable_parameters()
     gen_param.update({"max_new_tokens": 300})
     tb.clear_df_results()
     title, report = tb.generate_one_param_set(res={},
                                               gen_prompt = gen_prompt,
                                               gen_param = gen_param,
-                                              report_data = report_data,
-                                              report_idx = report_idx,
+                                              row = row,
                                               report_generator = rg,
                                               prompt_method = prompt_method)
     assert ( len(title) > 0 and len(report) > 0 )
@@ -61,10 +63,10 @@ def test_several_prompts_default_param():
     prompt
     param_dict = {}     
     """
-    report_idx_list = [20]
+    report_idx_list = [20, 25]
+    report_data_filtered = report_data.iloc[report_idx_list]
     clear_test_bench_folder()
-    tb.eval_gs_param(report_data=report_data,
-                     report_idx_list = report_idx_list, 
+    tb.eval_gs_param(report_data=report_data_filtered,
                      report_generator = rg,
                      prompt_method_list=cf.TEST_BENCH.PROMPT_METHODS,
                      param_dict={} )
@@ -73,18 +75,34 @@ def test_several_prompts_default_param():
     for filenames in os.listdir(folder_path):
         assert filename_prefix in filenames
 
-
 def test_several_prompts_several_params():
-    report_idx_list = [20]
+    # Get a part of the the Database
+    report_idx_list = [20, 25]
+    report_data_filtered = report_data.iloc[report_idx_list]
     clear_test_bench_folder()
-    df_prompts = tb.eval_gs_param(report_data=report_data,
-                                report_idx_list = report_idx_list, 
-                                report_generator = rg,
-                                prompt_method_list=["C"],
-                                param_dict={"temperature": [0.7, 1.3],
-                                            "top_p": [0.6, 1],
-                                            "max_new_tokens": [300]} )
-    
+    tb.eval_gs_param(report_data=report_data_filtered,
+                     report_generator = rg,
+                     prompt_method_list=["C"],
+                     param_dict={"temperature": [0.7, 1.3],
+                                 "top_p": [0.6, 1],
+                                 "max_new_tokens": [300]} )
+        
     # Check the file creation, check the string prefix in the filename
     for filenames in os.listdir(folder_path):
         assert filename_prefix in filenames
+
+# def test_threaded_several_params():
+#     report_idx_list = [20, 25]
+#     report_data_filtered = report_data.iloc[report_idx_list]
+#     clear_test_bench_folder()
+#     tb.eval_gs_param_threaded(report_data=report_data_filtered,
+#                               report_generator = rg,
+#                               prompt_method="C",
+#                               param_dict={"temperature": [0.7, 1.3],
+#                                           "top_p": [0.6, 1],
+#                                           "max_new_tokens": [300]},
+#                               max_workers = 4 )
+    
+#     # Check the file creation, check the string prefix in the filename
+#     for filenames in os.listdir(folder_path):
+#         assert filename_prefix in filenames

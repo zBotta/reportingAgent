@@ -38,14 +38,15 @@ def main():
     model, tokenizer = ml.load_model(hf_token=env.config["HF_TOKEN"])
     rg = ReportGenerator(model, tokenizer, output_type=Report)
 
-    # Test different prompts on model
-    report_idx_list = [20]
-    tb.eval_gs_param(report_data=df_reports,
-                     report_idx_list = report_idx_list, 
+    # Test different prompts and tuning parameters on model
+    report_idx_list = [20, 25]
+    df_reports_filtered = df_reports.iloc[report_idx_list]
+    tb.eval_gs_param(report_data=df_reports_filtered,
                      report_generator = rg,
                      prompt_method_list=["C"],
                      param_dict={"temperature": [0.7, 1.3],
-                                 "top_p": [0.6, 1]} )
+                                 "top_p": [0.6, 1],
+                                 "max_new_tokens": [300]} )
 
 
 if __name__ == "__main__":
