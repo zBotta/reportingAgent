@@ -2,7 +2,7 @@
 """
 
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer, GPT2LMHeadModel, GPT2Tokenizer, GenerationConfig
+from transformers import AutoModelForCausalLM, AutoTokenizer, GPT2Model, GPT2Tokenizer, GenerationConfig
 import outlines
 from conf.projectConfig import Config as cf
 from app.conf.logManager import Logger
@@ -35,7 +35,7 @@ class ModelLoader:
 
         if 'gpt2' in self.model_id.lower():
             tokenizer_class = GPT2Tokenizer
-            model_class = GPT2LMHeadModel
+            model_class = GPT2Model #GPT2LMHeadModel
 
         else:
             tokenizer_class = AutoTokenizer
