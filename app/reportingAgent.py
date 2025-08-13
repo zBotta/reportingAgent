@@ -33,8 +33,8 @@ def main():
     dh = DataHandler()
     df_reports = dh.import_reports() 
     # Load model
-    tb = TestBench(MetricsEvaluator = met_eval, DataHandler=dh)
     ml = ModelLoader(model_id='microsoft/phi-2', device=env.device, torch_dtype=env.torch_dtype)
+    tb = TestBench(MetricsEvaluator = met_eval, DataHandler=dh, ModelLoader=ml)
     model, tokenizer = ml.load_model(hf_token=env.config["HF_TOKEN"])
     rg = ReportGenerator(model, tokenizer, output_type=Report)
 
