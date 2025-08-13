@@ -9,7 +9,9 @@ from conf.projectConfig import Config as cf
 
 class Logger(logging.Logger):
     def __init__(self, name: str) -> None:
-        # name = os.path.basename(file_path)
+        if not os.path.isdir(cf.LOG.LOG_DIR):
+            os.makedirs(cf.LOG.LOG_DIR)
+
         super().__init__(name)
         self.setLevel(cf.LOG.LOG_LEVEL)
         self.propagate = False
