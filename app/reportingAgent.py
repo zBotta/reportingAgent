@@ -5,10 +5,10 @@ reportAgent.py
 main app script
 
 """
+import sys
 from conf.logManager import Logger
 import logging
 
-import sys
 from pathlib import Path
 root_path = str(Path(__file__).absolute().parent.parent)
 sys.path.append(root_path) # import root project to env
@@ -25,8 +25,9 @@ from mods.testBench import TestBench
 from mods.reportGenerator import ReportGenerator
 from mods.modelLoader import ModelLoader
 
+# in tests: change results/test-bench to test/test-bench
 
-def main():
+def main(**param_dict):
     env = Setup()
     met_eval = MetricsEvaluator()
     # Load data
@@ -44,10 +45,8 @@ def main():
     tb.eval_gs_param(report_data=df_reports_filtered,
                      report_generator = rg,
                      prompt_method_list=["C"],
-                     param_dict={"temperature": [0.7, 1.3],
-                                 "top_p": [0.6, 1],
-                                 "max_new_tokens": [300]} )
+                     param_dict=param_dict)
 
 
 if __name__ == "__main__":
-    main()
+    main(**dict(arg.split('=') for arg in sys.argv[1:]))
