@@ -27,19 +27,19 @@ from mods.modelLoader import ModelLoader
 
 # in tests: change results/test-bench to test/test-bench
 
-def main(**param_dict):
-    for k, v in param_dict.items():
-        print("Passing the following param_dict to main:\n}")
-        print(f"{k} = {v}")
-        log.info("Passing the following param_dict to main:\n}")
-        log.info(f"{k} = {v}")
+
+
+def main(**kwargs):
+    dh = DataHandler()
     env = Setup()
     met_eval = MetricsEvaluator()
     # Load data
-    dh = DataHandler()
     df_reports = dh.import_reports() 
+
     # Load model
     ml = ModelLoader(model_id='microsoft/phi-2', device=env.device, torch_dtype=env.torch_dtype)
+    param_dict = ml.get_dict_without_none_parameters(kwargs)
+    print(f"Parameters passed to main script: \n{param_dict}")
     tb = TestBench(MetricsEvaluator = met_eval, DataHandler=dh, ModelLoader=ml)
     model, tokenizer = ml.load_model(hf_token=env.config["HF_TOKEN"])
     rg = ReportGenerator(model, tokenizer, output_type=Report)
@@ -54,4 +54,13 @@ def main(**param_dict):
 
 
 if __name__ == "__main__":
-    main(**dict(arg.split('=') for arg in sys.argv[1:]))
+    import argparse
+    from app.conf.projectConfig import Config as cf
+    parser = argparse.ArgumentParser()
+    for argument in cf.MODEL.PARAM_LIST:
+        if argument == "do_sample":
+            parser.add_argument("--" + argument, type=bool, nargs='+', required=False)
+        else:
+            parser.add_argument("--" + argument, type=float, nargs='+', required=False)
+    args = parser.parse_args()
+    main(**vars(args))

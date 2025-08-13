@@ -82,6 +82,8 @@ class ModelLoader:
     def get_default_tunable_parameters(self, verbose = False) -> dict:
         """ Filters the default parameter values and gets the tunable ones (value that are not cf.MODEL.VAL_IF_NOT_IN_PARAM_LIST)"""
         def_param = self.get_default_parameters(verbose=verbose)
-        tunable_param = {k: v for k, v in def_param.items() if v is not cf.MODEL.VAL_IF_NOT_IN_PARAM_LIST}
+        tunable_param = self.get_dict_without_none_parameters(def_param)
         return tunable_param
     
+    def get_dict_without_none_parameters(self, param_dict) -> dict:
+        return {k: v for k, v in param_dict.items() if v is not cf.MODEL.VAL_IF_NOT_IN_PARAM_LIST}
