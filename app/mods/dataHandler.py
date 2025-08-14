@@ -86,7 +86,9 @@ class DataHandler:
     
   def export_to_excel_from_api_response(self, 
                                         report_data :pd.DataFrame.dtypes, 
-                                        model_name :str, filename :str):
+                                        model_name :str, 
+                                        filename :str,
+                                        app_folder_destination: str = cf.API.API_GEN_REPORTS_F):
     """
     Takes the model output (response) and converts it into a dataframe, then it saves it in datasets
     """
@@ -97,12 +99,13 @@ class DataHandler:
       model_name = model_name.split("/")[1]
       if model_name.__contains__(":"):
         model_name = model_name.split(":")[0]
-
-
+    
+    folder_path = os.path.join(cf.APP_PATH, app_folder_destination).__str__()
+    self.check_folder_exists(folder_path)
     xlsx_file_name = filename + "-" + model_name
     self.export_df_to_excel(df=df,
                             xlsx_file_name=xlsx_file_name,
-                            app_folder_destination=cf.API.API_GEN_REPORTS_F)
+                            app_folder_destination=app_folder_destination)
 
 
 # if __name__ == "__main__":
