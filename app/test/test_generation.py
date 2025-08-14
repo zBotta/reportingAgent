@@ -12,6 +12,12 @@ from mods.dataHandler import DataHandler, Report
 from mods.promptGenerator import PromptGenerator
 from mods.reportGenerator import ReportGenerator
 from mods.modelLoader import ModelLoader
+import time
+
+import logging
+from app.conf.logManager import Logger
+logging.setLoggerClass(Logger)
+log = logging.getLogger(__name__)
 
 env = Setup()
 met_eval = MetricsEvaluator()
@@ -50,12 +56,14 @@ def test_structured_outputs():
     gen_param = ml.get_default_tunable_parameters()
     gen_param.update({"max_new_tokens": 300})
     tb.clear_df_results()
-    title, report = tb.generate_one_param_set(res={},
-                                              gen_prompt = gen_prompt,
-                                              gen_param = gen_param,
-                                              row = row,
-                                              report_generator = rg,
-                                              prompt_method = prompt_method)
+    res = tb.generate_one_param_set(res={},
+                                    gen_prompt = gen_prompt,
+                                    gen_param = gen_param,
+                                    row = row,
+                                    report_generator = rg,
+                                    prompt_method = prompt_method)
+    title = res["title"]
+    report = res["report"]
     assert ( len(title) > 0 and len(report) > 0 )
 
 def test_several_prompts_default_param():
@@ -77,7 +85,8 @@ def test_several_prompts_default_param():
     for filenames in os.listdir(folder_path):
         assert filename_prefix in filenames
 
-def test_several_prompts_several_params():
+def test_param_grid_search():
+    start_time = time.time()
     # Get a part of the the Database
     report_idx_list = [20]
     report_data_filtered = report_data.iloc[report_idx_list]
@@ -90,24 +99,30 @@ def test_several_prompts_several_params():
                                  "max_new_tokens": [300]},
                      xlsx_file_name = filename_prefix,
                      app_folder_destination = app_folder_dest )
-        
+
+    log.info("test_grid_search time --- %s seconds ---" % (time.time() - start_time))
+
     # Check the file creation, check the string prefix in the filename
     for filenames in os.listdir(folder_path):
         assert filename_prefix in filenames
 
-# def test_threaded_several_params():
-#     report_idx_list = [20]
-#     report_data_filtered = report_data.iloc[report_idx_list]
-#     clear_test_bench_folder()
-#     df_res = tb.eval_gs_param_threaded(report_data=report_data_filtered,
-#                                        report_generator = rg,
-#                                        prompt_method="C",
-#                                        param_dict={"temperature": [0.7, 1.3],
-#                                                    "top_p": [0.6, 1],
-#                                                    "max_new_tokens": [300]},
-#                                        max_workers = 4 )
-#     print(df_res)
+def test_threaded_several_params():
+    start_time = time.time()
+    report_idx_list = [20]
+    report_data_filtered = report_data.iloc[report_idx_list]
+    clear_test_bench_folder()
+    df_res = tb.eval_gs_param_threaded(report_data=report_data_filtered,
+                                       report_generator = rg,
+                                       prompt_method_list=["C"],
+                                       param_dict={"temperature": [0.7, 1.3],
+                                                   "top_p": [0.6, 1],
+                                                   "max_new_tokens": [300]},
+                                       xlsx_file_name = filename_prefix,
+                                       app_folder_destination = app_folder_dest,
+                                       max_workers = 4 )
+
+    log.info("test_thread time --- %s seconds ---" % (time.time() - start_time))
     
-#     # Check the file creation, check the string prefix in the filename
-#     for filenames in os.listdir(folder_path):
-#         assert filename_prefix in filenames
+    # Check the file creation, check the string prefix in the filename
+    for filenames in os.listdir(folder_path):
+        assert filename_prefix in filenames

@@ -31,7 +31,7 @@ class DataHandler:
   def __init__(self):
     pass
   
-  def import_reports(self, xlsx_file_name = "Reports_dataset.xlsx"):
+  def import_reports(self, xlsx_file_name = cf.DATA.DH_DEFAULT_DATASET_FILENAME):
       data_path = os.path.join(cf.APP_PATH, "datasets", xlsx_file_name)
       file_exists = self.check_file_exists(data_path)
       if file_exists:

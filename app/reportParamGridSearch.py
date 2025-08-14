@@ -37,6 +37,7 @@ def main(**kwargs):
     kwargs.pop("start_idx")
     end_idx = kwargs["end_idx"][0]
     kwargs.pop("end_idx")
+    prompt_method_list = kwargs["prompt_method"]
     param_dict = kwargs.copy()
 
     dh = DataHandler()
@@ -44,10 +45,7 @@ def main(**kwargs):
     met_eval = MetricsEvaluator()
     # Load data
     df_reports = dh.import_reports() 
-
-    # Load model
     ml = ModelLoader(model_id=model_id, device=env.device, torch_dtype=env.torch_dtype)
-    param_dict = ml.get_dict_without_none_parameters(kwargs)
     print(f"Generation parameters: \n{param_dict}")
     tb = TestBench(MetricsEvaluator = met_eval, DataHandler=dh, ModelLoader=ml)
     model, tokenizer = ml.load_model(hf_token=env.config["HF_TOKEN"])
@@ -56,10 +54,14 @@ def main(**kwargs):
     # Test different prompts and tuning parameters on model
     report_idx_list = list(range(start_idx, end_idx + 1))
     df_reports_filtered = df_reports.iloc[report_idx_list]
-    tb.eval_gs_param(report_data=df_reports_filtered,
-                     report_generator = rg,
-                     prompt_method_list=["C"],
-                     param_dict=param_dict)
+    tb.eval_gs_param_threaded(report_data=df_reports_filtered,
+                              report_generator = rg,
+                              prompt_method_list=prompt_method_list,
+                              param_dict=param_dict)
+    # tb.eval_gs_param(report_data=df_reports_filtered,
+    #                  report_generator = rg,
+    #                  prompt_method_list=["C"],
+    #                  param_dict=param_dict)
 
 
 if __name__ == "__main__":
@@ -73,6 +75,7 @@ if __name__ == "__main__":
     parser.add_argument("--model_id", type=str, nargs=1, required=True)
     parser.add_argument("--start_idx", type=int, nargs=1, required=True)
     parser.add_argument("--end_idx", type=int, nargs=1, required=True)
+    parser.add_argument("--prompt_method", type=str, nargs="+", required=True)
     for argument in cf.MODEL.PARAM_LIST:
         if argument == "do_sample":
             parser.add_argument("--" + argument, type=bool, nargs='+', required=False)

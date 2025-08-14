@@ -88,6 +88,13 @@ class TestBench:
         @param_dict: a dictionary with parameter names as keys and a list of param values
         return: A list of dictionary with each combination
     """
+    # Parse all default parameters and include them in the user input param_dict
+    default_param = self.ml.get_default_tunable_parameters()
+    if len(default_param.keys()) > len(param_dict.keys()):
+      not_in_param_dict_k = set(default_param) - set(param_dict) # returns a set with missing keys
+    # update dictionary. Default parameters have always one value define in it.
+    param_dict.update({k: [default_param[k]] for k in not_in_param_dict_k}) # remember that format is a dict={key: list}
+    # Generate combinations
     res_list = list(product(*param_dict.values()))
     key_list = [k for k in param_dict.keys()]
     combi_list = []
@@ -180,8 +187,6 @@ class TestBench:
 
     res = {} # results dict saved as a row
     gen_prompt = prompt_gen.create_prompt(prompt_method)
-    # Create a new dict (gen_param) to update it with new grid search param
-    gen_param = self.ml.get_default_tunable_parameters()
     
     if len(param_dict) > 0:# A set of parameters is given -> Generate with grid search
       param_combi_list = self._get_param_combinations(param_dict)
@@ -193,6 +198,7 @@ class TestBench:
                                     row = row,
                                     report_generator = report_generator,
                                     prompt_method = prompt_method)
+        self.df_res = pd.concat([self.df_res, pd.DataFrame.from_dict(res)], axis=0)
     else:  # No parameters given -> Generate with default parameters
       self.generate_one_param_set(res=res,
                                   gen_prompt = gen_prompt,
@@ -200,15 +206,16 @@ class TestBench:
                                   row = row,
                                   report_generator = report_generator,
                                   prompt_method = prompt_method)
+      self.df_res = pd.concat([self.df_res, pd.DataFrame.from_dict(res)], axis=0)
         
   def generate_one_param_set(self,
-                              res: dict, 
-                              gen_prompt: str, 
-                              gen_param: dict,
-                              row: pd.Series.dtypes,
-                              report_generator: ReportGenerator, 
-                              prompt_method: str
-                              ) -> tuple:
+                             res: dict, 
+                             gen_prompt: str, 
+                             gen_param: dict,
+                             row: pd.Series.dtypes,
+                             report_generator: ReportGenerator, 
+                             prompt_method: str
+                             ) -> dict:
     """ Generates a report with one set of parameters (gen_param)
     """
     # reference report is in event_description column  
@@ -234,69 +241,79 @@ class TestBench:
     res.update(gen_param)
     res.update(self.m_eval.get_scores())
     res.update({"title": title, "report": report})
-    self.df_res = pd.concat([self.df_res, pd.DataFrame.from_dict(res)], axis=0)
-    return title, report
 
-  # def eval_gs_param_threaded(self, 
-  #                           report_data : pd.DataFrame.dtypes, 
-  #                           report_generator: ReportGenerator,
-  #                           prompt_method: list = cf.TEST_BENCH.PROMPT_METHODS,
-  #                           param_dict: dict = {},
-  #                           max_workers=4) -> pd.DataFrame.dtypes:
-  #     """
-  #     Run generate_report_from_row on all rows of a DataFrame using multithreading.
-  #     Preserves the original row order in the returned DataFrame.
+    return res
 
-  #     Parameters
-  #     ----------
-  #     report_data : pandas.DataFrame
-  #         Input data.
-  #     report_generator: ReportGenerator.
-  #         The report Generator object containing the model, tokenizer and output_type (structured outputs)
-  #     prompt_method : str
-  #         Prompt generation method.
-  #     param_dict : dict
-  #         Arguments for generating the reports in dict, where values are in a list.
-  #     max_workers : int, optional
-  #         Number of worker threads. Defaults to 4.
+  def eval_gs_param_threaded(self, 
+                            report_data : pd.DataFrame.dtypes, 
+                            report_generator: ReportGenerator,
+                            prompt_method_list: list = cf.TEST_BENCH.PROMPT_METHODS,
+                            param_dict: dict = {},
+                            xlsx_file_name= cf.TEST_BENCH.TB_FILENAME_PREFIX,
+                            app_folder_destination: str = cf.TEST_BENCH.TB_RESULTS_F,
+                            max_workers=4) -> pd.DataFrame.dtypes:
+      """
+      Run generate_report_from_row on all rows of a DataFrame using multithreading.
+      Preserves the original row order in the returned DataFrame.
 
-  #     Returns
-  #     -------
-  #     pandas.DataFrame
-  #         DataFrame of generated reports and metadata in the same order as `df`.
-  #     """
-  #     results = [None] * len(report_data)  # Preallocate list for ordered results
+      Parameters
+      ----------
+      report_data : pandas.DataFrame
+          Input data.
+      report_generator: ReportGenerator.
+          The report Generator object containing the model, tokenizer and output_type (structured outputs)
+      prompt_method : str
+          Prompt generation method.
+      param_dict : dict
+          Arguments for generating the reports in dict, where values are in a list.
+      max_workers : int, optional
+          Number of worker threads. Defaults to 4.
+
+      Returns
+      -------
+      pandas.DataFrame
+          DataFrame of generated reports and metadata in the same order as `df`.
+      """
+
+      param_combi_list = self._get_param_combinations(param_dict)
+      # nbr_rows in df * param combinations
+      results_len = len(report_data) * len(param_combi_list) * len(prompt_method_list) # Preallocate list for ordered results
+      log.info(f"Results file is expected to have {results_len} rows.") # change to debug
+
+      # Create a new dict (gen_param) to update it with new grid search param
       
-  #     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-  #         futures = {
-  #             executor.submit(self.param_grid_search_on_row,
-  #                             row,
-  #                             report_generator,
-  #                             prompt_method,
-  #                             param_dict
-  #             ): idx
-  #             for idx, row in report_data.iterrows()
-  #         }
 
-  #         for future in as_completed(futures):
-  #             idx = futures[future]
-  #             try:
-  #                 results[idx] = future.result()
-  #             except Exception as e:
-  #                 results[idx] = {
-  #                     'prompt_method': prompt_method,
-  #                     # **generation_args, # Not possible to do it
-  #                     'title': 'FAIL',
-  #                     'report': f'Error: {e}',
-  #                     'gen_params': {}
-  #                 }
+      with ThreadPoolExecutor(max_workers=max_workers) as executor:
+          res = {}
+          futures = {
+              executor.submit(self.generate_one_param_set,
+                              res,
+                              PromptGenerator(**dict(row.loc['what':'contingency_actions'])).create_prompt(prompt_method),
+                              gen_param, # gen_param.update(new_gen_param)
+                              row,
+                              report_generator,
+                              prompt_method
+              ) : idx
+              for idx, row in report_data.iterrows() for gen_param in param_combi_list for prompt_method in prompt_method_list
+          }
+
+          for future in as_completed(futures):
+              idx = futures[future]
+              try:
+                  result = future.result()
+                  log.info(f"future result = {result}")
+                  self.df_res = pd.concat([self.df_res, pd.DataFrame.from_dict(result)], axis=0)
+              except Exception as e:
+                  log.error(f"FAILED report export: {e} on row={idx}")
+                  
       
-  #     # Export experiment to Excel
-  #     self.df_res = pd.DataFrame(results)
-  #     self.dh.export_df_to_excel(df=self.df_res,
-  #                               xlsx_file_name= cf.TEST_BENCH.TB_FILENAME_PREFIX,
-  #                               app_folder_destination=cf.TEST_BENCH.TB_RESULTS_F)
-  #     self.clear_df_results()
+      # Export experiment to Excel
+      # self.df_res = pd.DataFrame(results)
+      self.dh.export_df_to_excel(df=self.df_res,
+                                xlsx_file_name= xlsx_file_name,
+                                app_folder_destination=app_folder_destination)
+      df = self.df_res
+      self.clear_df_results()
 
-  #     return self.df_res
+      return df
 
