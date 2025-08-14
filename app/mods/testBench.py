@@ -190,8 +190,6 @@ class TestBench:
       title, report = self.dh.get_title_and_report(model_output = output)    
     except Exception as e:
       log.error(f'Failed to generate report with \ngeneration_parameters {gen_param}: {e}')
-      title = 'FAIL'
-      report = f'FAILED_REPORT: {e}'
 
     self.m_eval.proc_scores(ref_text = ref_report, pred_text_list = [report], is_test_bench = True)
     
@@ -200,7 +198,7 @@ class TestBench:
     res.update(gen_param)
     res.update(self.m_eval.get_scores())
     res.update({"title": title, "report": report})
-
+    log.info(f'results: {res}')
     return res
 
   def eval_gs_param_threaded(self, 

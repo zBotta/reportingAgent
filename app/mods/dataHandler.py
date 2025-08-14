@@ -80,9 +80,12 @@ class DataHandler:
     try:
       title = output_structure.model_validate_json(model_output).title.strip()
       report = output_structure.model_validate_json(model_output).report.strip()
-      return title, report
     except Exception as e:
       log.error(f"Error while unpacking title or report from model output. Error: {e}")
+      title = "NO PYDANTIC TITLE"
+      report = "NO PYDANTIC REPORT"
+    finally:
+      return title, report
     
   def export_to_excel_from_api_response(self, 
                                         report_data :pd.DataFrame.dtypes, 
