@@ -76,6 +76,8 @@ if __name__ == "__main__":
     for argument in cf.MODEL.PARAM_LIST:
         if argument == "do_sample":
             parser.add_argument("--" + argument, type=bool, nargs='+', required=False)
+        elif argument == "top_k":
+            parser.add_argument("--" + argument, type=int, nargs='+', required=False)
         else:
             parser.add_argument("--" + argument, type=float, nargs='+', required=False)
         
