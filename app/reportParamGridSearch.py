@@ -38,6 +38,9 @@ def main(**kwargs):
     end_idx = kwargs["end_idx"][0]
     kwargs.pop("end_idx")
     prompt_method_list = kwargs["prompt_method"]
+    kwargs.pop("prompt_method")
+    max_workers = kwargs["max_workers"]
+    kwargs.pop("max_workers")
     param_dict = kwargs.copy()
 
     dh = DataHandler()
@@ -57,7 +60,8 @@ def main(**kwargs):
     tb.eval_gs_param_threaded(report_data=df_reports_filtered,
                               report_generator = rg,
                               prompt_method_list=prompt_method_list,
-                              param_dict=param_dict)
+                              param_dict=param_dict,
+                              max_workers=max_workers)
     # tb.eval_gs_param(report_data=df_reports_filtered,
     #                  report_generator = rg,
     #                  prompt_method_list=["C"],
@@ -76,6 +80,7 @@ if __name__ == "__main__":
     parser.add_argument("--start_idx", type=int, nargs=1, required=True)
     parser.add_argument("--end_idx", type=int, nargs=1, required=True)
     parser.add_argument("--prompt_method", type=str, nargs="+", required=True)
+    parser.add_argument("--max_workers", type=int, nargs=1, required=False, default=4)
     for argument in cf.MODEL.PARAM_LIST:
         if argument == "do_sample":
             parser.add_argument("--" + argument, type=bool, nargs='+', required=False)
