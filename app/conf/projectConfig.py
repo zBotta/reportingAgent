@@ -35,7 +35,9 @@ class pyTests():
 
 class TestBench():
    PROMPT_METHODS = ['A', 'B', 'C']
-   T_MODELS = {"bs_model": "distilbert-base-uncased", "be_model": "all-MiniLM-L6-v2", "ce_model": "ms-marco-MiniLM-L6-v2"}
+   BERT_MODEL ="distilbert-base-uncased"
+   BE_MODEL = "all-MiniLM-L6-v2"
+   CE_MODEL = "ms-marco-MiniLM-L6-v2"
    TB_FILENAME_PREFIX = "tb"
    TB_RESULTS_F = os.path.join("results", "test-bench") 
 
