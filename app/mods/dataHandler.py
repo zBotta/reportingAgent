@@ -95,11 +95,7 @@ class DataHandler:
     # FastAPI exposes jsonable_encoder which essentially performs that same transformation on an arbitrarily nested structure of BaseModel:
     df = pd.DataFrame(jsonable_encoder(report_data)) 
 
-    if model_name.__contains__("/"):
-      model_name = model_name.split("/")[1]
-      if model_name.__contains__(":"):
-        model_name = model_name.split(":")[0]
-    
+    model_name = self.treat_model_name_for_filename(model_name)    
     folder_path = os.path.join(cf.APP_PATH, app_folder_destination).__str__()
     self.check_folder_exists(folder_path)
     xlsx_file_name = filename + "-" + model_name
@@ -107,11 +103,13 @@ class DataHandler:
                             xlsx_file_name=xlsx_file_name,
                             app_folder_destination=app_folder_destination)
 
-
-# if __name__ == "__main__":
-#   from dataHandler import DataHandler
+  def treat_model_name_for_filename( self, model_name: str):
+    """ separate from model name the / and : values. 
+      For instance from community/gpt2:xl 
+        we will obtain community-gpt2_xl .  """
+    if model_name.__contains__("/"):
+      model_name = model_name.replace("/", "-")
+    if model_name.__contains__(":"):
+      model_name = model_name.replace(":", "_")
   
-#   dh = DataHandler()
-  
-#   df = dh.import_reports()
-#   print(df.head())
+    return model_name
