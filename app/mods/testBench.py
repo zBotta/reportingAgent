@@ -222,7 +222,7 @@ class TestBench:
       log.debug(f"\nThe output of the model {self.ml.model_id} is: \n{output}")
       title, report = self.dh.get_title_and_report(model_output = output)    
     except Exception as e:
-      log.error(f'Failed to generate report: \nmodel_id: {report_generator.model.model_id} \ngeneration_parameters {gen_param}: {e}')
+      log.error(f'Failed to generate report with \ngeneration_parameters {gen_param}: {e}')
       title = 'FAIL'
       report = f'FAILED_REPORT: {e}'
 
