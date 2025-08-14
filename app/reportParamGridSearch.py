@@ -40,7 +40,7 @@ def main(**kwargs):
     kwargs.pop("end_idx")
     prompt_method_list = kwargs["prompt_method"]
     kwargs.pop("prompt_method")
-    max_workers = kwargs["max_workers"]
+    max_workers = kwargs["max_workers"][0]
     kwargs.pop("max_workers")
     dataset_filename = kwargs["dataset_filename"]
     kwargs.pop("dataset_filename")
