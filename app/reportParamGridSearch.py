@@ -26,7 +26,7 @@ from mods.dataHandler import DataHandler, Report
 from mods.testBench import TestBench
 from mods.reportGenerator import ReportGenerator
 from mods.modelLoader import ModelLoader
-
+import time
 
 def main(**kwargs):
     # Treat arguments
@@ -46,6 +46,7 @@ def main(**kwargs):
     kwargs.pop("dataset_filename")
     param_dict = kwargs.copy()
 
+    start_time = time.time()
     dh = DataHandler()
     env = Setup()
     met_eval = MetricsEvaluator()
@@ -65,6 +66,8 @@ def main(**kwargs):
                               prompt_method_list=prompt_method_list,
                               param_dict=param_dict,
                               max_workers=max_workers)
+    print("reportParamGridSearch time --- %s minutes ---" % ((time.time() - start_time)/60))
+    log.info("reportParamGridSearch time --- %s minutes ---" % ((time.time() - start_time)/60))
 
 if __name__ == "__main__":
     # Define arguments of the program

@@ -106,7 +106,7 @@ def test_param_grid_search():
     for filenames in os.listdir(folder_path):
         assert filename_prefix in filenames
 
-def test_threaded_several_params():
+def test_threaded_grid_search():
     start_time = time.time()
     report_idx_list = [20]
     report_data_filtered = report_data.iloc[report_idx_list]

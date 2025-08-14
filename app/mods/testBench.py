@@ -150,8 +150,7 @@ class TestBench:
     
     if len(param_dict) > 0:# A set of parameters is given -> Generate with grid search
       param_combi_list = self._get_param_combinations(param_dict)
-      for new_gen_param in param_combi_list:
-        gen_param.update(new_gen_param)
+      for gen_param in param_combi_list:
         self.generate_one_param_set(res=res,
                                     gen_prompt = gen_prompt,
                                     gen_param = gen_param,
@@ -183,8 +182,8 @@ class TestBench:
 
     # generate and obtain title and report from the structured output
     # if empty object, catch the error and give a default value
-    log.info(f"Ref_row:{row.name}: Generating text with the following parameters:\n{gen_param}")
-    print(f"Ref_row:{row.name}: Generating text with the following parameters:\n{gen_param}")
+    log.info(f"Ref_row:{row.name}: Generating text with the following parameters:\n{gen_param} & prompt_method={prompt_method}")
+    print(f"Ref_row:{row.name}: Generating text with the following parameters:\n{gen_param} & prompt_method={prompt_method}")
     try:
       output, gen_param = report_generator.generate_report(prompt=gen_prompt, **gen_param)
       log.debug(f"\nThe output of the model {self.ml.model_id} is: \n{output}")
@@ -254,7 +253,7 @@ class TestBench:
                               report_generator,
                               prompt_method
               ) : idx
-              for idx, row in report_data.iterrows() for gen_param in param_combi_list for prompt_method in prompt_method_list
+              for idx, row in report_data.iterrows() for prompt_method in prompt_method_list for gen_param in param_combi_list
           }
 
           for future in as_completed(futures):
@@ -268,10 +267,10 @@ class TestBench:
                   
       
       # Export experiment to Excel
-      # self.df_res = pd.DataFrame(results)
+      treat_model_id = self.dh.treat_model_name_for_filename(self.ml.model_id)
       self.dh.export_df_to_excel(df=self.df_res,
-                                xlsx_file_name= xlsx_file_name,
-                                app_folder_destination=app_folder_destination)
+                              xlsx_file_name= xlsx_file_name + "-" + treat_model_id,
+                              app_folder_destination=app_folder_destination)
       df = self.df_res
       self.clear_df_results()
 
