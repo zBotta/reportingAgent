@@ -24,15 +24,24 @@ class Data():
    DH_DEFAULT_RESULTS_F = "results"
 
 
+class pyTests():
+   T_TB_FILENAME_PREFIX = "test-tb"
+   T_TB_RESULTS_F = os.path.join("test", "test-bench") # Folder to put the test-bench results
+   T_API_PREFIX = "test-api-export"
+   T_API_DEST_F = os.path.join("test", "api")
+   T_EXP_PREFIX = "test-export"
+   T_EXP_DEST_F = os.path.join("test", "test_export")
+
+
 class TestBench():
    PROMPT_METHODS = ['A', 'B', 'C']
    T_MODELS = {"bs_model": "distilbert-base-uncased", "be_model": "all-MiniLM-L6-v2", "ce_model": "ms-marco-MiniLM-L6-v2"}
-   FILENAME_PREFIX = "tb-experiment"
-   TB_RESULTS_F = "results/test-bench" # Folder to put the test-bench results
-
+   TB_FILENAME_PREFIX = "tb"
+   TB_RESULTS_F = os.path.join("results", "test-bench") 
 
 class Model():
    MAX_NEW_TOKENS = 300
+   DO_SAMPLE = True
    DEFAULT_PROMPT_METHOD = "C"
    PARAM_LIST = ["temperature", "top_k", "top_p", "max_new_tokens", "repetition_penalty", 
                  "frequency_penalty", "presence_penalty", "stop", "do_sample"]
@@ -67,4 +76,5 @@ class Config():
     APP_PATH = app_path
     API = Api()
     LOG = Logger()
+    TESTS = pyTests()
 

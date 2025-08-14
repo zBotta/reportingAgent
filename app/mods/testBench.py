@@ -131,7 +131,9 @@ class TestBench:
                     report_data : pd.DataFrame.dtypes, 
                     report_generator: ReportGenerator,
                     prompt_method_list: list = cf.TEST_BENCH.PROMPT_METHODS,
-                    param_dict: dict = {}):
+                    param_dict: dict = {},
+                    xlsx_file_name= cf.TEST_BENCH.TB_FILENAME_PREFIX,
+                    app_folder_destination: str = cf.TEST_BENCH.TB_RESULTS_F ):
     """
     This method tests a list of parameters for the given dataframe (report_data).
     Uses a grid search principle, running a report generation for each parameter in param_dict.
@@ -151,9 +153,10 @@ class TestBench:
                               prompt_method=prompt_method,
                               param_dict=param_dict) # If param_dict is
     # Export experiment to Excel
+    treat_model_id = self.dh.treat_model_name_for_filename(self.ml.model_id)
     self.dh.export_df_to_excel(df=self.df_res,
-                              xlsx_file_name= cf.TEST_BENCH.FILENAME_PREFIX,
-                              app_folder_destination=cf.TEST_BENCH.TB_RESULTS_F)
+                              xlsx_file_name= xlsx_file_name + "-" + treat_model_id,
+                              app_folder_destination=app_folder_destination)
     self.clear_df_results()
 
   def param_grid_search_on_row(self, 
@@ -226,71 +229,66 @@ class TestBench:
     self.df_res = pd.concat([self.df_res, pd.DataFrame.from_dict(res)], axis=0)
     return title, report
 
+  # def eval_gs_param_threaded(self, 
+  #                           report_data : pd.DataFrame.dtypes, 
+  #                           report_generator: ReportGenerator,
+  #                           prompt_method: list = cf.TEST_BENCH.PROMPT_METHODS,
+  #                           param_dict: dict = {},
+  #                           max_workers=4) -> pd.DataFrame.dtypes:
+  #     """
+  #     Run generate_report_from_row on all rows of a DataFrame using multithreading.
+  #     Preserves the original row order in the returned DataFrame.
 
-# def eval_gs_param_threaded(self, 
-#                            report_data : pd.DataFrame.dtypes, 
-#                            report_generator: ReportGenerator,
-#                            prompt_method: list = cf.TEST_BENCH.PROMPT_METHODS,
-#                            param_dict: dict = {},
-#                            max_workers=4) -> pd.DataFrame.dtypes:
-#     """
-#     Run generate_report_from_row on all rows of a DataFrame using multithreading.
-#     Preserves the original row order in the returned DataFrame.
+  #     Parameters
+  #     ----------
+  #     report_data : pandas.DataFrame
+  #         Input data.
+  #     report_generator: ReportGenerator.
+  #         The report Generator object containing the model, tokenizer and output_type (structured outputs)
+  #     prompt_method : str
+  #         Prompt generation method.
+  #     param_dict : dict
+  #         Arguments for generating the reports in dict, where values are in a list.
+  #     max_workers : int, optional
+  #         Number of worker threads. Defaults to 4.
 
-#     Parameters
-#     ----------
-#     report_data : pandas.DataFrame
-#         Input data.
-#     model : Any
-#         Language model instance (shared between threads).
-#     tokenizer : Any
-#         Tokenizer instance (shared between threads).
-#     prompt_method : str
-#         Prompt generation method.
-#     generation_args : dict
-#         Arguments for `generate_report`.
-#     output_type : type, optional
-#         Report output class. Defaults to `Report`.
-#     max_workers : int, optional
-#         Number of worker threads. Defaults to 4.
+  #     Returns
+  #     -------
+  #     pandas.DataFrame
+  #         DataFrame of generated reports and metadata in the same order as `df`.
+  #     """
+  #     results = [None] * len(report_data)  # Preallocate list for ordered results
+      
+  #     with ThreadPoolExecutor(max_workers=max_workers) as executor:
+  #         futures = {
+  #             executor.submit(self.param_grid_search_on_row,
+  #                             row,
+  #                             report_generator,
+  #                             prompt_method,
+  #                             param_dict
+  #             ): idx
+  #             for idx, row in report_data.iterrows()
+  #         }
 
-#     Returns
-#     -------
-#     pandas.DataFrame
-#         DataFrame of generated reports and metadata in the same order as `df`.
-#     """
-#     results = [None] * len(report_data)  # Preallocate list for ordered results
-    
-#     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-#         futures = {
-#             executor.submit(self.param_grid_search_on_row,
-#                             row,
-#                             report_generator,
-#                             prompt_method,
-#                             param_dict
-#             ): idx
-#             for idx, row in report_data.iterrows()
-#         }
+  #         for future in as_completed(futures):
+  #             idx = futures[future]
+  #             try:
+  #                 results[idx] = future.result()
+  #             except Exception as e:
+  #                 results[idx] = {
+  #                     'prompt_method': prompt_method,
+  #                     # **generation_args, # Not possible to do it
+  #                     'title': 'FAIL',
+  #                     'report': f'Error: {e}',
+  #                     'gen_params': {}
+  #                 }
+      
+  #     # Export experiment to Excel
+  #     self.df_res = pd.DataFrame(results)
+  #     self.dh.export_df_to_excel(df=self.df_res,
+  #                               xlsx_file_name= cf.TEST_BENCH.TB_FILENAME_PREFIX,
+  #                               app_folder_destination=cf.TEST_BENCH.TB_RESULTS_F)
+  #     self.clear_df_results()
 
-#         for future in as_completed(futures):
-#             idx = futures[future]
-#             try:
-#                 results[idx] = future.result()
-#             except Exception as e:
-#                 results[idx] = {
-#                     'prompt_method': prompt_method,
-#                     # **generation_args, # Not possible to do it
-#                     'title': 'FAIL',
-#                     'report': f'Error: {e}',
-#                     'gen_params': {}
-#                 }
-    
-#     # Export experiment to Excel
-#     self.df_res = pd.DataFrame(results)
-#     self.dh.export_df_to_excel(df=self.df_res,
-#                               xlsx_file_name= cf.TEST_BENCH.FILENAME_PREFIX,
-#                               app_folder_destination=cf.TEST_BENCH.TB_RESULTS_F)
-#     self.clear_df_results()
-
-#     return self.df_res
+  #     return self.df_res
 

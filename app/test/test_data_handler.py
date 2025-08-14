@@ -18,8 +18,8 @@ def test_export_excel():
     d1 = {"a": 1, "b": 2, "c": 44, "d": 551}
     d2 = {"a": 4, "b": 31, "c": 66, "d": 666}
     df = pd.DataFrame([d1,d2])
-    app_folder_dest = "test/test_export"
-    filename_prefix = "test-export"
+    app_folder_dest = cf.TESTS.T_EXP_DEST_F
+    filename_prefix = cf.TESTS.T_EXP_PREFIX
     folder_path = os.path.join(cf.APP_PATH, app_folder_dest)
     if os.path.isdir(folder_path): # delete folder with previous tests files
         shutil.rmtree(folder_path) 
@@ -48,14 +48,15 @@ def test_api_export():
         )
     report_data = ApiReports(reports=[api_rep])
 
-    app_folder_dest = cf.API.API_GEN_REPORTS_F
-    filename_prefix = "test-api-export"
+    app_folder_dest = cf.TESTS.T_API_DEST_F
+    filename_prefix =  cf.TESTS.T_API_PREFIX
     folder_path = os.path.join(cf.APP_PATH, app_folder_dest)
     if os.path.isdir(folder_path): # delete folder with previous tests files
         shutil.rmtree(folder_path) 
     dh.export_to_excel_from_api_response(report_data=report_data, 
                                          model_name="gpt2", 
-                                         filename=filename_prefix)
+                                         filename=filename_prefix,
+                                         app_folder_destination=app_folder_dest)
     # Check the file creation, check the string prefix in the filename
     for filenames in os.listdir(folder_path):
         assert filename_prefix in filenames

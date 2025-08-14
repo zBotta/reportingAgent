@@ -28,8 +28,8 @@ rg = ReportGenerator(model, tokenizer, output_type=Report)
 tb = TestBench(MetricsEvaluator = met_eval, DataHandler=dh, ModelLoader=ml)
 
 # For clearing results and full method is working
-app_folder_dest = cf.TEST_BENCH.TB_RESULTS_F
-filename_prefix = cf.TEST_BENCH.FILENAME_PREFIX
+app_folder_dest = cf.TESTS.T_TB_RESULTS_F
+filename_prefix = cf.TESTS.T_TB_FILENAME_PREFIX
 folder_path = os.path.join(cf.APP_PATH, app_folder_dest)
 
 def clear_test_bench_folder():
@@ -63,13 +63,15 @@ def test_several_prompts_default_param():
     prompt
     param_dict = {}     
     """
-    report_idx_list = [20, 25]
+    report_idx_list = [20]
     report_data_filtered = report_data.iloc[report_idx_list]
     clear_test_bench_folder()
     tb.eval_gs_param(report_data=report_data_filtered,
                      report_generator = rg,
                      prompt_method_list=cf.TEST_BENCH.PROMPT_METHODS,
-                     param_dict={} )
+                     param_dict={},
+                     xlsx_file_name = filename_prefix,
+                     app_folder_destination = app_folder_dest)
     
     # Check the file creation, check the string prefix in the filename
     for filenames in os.listdir(folder_path):
@@ -77,7 +79,7 @@ def test_several_prompts_default_param():
 
 def test_several_prompts_several_params():
     # Get a part of the the Database
-    report_idx_list = [20, 25]
+    report_idx_list = [20]
     report_data_filtered = report_data.iloc[report_idx_list]
     clear_test_bench_folder()
     tb.eval_gs_param(report_data=report_data_filtered,
@@ -85,23 +87,26 @@ def test_several_prompts_several_params():
                      prompt_method_list=["C"],
                      param_dict={"temperature": [0.7, 1.3],
                                  "top_p": [0.6, 1],
-                                 "max_new_tokens": [300]} )
+                                 "max_new_tokens": [300]},
+                     xlsx_file_name = filename_prefix,
+                     app_folder_destination = app_folder_dest )
         
     # Check the file creation, check the string prefix in the filename
     for filenames in os.listdir(folder_path):
         assert filename_prefix in filenames
 
 # def test_threaded_several_params():
-#     report_idx_list = [20, 25]
+#     report_idx_list = [20]
 #     report_data_filtered = report_data.iloc[report_idx_list]
 #     clear_test_bench_folder()
-#     tb.eval_gs_param_threaded(report_data=report_data_filtered,
-#                               report_generator = rg,
-#                               prompt_method="C",
-#                               param_dict={"temperature": [0.7, 1.3],
-#                                           "top_p": [0.6, 1],
-#                                           "max_new_tokens": [300]},
-#                               max_workers = 4 )
+#     df_res = tb.eval_gs_param_threaded(report_data=report_data_filtered,
+#                                        report_generator = rg,
+#                                        prompt_method="C",
+#                                        param_dict={"temperature": [0.7, 1.3],
+#                                                    "top_p": [0.6, 1],
+#                                                    "max_new_tokens": [300]},
+#                                        max_workers = 4 )
+#     print(df_res)
     
 #     # Check the file creation, check the string prefix in the filename
 #     for filenames in os.listdir(folder_path):
