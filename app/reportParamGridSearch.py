@@ -46,7 +46,7 @@ def main(**kwargs):
     df_reports = dh.import_reports() 
 
     # Load model
-    ml = ModelLoader(model_id='microsoft/phi-2', device=env.device, torch_dtype=env.torch_dtype)
+    ml = ModelLoader(model_id=model_id, device=env.device, torch_dtype=env.torch_dtype)
     param_dict = ml.get_dict_without_none_parameters(kwargs)
     print(f"Generation parameters: \n{param_dict}")
     tb = TestBench(MetricsEvaluator = met_eval, DataHandler=dh, ModelLoader=ml)
