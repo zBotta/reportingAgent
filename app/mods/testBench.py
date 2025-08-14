@@ -208,18 +208,25 @@ class TestBench:
                               row: pd.Series.dtypes,
                               report_generator: ReportGenerator, 
                               prompt_method: str
-                              ):
+                              ) -> tuple:
     """ Generates a report with one set of parameters (gen_param)
     """
-    log.info(f"Generating text with the following parameters:\n{gen_param}")
-    output, gen_param = report_generator.generate_report(prompt=gen_prompt, **gen_param)
-    log.debug(f"\nThe output of the model {self.ml.model_id} is: \n{output}")
+    # reference report is in event_description column  
+    ref_report = row.event_description 
 
-    # obtain title and report from the structured output
-    title, report = self.dh.get_title_and_report(model_output = output)       
-    ref_report = row.event_description # reference report is in event_description column  
-    t_models = cf.TEST_BENCH.T_MODELS
-    self.m_eval.proc_scores(ref_text = ref_report, pred_text_list = [report], t_models = t_models, is_test_bench = True)
+    # generate and obtain title and report from the structured output
+    # if empty object, catch the error and give a default value
+    log.info(f"Generating text with the following parameters:\n{gen_param}")
+    try:
+      output, gen_param = report_generator.generate_report(prompt=gen_prompt, **gen_param)
+      log.debug(f"\nThe output of the model {self.ml.model_id} is: \n{output}")
+      title, report = self.dh.get_title_and_report(model_output = output)    
+    except Exception as e:
+      log.error(f'Failed to generate report: \nmodel_id: {report_generator.model.model_id} \ngeneration_parameters {gen_param}: {e}')
+      title = 'FAIL'
+      report = f'FAILED_REPORT: {e}'
+
+    self.m_eval.proc_scores(ref_text = ref_report, pred_text_list = [report], is_test_bench = True)
     
     # update row of the DataFrame and add it up
     res.update({'report_idx': row.name, 'prompt_method': prompt_method})

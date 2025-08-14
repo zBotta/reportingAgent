@@ -48,7 +48,7 @@ def main(**kwargs):
     # Load model
     ml = ModelLoader(model_id='microsoft/phi-2', device=env.device, torch_dtype=env.torch_dtype)
     param_dict = ml.get_dict_without_none_parameters(kwargs)
-    print(f"Parameters passed to main script: \n{param_dict}")
+    print(f"Generation parameters: \n{param_dict}")
     tb = TestBench(MetricsEvaluator = met_eval, DataHandler=dh, ModelLoader=ml)
     model, tokenizer = ml.load_model(hf_token=env.config["HF_TOKEN"])
     rg = ReportGenerator(model, tokenizer, output_type=Report)

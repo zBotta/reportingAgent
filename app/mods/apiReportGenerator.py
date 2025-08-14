@@ -6,14 +6,6 @@ from pydantic import BaseModel
 import instructor
 from groq import Groq
 
-
-import sys
-from pathlib import Path
-root_path = str(Path(__file__).absolute().parent.parent.parent.resolve())
-app_path = str(Path(__file__).absolute().parent.parent.resolve())
-sys.path.append(root_path)
-sys.path.append(app_path) # add root and app project path to environment -> permits module import 
-
 import logging
 from app.conf.logManager import Logger
 from conf.projectConfig import Config as cf
