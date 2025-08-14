@@ -37,37 +37,6 @@ class TestBench:
   def clear_df_results(self):
     self.df_res : pd.DataFrame.dtypes = pd.DataFrame({})
 
-  # def set_model_loader(self, ModelLoader: ModelLoader):
-  #   self.ml = ModelLoader
-
-  # def eval_diff_prompts(self, 
-  #                       report_data : pd.DataFrame.dtypes, 
-  #                       report_idx_list : list, 
-  #                       report_generator: ReportGenerator):
-  #   scores = {}
-  #   gen_param = self.ml.get_default_tunable_parameters()
-  #   for report_idx in report_idx_list:
-  #     row = report_data.loc[report_idx, 'what':'contingency_actions']
-  #     prompt_gen = PromptGenerator(**row.to_dict())
-  #     for prompt_method in cf.TEST_BENCH.PROMPT_METHODS:
-  #       prompt = prompt_gen.create_prompt(prompt_method)
-  #       # The model in the report generator has a structured output with outlines library
-  #       output = report_generator.generate_report(prompt)
-  #       log.debug(f"\nThe model output is: \n{output}")
-  #       # obtain title and report from the structured output
-  #       title, report = self.dh.get_title_and_report(model_output = output) 
-  #       ref_report = report_data.event_description[report_idx]
-  #       t_models = cf.TEST_BENCH.T_MODELS
-  #       self.m_eval.proc_scores(ref_text = ref_report, pred_text_list = [report], t_models = t_models, is_test_bench = True)
-  #       # update row of the DataFrame
-  #       scores.update({'report_idx': report_idx, 'prompt_method': prompt_method})
-  #       scores.update(self.m_eval.get_scores())
-  #       scores.update(gen_param)
-  #       scores.update({"title": title, "report": report})
-  #       self.df_res = pd.concat([self.df_res, pd.DataFrame.from_dict(scores)], axis=0) 
-
-  #   return self.df_res
-
   def _get_param_combinations(self, 
                              param_dict: dict) -> list:
     """ Take the param_dict with all the parameters and keys and calculate the combination of each parameter.
@@ -90,10 +59,10 @@ class TestBench:
     """
     # Parse all default parameters and include them in the user input param_dict
     default_param = self.ml.get_default_tunable_parameters()
-    if len(default_param.keys()) > len(param_dict.keys()):
+    if set(param_dict) != set(default_param):
       not_in_param_dict_k = set(default_param) - set(param_dict) # returns a set with missing keys
-    # update dictionary. Default parameters have always one value define in it.
-    param_dict.update({k: [default_param[k]] for k in not_in_param_dict_k}) # remember that format is a dict={key: list}
+      # update dictionary. Default parameters have always one value define in it.
+      param_dict.update({k: [default_param[k]] for k in not_in_param_dict_k}) # remember that format is a dict={key: list}
     # Generate combinations
     res_list = list(product(*param_dict.values()))
     key_list = [k for k in param_dict.keys()]
@@ -113,16 +82,7 @@ class TestBench:
 
      Raises an error if the if the given parameters are not part of the tunable parameters 
      or if param_dict does not have a good type."""
-    
-    # TODO: Discuss if this should be done to check parameters. 
-    #       For instance, max_new_tokens is not in the tunable_parameters but it is actually a parameter. 
-    #       This throws an error when it should not do it.
-    # tunable_params = self.ml.get_default_tunable_parameters()
-    # if not set(param_dict) <= set(tunable_params): # is the set of given param included in set of tunable param
-    #   not_tunable_params = set(param_dict) - set(tunable_params)
-    #   raise ValueError(f"Warning: The given parameters: {not_tunable_params} are not tunable parameters") 
-    # else:
-    
+       
     # check all values in param_dict are lists
     v_is_list = True
     for k, v in param_dict.items():

@@ -31,6 +31,7 @@ from mods.modelLoader import ModelLoader
 def main(**kwargs):
     # Treat arguments
     print(f"Parameters passed to main script: \n{kwargs}")
+    log.info(f"Parameters passed to main script: \n{kwargs}")
     model_id = kwargs["model_id"][0]
     kwargs.pop("model_id")
     start_idx = kwargs["start_idx"][0]
@@ -41,13 +42,15 @@ def main(**kwargs):
     kwargs.pop("prompt_method")
     max_workers = kwargs["max_workers"]
     kwargs.pop("max_workers")
+    dataset_filename = kwargs["dataset_filename"]
+    kwargs.pop("dataset_filename")
     param_dict = kwargs.copy()
 
     dh = DataHandler()
     env = Setup()
     met_eval = MetricsEvaluator()
     # Load data
-    df_reports = dh.import_reports() 
+    df_reports = dh.import_reports(xlsx_file_name=dataset_filename)
     ml = ModelLoader(model_id=model_id, device=env.device, torch_dtype=env.torch_dtype)
     print(f"Generation parameters: \n{param_dict}")
     tb = TestBench(MetricsEvaluator = met_eval, DataHandler=dh, ModelLoader=ml)
@@ -62,11 +65,6 @@ def main(**kwargs):
                               prompt_method_list=prompt_method_list,
                               param_dict=param_dict,
                               max_workers=max_workers)
-    # tb.eval_gs_param(report_data=df_reports_filtered,
-    #                  report_generator = rg,
-    #                  prompt_method_list=["C"],
-    #                  param_dict=param_dict)
-
 
 if __name__ == "__main__":
     # Define arguments of the program
@@ -81,6 +79,7 @@ if __name__ == "__main__":
     parser.add_argument("--end_idx", type=int, nargs=1, required=True)
     parser.add_argument("--prompt_method", type=str, nargs="+", required=True)
     parser.add_argument("--max_workers", type=int, nargs=1, required=False, default=4)
+    parser.add_argument("--dataset_filename", type=str, required=True)
     for argument in cf.MODEL.PARAM_LIST:
         if argument == "do_sample":
             parser.add_argument("--" + argument, type=bool, nargs='+', required=False)
