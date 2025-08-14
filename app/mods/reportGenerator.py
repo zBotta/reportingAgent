@@ -33,12 +33,6 @@ class ReportGenerator:
                 raise ValueError("Tokenizer has no eos_token_id defined.")
 
         return pad_token_id, eos_token_id
-    
-    # TODO: 
-    # - Discuss errors on generation "Unterminated string" ? I think I found the error, the max_new_tokens was needed in gpt2 to generate something on the report object.
-    # - Merge the methods and change the notebooks with his changes in report generator.
-    # - What are the essential needed parameters ? 
-    # - Now we can now return a tuple
 
     def generate_report(
         self,
@@ -71,7 +65,11 @@ class ReportGenerator:
         generation_args = {}
         generation_args.update(kwargs)
 
-        # TODO: Discuss with Samd
+        if not "do_sample" in generation_args:
+            generation_args.update({"do_sample": True})
+        elif generation_args["do_sample"] is not True:
+            generation_args.update({"do_sample": True})
+
         if not "max_new_tokens" in generation_args:
             generation_args.update({"max_new_tokens": cf.MODEL.MAX_NEW_TOKENS})
 
