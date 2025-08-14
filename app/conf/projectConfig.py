@@ -20,7 +20,7 @@ class Logger():
 
 
 class Data():
-   DF_COLUMNS = ['type', 'what', 'when', 'where', 'who', 'how', 'why', 'contingency_actions', 'event_description', 'NbChr']
+   DF_COLUMNS = ['report_name', 'what', 'when', 'where', 'who', 'how', 'why', 'contingency_actions', 'event_description', 'NbChr', "comments"]
    DH_DEFAULT_RESULTS_F = "results"  # Default results folder name to export results
    DH_DEFAULT_DATASET_FILENAME = "Reports_dataset.xlsx" # Default Excel Dataset to import reference reports and 5W's from
 
