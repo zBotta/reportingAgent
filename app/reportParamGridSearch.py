@@ -47,7 +47,7 @@ def main(**kwargs):
     kwargs.pop("prompt_method")
     max_workers = kwargs["max_workers"][0]
     kwargs.pop("max_workers")
-    is_threaded_process = kwargs["use_threaded"]
+    is_threaded_process = kwargs["use_threaded"][0]
     kwargs.pop("use_threaded")
     dataset_filename = kwargs["dataset_filename"]
     kwargs.pop("dataset_filename")
@@ -72,12 +72,14 @@ def main(**kwargs):
     tb.print_number_of_combinations(report_data=report_idx_list, param_dict=param_dict, prompt_method_list=prompt_method_list)
     df_reports_filtered = df_reports.iloc[report_idx_list]
     if is_threaded_process:
+        print("******* Starting THREADED PROCESS ************")
         tb.eval_gs_param_threaded(report_data=df_reports_filtered,
                                 report_generator = rg,
                                 prompt_method_list=prompt_method_list,
                                 param_dict=param_dict,
                                 max_workers=max_workers)
     else:
+        print("******* Starting THREADED PROCESS ************")
         tb.eval_gs_param(report_data=df_reports_filtered,
                          report_generator = rg,
                          prompt_method_list=prompt_method_list,
