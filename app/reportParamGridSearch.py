@@ -47,7 +47,7 @@ def main(**kwargs):
     kwargs.pop("prompt_method")
     max_workers = kwargs["max_workers"][0]
     kwargs.pop("max_workers")
-    is_threaded_process = kwargs["use_threaded"][0]
+    is_threaded_process = kwargs["use_threaded"]
     kwargs.pop("use_threaded")
     dataset_filename = kwargs["dataset_filename"]
     kwargs.pop("dataset_filename")
@@ -98,7 +98,7 @@ if __name__ == "__main__":
     parser.add_argument("--prompt_method", type=str, nargs="+", required=True)
     parser.add_argument("--max_workers", type=int, nargs=1, required=False, default=4)
     parser.add_argument("--dataset_filename", type=str, required=True)
-    parser.add_argument("--use_threaded", type=bool, required=True)
+    parser.add_argument("--use_threaded", type=bool, nargs=1, required=True)
     for argument in cf.MODEL.PARAM_LIST:
         if argument == "do_sample":
             parser.add_argument("--" + argument, type=bool, nargs='+', required=False)

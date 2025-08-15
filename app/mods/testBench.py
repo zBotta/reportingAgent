@@ -257,7 +257,6 @@ class TestBench:
               except Exception as e:
                   log.error(f"FAILED report export: {e} on row={idx}")
                   
-      
       # Export experiment to Excel
       treat_model_id = self.dh.treat_model_name_for_filename(self.ml.model_id)
       self.dh.export_df_to_excel(df=self.df_res,
