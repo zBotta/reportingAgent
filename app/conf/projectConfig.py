@@ -34,11 +34,21 @@ class pyTests():
    T_EXP_DEST_F = os.path.join("test", "test_export")
 
 
+class MetricsEvaluator():
+   # ALL KEYS MUST BE PREFIXED WITH "S_" TO EASE FINDING THEM ON EXCEL EXPORTS
+   BERT_MODEL ="distilbert-base-uncased"
+   BS_PRECISION_KEY = "s_bs_precision" 
+   BS_RECALL_KEY = "s_bs_recall"
+   BS_F1_KEY = "s_bs_f1"
+   BE_MODEL = "all-MiniLM-L6-v2"
+   BE_SIM_KEY = "s_be_sim"
+   CE_MODEL = "ms-marco-MiniLM-L6-v2"
+   CE_SIM_KEY = "s_ce_sim"
+
+   
+
 class TestBench():
    PROMPT_METHODS = ['A', 'B', 'C']
-   BERT_MODEL ="distilbert-base-uncased"
-   BE_MODEL = "all-MiniLM-L6-v2"
-   CE_MODEL = "ms-marco-MiniLM-L6-v2"
    TB_FILENAME_PREFIX = "tb"
    TB_RESULTS_F = os.path.join("results", "test-bench") 
 
@@ -80,4 +90,5 @@ class Config():
     API = Api()
     LOG = Logger()
     TESTS = pyTests()
+    METRICS = MetricsEvaluator()
 

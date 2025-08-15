@@ -15,9 +15,9 @@ class MetricsEvaluator:
   """
 
   def __init__(self,
-               t_model_bert : str = cf.TEST_BENCH.BERT_MODEL,
-               t_model_be : str = cf.TEST_BENCH.BE_MODEL, 
-               t_model_ce :str = cf.TEST_BENCH.CE_MODEL):
+               t_model_bert : str = cf.METRICS.BERT_MODEL,
+               t_model_be : str = cf.METRICS.BE_MODEL, 
+               t_model_ce :str = cf.METRICS.CE_MODEL):
     self.scores = {}
     self.bertscore_model = load("bertscore")
     self.bert_type_model = t_model_bert
@@ -31,10 +31,10 @@ class MetricsEvaluator:
     predictions = pred_text_list
     references = [ref_text]
     results = self.bertscore_model.compute(predictions=predictions, references=references, model_type=self.bert_type_model)
-    self.scores["bs_precision"], self.scores["bs_recall"], self.scores["bs_f1"] = results["precision"], results["recall"], results["f1"]
+    self.scores[cf.METRICS.BS_PRECISION_KEY], self.scores[cf.METRICS.BS_RECALL_KEY], self.scores[cf.METRICS.BS_F1_KEY] = results["precision"], results["recall"], results["f1"]
     
   def get_bert_score(self) -> tuple:
-    return self.scores["bs_precision"], self.scores["bs_recall"], self.scores["bs_f1"]
+    return self.scores[cf.METRICS.BS_PRECISION_KEY], self.scores[cf.METRICS.BS_RECALL_KEY], self.scores[cf.METRICS.BS_F1_KEY]
 
   def set_bi_encoder_score(self, ref_text : str, pred_text_list : list, compare_all_texts = False, is_test_bench = False):
     """
@@ -55,10 +55,10 @@ class MetricsEvaluator:
     be_scores = similarities.cpu().numpy() if compare_all_texts else similarities.cpu().numpy()[0]
     if is_test_bench:
       be_scores = np.delete(be_scores, 0)
-    self.scores["be_sim"] = be_scores 
+    self.scores[cf.METRICS.BE_SIM_KEY] = be_scores 
     
   def get_bi_encoder_score(self) -> np.dtype:
-    return self.scores["be_sim"]
+    return self.scores[cf.METRICS.BE_SIM_KEY]
 
   def set_cross_encoder_score(self, ref_text: str, pred_text_list : list, is_test_bench = False):
     # We want to compute the similarity between the query sentence...
@@ -86,10 +86,10 @@ class MetricsEvaluator:
     if is_test_bench:
       ce_sim_score = np.delete(ce_sim_score, 0)
 
-    self.scores["ce_sim"] = ce_sim_score
+    self.scores[cf.METRICS.CE_SIM_KEY] = ce_sim_score
 
   def get_cross_encoder_score(self)  -> list:   
-      return self.scores["ce_sim"]
+      return self.scores[cf.METRICS.CE_SIM_KEY]
     
   def proc_scores(self, 
                   ref_text : str, 
