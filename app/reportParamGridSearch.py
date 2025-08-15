@@ -79,7 +79,7 @@ def main(**kwargs):
                                 param_dict=param_dict,
                                 max_workers=max_workers)
     else:
-        print("******* Starting THREADED PROCESS ************")
+        print("******* Starting NOT THREADED PROCESS ************")
         tb.eval_gs_param(report_data=df_reports_filtered,
                          report_generator = rg,
                          prompt_method_list=prompt_method_list,
