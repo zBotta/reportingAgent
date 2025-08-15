@@ -11,7 +11,7 @@ def test_get_default_parameters():
     env = Setup()
     model_id = 'openai-community/gpt2'
     ml = ModelLoader(model_id=model_id, device=env.device, torch_dtype=env.torch_dtype)
-    dp = ml.get_default_parameters()
+    dp = ml._get_default_parameters()
     is_value = True
     for ref_val in cf.MODEL.PARAM_LIST:
         is_value = (ref_val in dp) and is_value

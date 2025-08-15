@@ -159,6 +159,7 @@ class TestBench:
                                     prompt_method = prompt_method)
         self.df_res = pd.concat([self.df_res, pd.DataFrame.from_dict(res)], axis=0)
     else:  # No parameters given -> Generate with default parameters
+      gen_param = self.ml.get_default_tunable_parameters()
       self.generate_one_param_set(res=res,
                                   gen_prompt = gen_prompt,
                                   gen_param = gen_param,

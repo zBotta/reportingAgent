@@ -65,7 +65,7 @@ class ModelLoader:
 
         return model_outlines, tokenizer
 
-    def get_default_parameters(self, verbose = False) -> dict:
+    def _get_default_parameters(self, verbose = False) -> dict:
         """ Get the default parameters of the model
         verbose: If True, the missing parameters are printed out
         """
@@ -84,7 +84,7 @@ class ModelLoader:
     
     def get_default_tunable_parameters(self, verbose = False) -> dict:
         """ Filters the default parameter values and gets the tunable ones (value that are not cf.MODEL.VAL_IF_NOT_IN_PARAM_LIST)"""
-        def_param = self.get_default_parameters(verbose=verbose)
+        def_param = self._get_default_parameters(verbose=verbose)
         tunable_param = self.get_dict_without_none_parameters(def_param)
         return tunable_param
     
