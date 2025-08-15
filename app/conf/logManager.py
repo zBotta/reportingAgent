@@ -22,6 +22,14 @@ class Logger(logging.Logger):
         # Adding a file handler
         file_handler = CustomFileHandler()
         self.addHandler(file_handler)
+    
+    # setup log functions
+    def clear(self):
+        """ Open log file and """
+        with open(cf.LOG.LOG_FILE, "w"):
+            pass
+
+    # specific log functions
 
     def info(self, msg, *args, **kwargs):
         if self.isEnabledFor(logging.INFO):

@@ -28,7 +28,12 @@ from mods.reportGenerator import ReportGenerator
 from mods.modelLoader import ModelLoader
 import time
 
+from app.conf.projectConfig import Config as cf
+
+
 def main(**kwargs):
+    # clear log
+    Logger.clear()
     # Treat arguments
     print(f"Parameters passed to main script: \n{kwargs}")
     log.info(f"Parameters passed to main script: \n{kwargs}")
@@ -55,6 +60,9 @@ def main(**kwargs):
     ml = ModelLoader(model_id=model_id, device=env.device, torch_dtype=env.torch_dtype)
     print(f"Generation parameters: \n{param_dict}")
     tb = TestBench(MetricsEvaluator = met_eval, DataHandler=dh, ModelLoader=ml)
+    # Print out the expected number of combinations (output rows on results df)
+    tb.print_number_of_combinations(report_data=df_reports, param_dict=param_dict, prompt_method_list=prompt_method_list)
+    # Load LM
     model, tokenizer = ml.load_model(hf_token=env.config["HF_TOKEN"])
     rg = ReportGenerator(model, tokenizer, output_type=Report)
 
@@ -72,7 +80,6 @@ def main(**kwargs):
 if __name__ == "__main__":
     # Define arguments of the program
     import argparse
-    from app.conf.projectConfig import Config as cf
     parser = argparse.ArgumentParser(prog="ReportParamGridSearch",
                                      description="Takes a Language Model and tests the given parameters in a Grid Search approach." \
                                      "The indexes given are the selected rows of the reference report database",
@@ -93,3 +100,6 @@ if __name__ == "__main__":
         
     args = parser.parse_args()
     main(**vars(args))
+
+# Call example: 
+# python app/reportParamGridSearch.py --model_id microsoft/phi-2 --prompt_method B C --max_workers 4 --dataset_filename pharma_dev_reports_collection.xlsx --start_idx 1 --end_idx 5  --temperature 0.7 1.0 1.3 --top_p 0.3 0.6 0.9 --top_k 30 50 70 --max_new_tokens 300 --do_sample True

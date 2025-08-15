@@ -233,12 +233,6 @@ class TestBench:
       """
 
       param_combi_list = self._get_param_combinations(param_dict)
-      # nbr_rows in df * param combinations
-      results_len = len(report_data) * len(param_combi_list) * len(prompt_method_list) # Preallocate list for ordered results
-      log.info(f"Results file is expected to have {results_len} rows.") # change to debug
-
-      # Create a new dict (gen_param) to update it with new grid search param
-      
 
       with ThreadPoolExecutor(max_workers=max_workers) as executor:
           res = {}
@@ -274,3 +268,14 @@ class TestBench:
 
       return df
 
+  def print_number_of_combinations(self,
+                                 report_data: pd.DataFrame.dtypes,
+                                 param_dict: dict,
+                                 prompt_method_list: list = cf.TEST_BENCH.PROMPT_METHODS
+                                 ) -> int:
+    
+    param_combi_list = self._get_param_combinations(param_dict)
+    # nbr_rows in df * param combinations * promp_method_list
+    results_len = len(report_data) * len(param_combi_list) * len(prompt_method_list) # Preallocate list for ordered results
+    log.info(f"Results file is expected to have {results_len} rows.") # change to debug
+    print(f"Results file is expected to have {results_len} rows.") # change to debug
