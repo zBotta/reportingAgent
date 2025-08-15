@@ -47,6 +47,8 @@ def main(**kwargs):
     kwargs.pop("prompt_method")
     max_workers = kwargs["max_workers"][0]
     kwargs.pop("max_workers")
+    is_threaded_process = kwargs["use_threaded"][0]
+    kwargs.pop("use_threaded")
     dataset_filename = kwargs["dataset_filename"]
     kwargs.pop("dataset_filename")
     param_dict = kwargs.copy()
@@ -69,11 +71,17 @@ def main(**kwargs):
     report_idx_list = list(range(start_idx, end_idx + 1))
     tb.print_number_of_combinations(report_data=report_idx_list, param_dict=param_dict, prompt_method_list=prompt_method_list)
     df_reports_filtered = df_reports.iloc[report_idx_list]
-    tb.eval_gs_param_threaded(report_data=df_reports_filtered,
-                              report_generator = rg,
-                              prompt_method_list=prompt_method_list,
-                              param_dict=param_dict,
-                              max_workers=max_workers)
+    if is_threaded_process:
+        tb.eval_gs_param_threaded(report_data=df_reports_filtered,
+                                report_generator = rg,
+                                prompt_method_list=prompt_method_list,
+                                param_dict=param_dict,
+                                max_workers=max_workers)
+    else:
+        tb.eval_gs_param(report_data=df_reports_filtered,
+                         report_generator = rg,
+                         prompt_method_list=prompt_method_list,
+                         param_dict=param_dict)
     print("reportParamGridSearch time --- %s minutes ---" % ((time.time() - start_time)/60))
     log.info("reportParamGridSearch time --- %s minutes ---" % ((time.time() - start_time)/60))
 
@@ -90,6 +98,7 @@ if __name__ == "__main__":
     parser.add_argument("--prompt_method", type=str, nargs="+", required=True)
     parser.add_argument("--max_workers", type=int, nargs=1, required=False, default=4)
     parser.add_argument("--dataset_filename", type=str, required=True)
+    parser.add_argument("--use_threaded", type=bool, required=True)
     for argument in cf.MODEL.PARAM_LIST:
         if argument == "do_sample":
             parser.add_argument("--" + argument, type=bool, nargs='+', required=False)
