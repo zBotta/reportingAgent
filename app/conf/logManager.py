@@ -24,7 +24,7 @@ class Logger(logging.Logger):
         self.addHandler(file_handler)
     
     # setup log functions
-    def clear(self):
+    def clear():
         """ Open log file and """
         with open(cf.LOG.LOG_FILE, "w"):
             pass
