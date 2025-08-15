@@ -61,13 +61,13 @@ def main(**kwargs):
     print(f"Generation parameters: \n{param_dict}")
     tb = TestBench(MetricsEvaluator = met_eval, DataHandler=dh, ModelLoader=ml)
     # Print out the expected number of combinations (output rows on results df)
-    tb.print_number_of_combinations(report_data=df_reports, param_dict=param_dict, prompt_method_list=prompt_method_list)
     # Load LM
     model, tokenizer = ml.load_model(hf_token=env.config["HF_TOKEN"])
     rg = ReportGenerator(model, tokenizer, output_type=Report)
 
     # Test different prompts and tuning parameters on model
     report_idx_list = list(range(start_idx, end_idx + 1))
+    tb.print_number_of_combinations(report_data=report_idx_list, param_dict=param_dict, prompt_method_list=prompt_method_list)
     df_reports_filtered = df_reports.iloc[report_idx_list]
     tb.eval_gs_param_threaded(report_data=df_reports_filtered,
                               report_generator = rg,
