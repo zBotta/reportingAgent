@@ -6,6 +6,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, GPT2LMHeadModel, G
 import outlines
 from conf.projectConfig import Config as cf
 from app.conf.logManager import Logger
+from huggingface_hub import login
 
 import logging
 logging.setLoggerClass(Logger)
@@ -45,6 +46,8 @@ class ModelLoader:
             # model_kwargs['trust_remote_code'] = True
             if hf_token == "":
                 ConnectionError("Hugging Face token is needed for loading to Llama or Janus models")
+            else:
+                login(token=hf_token)
 
 
         # Load tokenizer and model
