@@ -62,15 +62,17 @@ def main(**kwargs):
     ml = ModelLoader(model_id=model_id, device=env.device, torch_dtype=env.torch_dtype)
     print(f"Generation parameters: \n{param_dict}")
     tb = TestBench(MetricsEvaluator = met_eval, DataHandler=dh, ModelLoader=ml)
-    # Print out the expected number of combinations (output rows on results df)
+    
     # Load LM
     model, tokenizer = ml.load_model(hf_token=env.config["HF_TOKEN"])
     rg = ReportGenerator(model, tokenizer, output_type=Report)
 
-    # Test different prompts and tuning parameters on model
+    # Filter dataframe acording to given start and end idx
     report_idx_list = list(range(start_idx, end_idx + 1))
-    tb.print_number_of_combinations(report_data=report_idx_list, param_dict=param_dict, prompt_method_list=prompt_method_list)
+    n_comb = tb.print_number_of_combinations(report_data=report_idx_list, param_dict=param_dict, prompt_method_list=prompt_method_list)
     df_reports_filtered = df_reports.iloc[report_idx_list]
+    # # RUN GRID SEARCH
+    print("******* Starting GRID SEARCH ***********")
     if is_threaded_process:
         print("******* Starting THREADED PROCESS ************")
         tb.eval_gs_param_threaded(report_data=df_reports_filtered,
@@ -84,6 +86,20 @@ def main(**kwargs):
                          report_generator = rg,
                          prompt_method_list=prompt_method_list,
                          param_dict=param_dict)
+        
+    # EXPORT ANALYSIS RESULTS
+    print(f"***** Starting statistical analyisis for the experiment_id={tb.experiment_id} ***** ")
+    tb.export_mean_scores_on_experiment_id(exp_id=tb.experiment_id, 
+                                           prompt_method_list=prompt_method_list,
+                                           top_score=cf.ANALYSIS.TOP_SCORE,
+                                           df = tb.df_res
+                                           )
+    tb.export_stat_analysis_on_experiment_id(exp_id=tb.experiment_id,
+                                             prompt_method_list=prompt_method_list,
+                                             top_score_list=cf.ANALYSIS.TOP_SCORE_LIST,
+                                             top_k_param=n_comb, # export ALL the parameter combinations # TODO: dicuss with Samd
+                                             df = tb.df_res
+                                             )
     print("reportParamGridSearch time --- %s minutes ---" % ((time.time() - start_time)/60))
     log.info("reportParamGridSearch time --- %s minutes ---" % ((time.time() - start_time)/60))
 
@@ -116,4 +132,4 @@ if __name__ == "__main__":
     main(**vars(args))
 
 # Call example: 
-# python app/reportParamGridSearch.py --model_id microsoft/phi-2 --prompt_method B C --max_workers 4 --dataset_filename pharma_dev_reports_collection.xlsx --start_idx 1 --end_idx 5  --temperature 0.7 1.0 1.3 --top_p 0.3 0.6 0.9 --top_k 30 50 70 --max_new_tokens 300 --do_sample True
+# python app/reportParamGridSearch.py --model_id HuggingFaceTB/SmolLM3-3B  --non-threaded --prompt_method B C --max_workers 4 --dataset_filename pharma_dev_reports_collection.xlsx --start_idx 1 --end_idx 80  --temperature 0.7 1.0 1.3 --top_p 0.3 0.6 0.9 --top_k 30 50 70 --max_new_tokens 300 --do_sample True
