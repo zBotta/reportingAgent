@@ -37,13 +37,13 @@ class pyTests():
 class MetricsEvaluator():
    # ALL KEYS MUST BE PREFIXED WITH "S_" TO EASE FINDING THEM ON EXCEL EXPORTS
    BERT_MODEL ="distilbert-base-uncased"
-   BS_PRECISION_KEY = "s_bs_precision" 
-   BS_RECALL_KEY = "s_bs_recall"
-   BS_F1_KEY = "s_bs_f1"
+   BS_PRECISION_KEY = "bs_precision" 
+   BS_RECALL_KEY = "bs_recall"
+   BS_F1_KEY = "bs_f1"
    BE_MODEL = "all-MiniLM-L6-v2"
-   BE_SIM_KEY = "s_be_sim"
+   BE_SIM_KEY = "be_sim"
    CE_MODEL = "ms-marco-MiniLM-L6-v2"
-   CE_SIM_KEY = "s_ce_sim"
+   CE_SIM_KEY = "ce_sim"
 
    
 
