@@ -75,8 +75,9 @@ class DataHandler:
 
   def clear_tmp_file(self):
     """ Clear the last tmp file """
-    if os.path.isdir(self.last_tmp_file_path): 
+    if os.path.isfile(self.last_tmp_file_path): 
         os.remove(self.last_tmp_file_path) 
+        log.info(f"Removing tmp file {self.last_tmp_file_path}")
 
   def export_df_to_excel(self, 
                          df: pd.DataFrame.dtypes,
