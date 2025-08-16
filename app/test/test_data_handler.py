@@ -7,6 +7,12 @@ from conf.projectConfig import Config as cf
 from mods.dataHandler import DataHandler, Report
 from mods.apiReportGenerator import ApiReport, ApiReports
 
+from mods.testBench import TestBench
+from mods.metricsEvaluator import MetricsEvaluator
+from mods.promptGenerator import PromptGenerator
+from mods.reportGenerator import ReportGenerator
+from mods.modelLoader import ModelLoader
+
 def test_import_excel():
     dh = DataHandler()
     df = dh.import_reports()
@@ -60,3 +66,51 @@ def test_api_export():
     # Check the file creation, check the string prefix in the filename
     for filenames in os.listdir(folder_path):
         assert filename_prefix in filenames
+
+def test_export_mean_scores():
+    env = Setup()
+    met_eval = MetricsEvaluator()
+    # Load data
+    dh = DataHandler()
+
+    report_data = dh.import_reports()
+    # Load model
+    model_id = 'openai-community/gpt2' 
+    ml = ModelLoader(model_id=model_id, device=env.device, torch_dtype=env.torch_dtype)
+    tb = TestBench(MetricsEvaluator = met_eval, DataHandler=dh, ModelLoader=ml)
+    tb.set_experiment_id()
+
+    fake_row_1 = {'report_idx': 34, 'prompt_method': 'C', 'temperature': 0.7, 'top_p': 0.3, 'top_k': 30, 'max_new_tokens': 300, 'do_sample': True, 'repetition_penalty': 1, 'bs_precision': 1.0, 'bs_recall': 1.0, 'bs_f1': 1.0, 'be_sim': 1.0, 'ce_sim': 1.0, 'title': 'Wrong tablet counting', 'report': 'On July 2, 2025, at 3:30 PM, Erik Hansen loaded the wrong tablet counting disk during changeover on Bottle Packaging Line 2 for Batch RX500 of Neurocet 50 mg. Sarah Yoon from QA discovered the issue during AQL sampling. The line was stopped, 500 bottles were segregated, and rework and retraining were initiated.'}
+    fake_row_2 = {'report_idx': 34, 'prompt_method': 'B', 'temperature': 0.7, 'top_p': 0.3, 'top_k': 30, 'max_new_tokens': 300, 'do_sample': True, 'repetition_penalty': 1, 'bs_precision': 1.0, 'bs_recall': 1.0, 'bs_f1': 1.0, 'be_sim': 1.0, 'ce_sim': 1.0, 'title': 'Wrong tablet counting', 'report': 'On July 2, 2025, at 3:30 PM, Erik Hansen loaded the wrong tablet counting disk during changeover on Bottle Packaging Line 2 for Batch RX500 of Neurocet 50 mg. Sarah Yoon from QA discovered the issue during AQL sampling. The line was stopped, 500 bottles were segregated, and rework and retraining were initiated.'}
+    
+    fake_df = pd.DataFrame([fake_row_1, fake_row_2])
+    n_comb = 1
+    prompt_method_list = ['B', 'C']
+
+    app_folder_dest = cf.TESTS.T_AN_RESULTS_F
+    filename_prefix =  cf.TESTS.T_AN_FILENAME_PREFIX
+    folder_path = os.path.join(cf.APP_PATH, app_folder_dest)
+    if os.path.isdir(folder_path): # delete folder with previous tests files
+        shutil.rmtree(folder_path) 
+
+    tb.export_mean_scores_on_experiment_id(exp_id= filename_prefix + "-" + tb.experiment_id, 
+                                           prompt_method_list=prompt_method_list,
+                                           top_score=cf.ANALYSIS.TOP_SCORE,
+                                           df = fake_df, # tb.df_res
+                                           app_folder_dest=cf.TESTS.T_AN_RESULTS_F
+                                           )
+
+    tb.export_stat_analysis_on_experiment_id(exp_id=filename_prefix + "-" + tb.experiment_id,
+                                             prompt_method_list=prompt_method_list,
+                                             top_score_list=cf.ANALYSIS.TOP_SCORE_LIST,
+                                             top_k_param=n_comb, # export ALL the parameter combinations
+                                             df = fake_df, # tb.df_res
+                                             app_folder_dest=cf.TESTS.T_AN_RESULTS_F
+                                             )
+    
+    # Check the file creation, check the string prefix in the filename
+    count = 0
+    for filenames in os.listdir(folder_path):
+        count+= 1 if filename_prefix in filenames else 0
+    
+    assert count == 3

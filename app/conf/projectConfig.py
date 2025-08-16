@@ -32,6 +32,8 @@ class pyTests():
    T_API_DEST_F = os.path.join("test", "api")
    T_EXP_PREFIX = "test-export"
    T_EXP_DEST_F = os.path.join("test", "test_export")
+   T_AN_FILENAME_PREFIX = "test-an"
+   T_AN_RESULTS_F = os.path.join("test","analysis") # Folder to put the test-bench results
 
 
 class MetricsEvaluator():
@@ -45,7 +47,16 @@ class MetricsEvaluator():
    CE_MODEL = "ms-marco-MiniLM-L6-v2"
    CE_SIM_KEY = "ce_sim"
 
-   
+class Analysis():
+   TOP_SCORE = MetricsEvaluator.CE_SIM_KEY # Select the score to sort the Analysis values
+   TOP_K_PARAM = 5 # CHOOSE THE PARAMS THAT GIVE THE BEST K VALUES
+   TOP_SCORE_LIST = [MetricsEvaluator.BS_PRECISION_KEY,
+                          MetricsEvaluator.BS_RECALL_KEY,
+                          MetricsEvaluator.BS_F1_KEY,
+                          MetricsEvaluator.BE_SIM_KEY,
+                          MetricsEvaluator.CE_SIM_KEY] # The scores to include in the best parameter analysis
+   AN_RESULTS_F = os.path.join("results", "analysis") 
+
 
 class TestBench():
    PROMPT_METHODS = ['A', 'B', 'C']
@@ -91,4 +102,5 @@ class Config():
     LOG = Logger()
     TESTS = pyTests()
     METRICS = MetricsEvaluator()
+    ANALYSIS = Analysis()
 

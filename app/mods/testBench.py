@@ -3,6 +3,7 @@ testBench.py
 """
 
 import pandas as pd
+import numpy as np
 from conf.projectConfig import Config as cf
 import logging
 from app.conf.logManager import Logger
@@ -12,6 +13,8 @@ from mods.promptGenerator import PromptGenerator
 from mods.reportGenerator import ReportGenerator
 from mods.modelLoader import ModelLoader
 from itertools import product
+from datetime import datetime as dt
+import re
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -21,8 +24,10 @@ log = logging.getLogger(__name__)
 
 
 class TestBench:
-  """ A test bench for making tests on a single model. 
-      NB: If testing several models, a TestBench class should be created for testing each model """
+  """ A test bench for making parameter grid search on a single model. 
+      NB: If testing several models, a TestBench class should be created for testing each model 
+      This class handles as well the statistical analysis of the TestBench outputs
+  """
   __test__ = False # Specify to pytest to not collect test from this class
   def __init__(self, 
                MetricsEvaluator : MetricsEvaluator,
@@ -33,9 +38,21 @@ class TestBench:
     self.ml = ModelLoader
     self.clear_df_results()
     log.info("Test Bench loaded")
+    self.experiment_id: str = "" # id containing model charged and
   
   def clear_df_results(self):
     self.df_res : pd.DataFrame.dtypes = pd.DataFrame({})
+
+  def set_experiment_id(self):
+    """ a unique id with timestamp to identify the current experiment in the Test Bench
+        We are going to use the experiment id as a unique for the export files.
+        """
+    # Add time of creation to filename
+    treat_model_id = self.dh.treat_model_name_for_filename(self.ml.model_id)
+    dt_creation = dt.now().strftime("%d-%m%Y_%H-%M-%S")
+    exp_id = cf.TEST_BENCH.TB_FILENAME_PREFIX + "-" + treat_model_id + "-" + dt_creation
+    self.experiment_id = exp_id
+    log.info(f"Starting experiment in TestBench with experiment_id={self.experiment_id}")
 
   def _get_param_combinations(self, 
                              param_dict: dict) -> list:
@@ -109,6 +126,7 @@ class TestBench:
                   If empty, the method generates once for each prompt method with the default parameters.
     """
     self.clear_df_results()
+    self.set_experiment_id()
 
     if len(param_dict) > 0:
       self.__check_param(param_dict=param_dict)
@@ -120,12 +138,10 @@ class TestBench:
                               prompt_method=prompt_method,
                               param_dict=param_dict) # If param_dict is
     # Export experiment to Excel
-    treat_model_id = self.dh.treat_model_name_for_filename(self.ml.model_id)
     self.dh.export_df_to_excel(df=self.df_res,
-                              xlsx_file_name= xlsx_file_name + "-" + treat_model_id,
-                              app_folder_destination=app_folder_destination)
-    self.clear_df_results()
-
+                               xlsx_file_name= xlsx_file_name,
+                                app_folder_destination=app_folder_destination)
+    
   def param_grid_search_on_row(self, 
                                row: pd.Series.dtypes,
                                report_generator: ReportGenerator, 
@@ -157,7 +173,12 @@ class TestBench:
                                     row = row,
                                     report_generator = report_generator,
                                     prompt_method = prompt_method)
-        self.df_res = pd.concat([self.df_res, pd.DataFrame.from_dict(res)], axis=0)
+        df_row = pd.DataFrame.from_dict(res)
+        self.dh.export_df_row_to_tmp_csv(df_row, 
+                                         xlsx_file_name=self.experiment_id,
+                                         app_folder_destination=cf.ANALYSIS.AN_RESULTS_F) # pass the experiment id as filename
+        
+        self.df_res = pd.concat([self.df_res, df_row], axis=0)
     else:  # No parameters given -> Generate with default parameters
       gen_param = self.ml.get_default_tunable_parameters()
       self.generate_one_param_set(res=res,
@@ -166,7 +187,8 @@ class TestBench:
                                   row = row,
                                   report_generator = report_generator,
                                   prompt_method = prompt_method)
-      self.df_res = pd.concat([self.df_res, pd.DataFrame.from_dict(res)], axis=0)
+      df_row = pd.DataFrame.from_dict(res)
+      self.df_res = pd.concat([self.df_res, df_row], axis=0)
         
   def generate_one_param_set(self,
                              res: dict, 
@@ -232,7 +254,8 @@ class TestBench:
       pandas.DataFrame
           DataFrame of generated reports and metadata in the same order as `df`.
       """
-
+      self.clear_df_results()
+      self.set_experiment_id()
       param_combi_list = self._get_param_combinations(param_dict)
 
       with ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -258,15 +281,12 @@ class TestBench:
               except Exception as e:
                   log.error(f"FAILED report export: {e} on row={idx}")
                   
-      # Export experiment to Excel
-      treat_model_id = self.dh.treat_model_name_for_filename(self.ml.model_id)
+      # Export experiment row to Excel
       self.dh.export_df_to_excel(df=self.df_res,
-                              xlsx_file_name= xlsx_file_name + "-" + treat_model_id,
-                              app_folder_destination=app_folder_destination)
-      df = self.df_res
-      self.clear_df_results()
+                                 xlsx_file_name= self.experiment_id,
+                                 app_folder_destination=app_folder_destination)
 
-      return df
+      return self.df_res
 
   def print_number_of_combinations(self,
                                  report_data: pd.DataFrame.dtypes,
@@ -276,6 +296,112 @@ class TestBench:
     
     param_combi_list = self._get_param_combinations(param_dict)
     # nbr_rows in df * param combinations * promp_method_list
-    results_len = len(report_data) * len(param_combi_list) * len(prompt_method_list) # Preallocate list for ordered results
-    log.info(f"Results file is expected to have {results_len} rows.") # change to debug
-    print(f"Results file is expected to have {results_len} rows.") # change to debug
+    n_combinations = len(report_data) * len(param_combi_list) * len(prompt_method_list)
+    log.info(f"Results file is expected to have {n_combinations} rows.") # change to debug
+    print(f"Results file is expected to have {n_combinations} rows.") # change to debug
+  
+    return n_combinations
+
+  ## ANALYSIS PART OF TEST BENCH RESULTS
+
+  def get_param_and_scores_cols(self, tb_df):
+    """ Obtains the parameters and scores columns from the results dataframe
+        tb_df: The dataframe output of the test bench experiment"""
+    col_nb_pm = tb_df.columns.get_loc("prompt_method")
+    col_nb_bs = tb_df.columns.get_loc(cf.METRICS.BS_PRECISION_KEY)   # The first column of the parameters is bs_precision
+    col_nb_ce = tb_df.columns.get_loc("title")
+    param_col_names = tb_df.columns[col_nb_pm+1:col_nb_bs].to_numpy()  # list with the keys of the parameters
+    scores_col_names = tb_df.columns[col_nb_bs:col_nb_ce].to_numpy()  # list with the keys of the scores
+    return param_col_names, scores_col_names
+
+# MEAN ANALYSIS
+  def get_top_params_by_mean(self, df,
+                            prompt_method:str,
+                            top_score: str):
+    df_ord_X = df[df.prompt_method == prompt_method]
+    param_col_names, scores_col_names = self.get_param_and_scores_cols(df_ord_X)
+    df_scores = df_ord_X[np.append(param_col_names, scores_col_names)]
+    df_param_scores_mean = df_scores.groupby(param_col_names.tolist(), group_keys=True, as_index=False).mean()
+    df_param_scores_mean.columns.name = "[" + top_score + "] ordered by best [mean]"
+    return df_param_scores_mean
+
+  def export_mean_scores_on_experiment_id(self, exp_id,
+                                          prompt_method_list,
+                                          top_score: str,
+                                          df: pd.DataFrame.dtypes = None,
+                                          app_folder_dest = cf.ANALYSIS.AN_RESULTS_F): 
+    """ Export mean statistics from experiment id in Test Bench
+        df: TestBench results dataframe to apply the mean on scores. If df is already in memory, we can avoid passing it as argument
+    """
+
+    # df is not in memory, we read the file with its unique id
+    if df is None:
+      self.dh.get_df_from_tb_exp_id_results(exp_id)
+
+    for prompt_method in prompt_method_list:
+      _df_mean = self.get_top_params_by_mean(df, prompt_method, top_score)
+      self.dh.export_df_to_excel_by_sheet_name(_df_mean, 
+                                               "an-mean-" + exp_id, 
+                                               sheet_name="pm_" + prompt_method,
+                                               app_folder_destination=app_folder_dest)
+
+# STATISTICAL ANALYSIS
+
+  def get_top_params_by_stat(self, df,
+                            prompt_method:str,
+                            stat: str, # "min", "25%", "50%", "75%", "max", "std"
+                            top_score:str,
+                            top_k_param: int = cf.ANALYSIS.TOP_K_PARAM,
+                            ):
+    """
+    prompt_method : A B or C
+    stat: the statistic used for the sorting strategy,
+          e.g if stat="mean" is given, we are going to sort the best mean values.
+    top_k_param: Return the best top K values. e.g if top_k_param = 1 will return the best parameter for the give stat.
+    top_score: The metric that we are going to target for sorting the best parameters
+    """
+
+    df_ord_X = df[df.prompt_method == prompt_method]
+    param_col_names, scores_col_names = self.get_param_and_scores_cols(df_ord_X)
+    df_scores = df_ord_X[np.append(param_col_names, scores_col_names)]
+    df_param_scores_stats = df_scores.groupby(param_col_names.tolist()).describe()
+
+    # filter the TOP_K stats according to the given stat and top_score
+    top_params = df_param_scores_stats.sort_values(by=(top_score,stat), ascending=False)[top_score].head(top_k_param)
+    top_params.columns.name = "[" + top_score + "] ordered by best [" + stat + "]"
+    return top_params
+
+  def get_df_list_by_top_scores(self, df, 
+                                prompt_method:str,
+                                top_score_list,
+                                top_k_param: int = cf.ANALYSIS.TOP_K_PARAM,
+                                stat: str = "mean"):
+    df_list = []
+    for top_score in top_score_list:
+      df_score = self.get_top_params_by_stat(df, prompt_method, stat, top_score, top_k_param)
+      df_list.append(df_score)
+    return df_list
+
+  def export_stat_analysis_on_experiment_id(self, exp_id,
+                                            prompt_method_list,
+                                            top_score_list,
+                                            top_k_param: int = cf.ANALYSIS.TOP_K_PARAM,
+                                            stat: str = "mean",
+                                            df = None,
+                                            app_folder_dest = cf.ANALYSIS.AN_RESULTS_F):
+    """ Export mean statistics from experiment id in Test Bench
+        df: TestBench results dataframe to apply the mean on scores. If df is already in memory, we can avoid passing it as argument
+    """
+    # df is not in memory, we read the results file with its unique id
+    if df is None:
+      self.dh.get_df_from_tb_exp_id_results(exp_id)
+    # Create 
+    for prompt_method in prompt_method_list:
+      df_list = self.get_df_list_by_top_scores(df, prompt_method, top_score_list, top_k_param, stat)
+      for _df in df_list:
+        score, stat = re.findall(r'(?<=\[).+?(?=\])',_df.columns.name)  # Catch the score and stat from columns.name
+        sheet_name = score # each sheet takes the name of the score
+        self.dh.export_df_to_excel_by_sheet_name(_df, 
+                                                 "an-stats-pm_" + prompt_method + "-" + exp_id, 
+                                                 sheet_name=sheet_name,
+                                                 app_folder_destination=app_folder_dest)

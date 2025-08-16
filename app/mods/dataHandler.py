@@ -9,7 +9,6 @@ import logging
 import pandas as pd
 from pydantic import BaseModel
 from fastapi.encoders import jsonable_encoder
-from datetime import datetime as dt
 
 logging.setLoggerClass(Logger)
 log = logging.getLogger(__name__)
@@ -27,6 +26,7 @@ class DataHandler:
   This class can: 
   1. Import the reports from a database
   2. Handle the responses of the model with the `outlines` library.
+  3. Export to Excel files
   """
   def __init__(self):
     pass
@@ -39,11 +39,13 @@ class DataHandler:
         df_reports.columns = cf.DATA.DF_COLUMNS
         log.info(f"Dataset loaded from path : {data_path}")
         return df_reports
+      else:
+        raise FileExistsError(f"File does not exist in {data_path}")
 
   def check_file_exists(self, file_path: str):
     """ Checks files destination. If does not exist, throws an error """
     if not os.path.exists(file_path):
-      raise FileExistsError(f"File does not exist in {file_path}")
+      return False
     else:
       return True
 
@@ -52,20 +54,60 @@ class DataHandler:
     if not os.path.isdir(folder_path):
       os.makedirs(folder_path)
       log.warning(f"Folder does not exist, creating new folder in: {folder_path}")
+      return False
+    
+    return True
+
+  def export_df_row_to_tmp_csv(self,
+                               df_row: pd.DataFrame.dtypes,
+                               xlsx_file_name: str, 
+                               app_folder_destination: str = cf.DATA.DH_DEFAULT_RESULTS_F):
+    xlsx_file_name = "tmp-" + xlsx_file_name + ".csv"
+    file_path = self._get_filename_path(xlsx_file_name, app_folder_destination)
+    if self.check_file_exists(file_path):
+      is_header = False
+      mode = "a" 
+    else:
+      is_header = True
+      mode = "w"
+    df_row.to_csv(file_path, index=False, header=is_header, sep=",", mode="w") 
 
   def export_df_to_excel(self, 
                          df: pd.DataFrame.dtypes,
                          xlsx_file_name: str, 
                          app_folder_destination: str = cf.DATA.DH_DEFAULT_RESULTS_F):
-    # Add time of creation to filename
-    dt_creation = dt.now().strftime("%d-%m%Y %H-%M-%S")
-    _xlsx_file_name = xlsx_file_name + "-" + dt_creation + ".xlsx"
+    
+    xlsx_file_name = xlsx_file_name + ".xlsx"
+    excel_path = self._get_filename_path(xlsx_file_name, app_folder_destination)
+    df.to_excel(excel_path, index=False)
+    log.info(f"Saving df to excel in: {excel_path}")
+
+  def export_df_to_excel_by_sheet_name(self, df: list,
+                                       xlsx_file_name: str, 
+                                       sheet_name: str,
+                                       app_folder_destination: str = cf.DATA.DH_DEFAULT_RESULTS_F):
+    
+    xlsx_file_name = xlsx_file_name + ".xlsx"
+    excel_path = self._get_filename_path(xlsx_file_name, app_folder_destination)
+    
+    if not self.check_file_exists(excel_path):
+      mode = "w"
+      print(f"Saving df to excel in: {excel_path}")
+    else:
+      mode = "a"
+    with pd.ExcelWriter(excel_path, engine='openpyxl', mode=mode) as writer: #, engine='xlsxwriter'
+      df.to_excel(writer, sheet_name=sheet_name, index=True)
+
+  def _get_filename_path(self, xlsx_file_name, app_folder_destination):
+    """ Checks file path exists and adds time stamp to filename"""
+    # # Add time of creation to filename
+    # dt_creation = dt.now().strftime("%d-%m%Y %H-%M-%S")
+    # _xlsx_file_name = xlsx_file_name + "-" + dt_creation + ".xlsx"
     # Check folder destination and create it if does not exist
     folder_path = os.path.join(cf.APP_PATH, app_folder_destination).__str__()
     self.check_folder_exists(folder_path)
-    excel_path = os.path.join(cf.APP_PATH, app_folder_destination, _xlsx_file_name).__str__()
-    log.info(f"Saving df to excel in: {excel_path}")
-    df.to_excel(excel_path, index=False)
+    excel_path = os.path.join(cf.APP_PATH, app_folder_destination, xlsx_file_name).__str__()
+    return excel_path
 
   def get_title_and_report(self, model_output: str, output_structure = Report) -> tuple:
     """
@@ -116,3 +158,9 @@ class DataHandler:
       model_name = model_name.replace(":", "_")
   
     return model_name
+
+  def get_df_from_tb_exp_id_results(self, exp_id):
+    """ Imports a unique test bench experiment id excel to a dataframe"""
+    excel_path = os.path.join("app", cf.TEST_BENCH.TB_RESULTS_F, exp_id + ".xlsx")
+    df = pd.read_excel(excel_path)
+    return df
