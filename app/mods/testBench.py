@@ -47,7 +47,7 @@ class TestBench:
     log.info(f"Starting experiment in TestBench with experiment_id={self.experiment_id}")
 
   def end_experiment(self):
-    # self.dh.clear_tmp_file(self.tmp_file) TODO
+    self.dh.clear_tmp_file()
     log.info(f"Ending experiment in TestBench with experiment_id={self.experiment_id}")
 
   def clear_df_results(self):

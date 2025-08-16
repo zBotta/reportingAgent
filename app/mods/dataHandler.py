@@ -64,6 +64,7 @@ class DataHandler:
                                 app_folder_destination: str = cf.DATA.DH_DEFAULT_RESULTS_F):
     xlsx_file_name = "tmp-" + xlsx_file_name + ".csv"
     file_path = self._get_filename_path(xlsx_file_name, app_folder_destination)
+    self.last_tmp_file_path = file_path
     if self.check_file_exists(file_path):
       is_header = False
       mode = "a" 
@@ -72,8 +73,10 @@ class DataHandler:
       mode = "w"
     df_row.to_csv(file_path, index=False, header=is_header, sep=",", mode=mode) 
 
-  def clear_tmp_file():
-    pass
+  def clear_tmp_file(self):
+    """ Clear the last tmp file """
+    if os.path.isdir(self.last_tmp_file_path): 
+        os.remove(self.last_tmp_file_path) 
 
   def export_df_to_excel(self, 
                          df: pd.DataFrame.dtypes,
