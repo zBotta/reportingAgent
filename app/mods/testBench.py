@@ -37,9 +37,19 @@ class TestBench:
     self.dh = DataHandler
     self.ml = ModelLoader
     self.clear_df_results()
+    self.tmp_file = None
     log.info("Test Bench loaded")
     self.experiment_id: str = "" # id containing model charged and
   
+  def init_experiment(self):
+    self.clear_df_results()
+    self.set_experiment_id()
+    log.info(f"Starting experiment in TestBench with experiment_id={self.experiment_id}")
+
+  def end_experiment(self):
+    # self.dh.clear_tmp_file(self.tmp_file) TODO
+    log.info(f"Ending experiment in TestBench with experiment_id={self.experiment_id}")
+
   def clear_df_results(self):
     self.df_res : pd.DataFrame.dtypes = pd.DataFrame({})
 
@@ -50,9 +60,9 @@ class TestBench:
     # Add time of creation to filename
     treat_model_id = self.dh.treat_model_name_for_filename(self.ml.model_id)
     dt_creation = dt.now().strftime("%d-%m%Y_%H-%M-%S")
-    exp_id = cf.TEST_BENCH.TB_FILENAME_PREFIX + "-" + treat_model_id + "-" + dt_creation
+    exp_id = treat_model_id + "-" + dt_creation
     self.experiment_id = exp_id
-    log.info(f"Starting experiment in TestBench with experiment_id={self.experiment_id}")
+    
 
   def _get_param_combinations(self, 
                              param_dict: dict) -> list:
@@ -116,7 +126,7 @@ class TestBench:
                     report_generator: ReportGenerator,
                     prompt_method_list: list = cf.TEST_BENCH.PROMPT_METHODS,
                     param_dict: dict = {},
-                    xlsx_file_name= cf.TEST_BENCH.TB_FILENAME_PREFIX,
+                    filename_prefix= cf.TEST_BENCH.TB_FILENAME_PREFIX,
                     app_folder_destination: str = cf.TEST_BENCH.TB_RESULTS_F ):
     """
     This method tests a list of parameters for the given dataframe (report_data).
@@ -125,8 +135,7 @@ class TestBench:
       param_dict: dictionary containing the parameter range to test, e.g. {"temperature": [0.1, 0.3, 0.6]}
                   If empty, the method generates once for each prompt method with the default parameters.
     """
-    self.clear_df_results()
-    self.set_experiment_id()
+    self.init_experiment()
 
     if len(param_dict) > 0:
       self.__check_param(param_dict=param_dict)
@@ -138,9 +147,12 @@ class TestBench:
                               prompt_method=prompt_method,
                               param_dict=param_dict) # If param_dict is
     # Export experiment to Excel
+    _file_name = filename_prefix + "-" + self.experiment_id
     self.dh.export_df_to_excel(df=self.df_res,
-                               xlsx_file_name= xlsx_file_name,
+                               xlsx_file_name= _file_name,
                                 app_folder_destination=app_folder_destination)
+    
+    self.end_experiment()
     
   def param_grid_search_on_row(self, 
                                row: pd.Series.dtypes,
@@ -174,9 +186,9 @@ class TestBench:
                                     report_generator = report_generator,
                                     prompt_method = prompt_method)
         df_row = pd.DataFrame.from_dict(res)
-        self.dh.export_df_row_to_tmp_csv(df_row, 
+        self.dh.export_df_row_to_tmp_file(df_row, 
                                          xlsx_file_name=self.experiment_id,
-                                         app_folder_destination=cf.ANALYSIS.AN_RESULTS_F) # pass the experiment id as filename
+                                         app_folder_destination=cf.TEST_BENCH.TB_RESULTS_F) # pass the experiment id as filename
         
         self.df_res = pd.concat([self.df_res, df_row], axis=0)
     else:  # No parameters given -> Generate with default parameters
@@ -221,7 +233,7 @@ class TestBench:
     res.update(gen_param)
     res.update(self.m_eval.get_scores())
     res.update({"title": title, "report": report})
-    log.info(f'results: {res}')
+    log.debug(f'results: {res}')
     return res
 
   def eval_gs_param_threaded(self, 
@@ -229,7 +241,7 @@ class TestBench:
                             report_generator: ReportGenerator,
                             prompt_method_list: list = cf.TEST_BENCH.PROMPT_METHODS,
                             param_dict: dict = {},
-                            xlsx_file_name= cf.TEST_BENCH.TB_FILENAME_PREFIX,
+                            filename_prefix = cf.TEST_BENCH.TB_FILENAME_PREFIX,
                             app_folder_destination: str = cf.TEST_BENCH.TB_RESULTS_F,
                             max_workers=4) -> pd.DataFrame.dtypes:
       """
@@ -254,8 +266,8 @@ class TestBench:
       pandas.DataFrame
           DataFrame of generated reports and metadata in the same order as `df`.
       """
-      self.clear_df_results()
-      self.set_experiment_id()
+      self.init_experiment()
+
       param_combi_list = self._get_param_combinations(param_dict)
 
       with ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -282,9 +294,12 @@ class TestBench:
                   log.error(f"FAILED report export: {e} on row={idx}")
                   
       # Export experiment row to Excel
+      _file_name = filename_prefix + "-" + self.experiment_id
       self.dh.export_df_to_excel(df=self.df_res,
-                                 xlsx_file_name= self.experiment_id,
+                                 xlsx_file_name= _file_name,
                                  app_folder_destination=app_folder_destination)
+
+      self.end_experiment()
 
       return self.df_res
 
@@ -314,7 +329,7 @@ class TestBench:
     scores_col_names = tb_df.columns[col_nb_bs:col_nb_ce].to_numpy()  # list with the keys of the scores
     return param_col_names, scores_col_names
 
-# MEAN ANALYSIS
+    ### MEAN ANALYSIS
   def get_top_params_by_mean(self, df,
                             prompt_method:str,
                             top_score: str):
@@ -345,7 +360,7 @@ class TestBench:
                                                sheet_name="pm_" + prompt_method,
                                                app_folder_destination=app_folder_dest)
 
-# STATISTICAL ANALYSIS
+    ### STATISTICAL ANALYSIS
 
   def get_top_params_by_stat(self, df,
                             prompt_method:str,

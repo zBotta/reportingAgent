@@ -58,10 +58,10 @@ class DataHandler:
     
     return True
 
-  def export_df_row_to_tmp_csv(self,
-                               df_row: pd.DataFrame.dtypes,
-                               xlsx_file_name: str, 
-                               app_folder_destination: str = cf.DATA.DH_DEFAULT_RESULTS_F):
+  def export_df_row_to_tmp_file(self,
+                                df_row: pd.DataFrame.dtypes,
+                                xlsx_file_name: str, 
+                                app_folder_destination: str = cf.DATA.DH_DEFAULT_RESULTS_F):
     xlsx_file_name = "tmp-" + xlsx_file_name + ".csv"
     file_path = self._get_filename_path(xlsx_file_name, app_folder_destination)
     if self.check_file_exists(file_path):
@@ -70,7 +70,10 @@ class DataHandler:
     else:
       is_header = True
       mode = "w"
-    df_row.to_csv(file_path, index=False, header=is_header, sep=",", mode="w") 
+    df_row.to_csv(file_path, index=False, header=is_header, sep=",", mode=mode) 
+
+  def clear_tmp_file():
+    pass
 
   def export_df_to_excel(self, 
                          df: pd.DataFrame.dtypes,

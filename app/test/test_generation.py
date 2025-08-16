@@ -111,15 +111,15 @@ def test_threaded_grid_search():
     report_idx_list = [20]
     report_data_filtered = report_data.iloc[report_idx_list]
     clear_test_bench_folder()
-    df_res = tb.eval_gs_param_threaded(report_data=report_data_filtered,
-                                       report_generator = rg,
-                                       prompt_method_list=["C"],
-                                       param_dict={"temperature": [0.7, 1.3],
-                                                   "top_p": [0.6, 1],
-                                                   "max_new_tokens": [300]},
-                                       xlsx_file_name = filename_prefix,
-                                       app_folder_destination = app_folder_dest,
-                                       max_workers = 4 )
+    tb.eval_gs_param_threaded(report_data=report_data_filtered,
+                              report_generator = rg,
+                              prompt_method_list=["C"],
+                              param_dict={"temperature": [0.7, 1.3],
+                                          "top_p": [0.6, 1],
+                                          "max_new_tokens": [300]},
+                              filename_prefix=filename_prefix,
+                              app_folder_destination = app_folder_dest,
+                              max_workers = 4 )
 
     log.info("test_thread time --- %s seconds ---" % (time.time() - start_time))
     
