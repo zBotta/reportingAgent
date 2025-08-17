@@ -1,3 +1,4 @@
+absl-py==2.3.1
 aiohappyeyeballs==2.6.1
 aiohttp==3.12.14
 aiosignal==1.4.0
@@ -54,6 +55,7 @@ multidict==6.6.3
 multiprocess==0.70.16
 nest-asyncio==1.6.0
 networkx==3.5
+nltk==3.9.1
 numpy==2.3.1
 openai==1.97.1
 openpyxl==3.1.5
@@ -79,6 +81,7 @@ referencing==0.36.2
 regex==2024.11.6
 requests==2.32.4
 rich==14.0.0
+rouge_score==0.1.2
 rpds-py==0.26.0
 safetensors==0.5.3
 scikit-learn==1.7.1
