@@ -55,8 +55,8 @@ class MetricsEvaluator:
     """
     for idx, pred_text in enumerate(pred_text_list):
       if len(pred_text) == 0: # If the predicted text is empty, we set it to a dummy value
-        filtered_text = "_" # Avoid empty reference text
-        pred_text_list[idx] = filtered_text
+        not_na_text = "_" # Avoid empty predicted text
+        pred_text_list[idx] = not_na_text
     res = self.bleu_model.compute(predictions=pred_text_list, references=[ref_text], smooth=True,) # Use smooth=True to avoid reporting score 0 when there is no high-order n-gram overlap (such as 4-grams)
     deleted_keys = ['brevity_penalty', 'length_ratio', 'translation_length', 'reference_length']
     for k in deleted_keys:
