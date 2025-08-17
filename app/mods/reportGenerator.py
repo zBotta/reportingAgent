@@ -44,24 +44,6 @@ class ReportGenerator:
          The prompt, the structured output and the kwargs are passed to the generation.
         """
 
-        # inputs = self.tokenizer(prompt, return_tensors="pt")
-
-        # pad_token_id, eos_token_id = self.prepare_token_ids(pad_token_id, eos_token_id)
-
-        # generation_args = {
-        #     # "max_length": max_length,
-        #     "temperature": temperature,
-        #     "top_k": top_k,
-        #     "top_p": top_p,
-        #     "max_new_tokens": max_new_tokens,
-        #     "repetition_penalty": repetition_penalty,
-        #     # "frequency_penalty": frequency_penalty,
-        #     # "presence_penalty": presence_penalty,
-        #     "do_sample": do_sample,
-        #     "num_beams": num_beams,
-        #     "pad_token_id": pad_token_id,
-        #     "eos_token_id": eos_token_id,
-        # }
         generation_args = {}
         generation_args.update(kwargs)
 
