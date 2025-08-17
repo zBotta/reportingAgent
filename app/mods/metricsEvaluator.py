@@ -20,9 +20,50 @@ class MetricsEvaluator:
                t_model_ce :str = cf.METRICS.CE_MODEL):
     self.scores = {}
     self.bertscore_model = load("bertscore")
+    self.rouge_model = load("rouge")
+    self.bleu_mode = load("bleu") 
     self.bert_type_model = t_model_bert
     self.be_model = SentenceTransformer(t_model_be) # all-MiniLM-L6-v2 model has 256 as seq length
     self.ce_model = CrossEncoder("cross-encoder/" + t_model_ce)
+
+  def set_rouge_score(self, ref_text: str, pred_text_list: list):
+     """
+      Compute ROUGE scores (ROUGE-1, ROUGE-2, ROUGE-L, ROUGE-Lsum)
+      between predicted texts and reference texts using Hugging Face's
+      `evaluate` library.
+
+      Args:
+          predicitions (list): A list of generated text strings.
+          references (list): A list of reference text strings. 
+      """
+     res = self.rouge_model.compute(predictions=pred_text_list, references=[ref_text])
+     self.scores.update(res)
+
+  def set_bleu_score(self, ref_text: str , pred_text_list: list):
+    """
+    Compute smoothed BLEU scores between predicted texts and reference
+    texts using Hugging Face's `evaluate` library. Also expands and
+    calculates precision values for 1–4 n-grams.
+
+    Args:
+        predicitions (list): A list of generated text strings.
+        references (list): A list of reference text strings.
+
+    Calculates:
+        dict: Dictionary containing BLEU score, n-gram precisions,
+              brevity penalty, and related statistics.
+    """
+    
+    res = self.bleu_mode.compute(predictions=pred_text_list, references=[ref_text], smooth=True) # Use smooth=True to avoid reporting score 0 when there is no high-order n-gram overlap (such as 4-grams)
+    deleted_keys = ['brevity_penalty', 'length_ratio', 'translation_length', 'reference_length']
+    for k in deleted_keys:
+      res.pop(k)
+    
+    # save the n-grams list into dict keys
+    precision_n_grams_scores = res.pop('precisions')
+    for idx, item in enumerate(precision_n_grams_scores):
+        res.update({f'b_{idx+1}_grams': item})
+    self.scores.update(res)
 
   def set_bert_score(self, ref_text : str, pred_text_list : list):
     """ Takes a reference text and a list of predicted texts and returns a tuple with a the precision, recall and f1 score for each predicted text.
@@ -95,7 +136,11 @@ class MetricsEvaluator:
                   ref_text : str, 
                   pred_text_list : list, 
                   is_test_bench = True):
-    self.set_bert_score(ref_text, pred_text_list)
+    
+    # IMPORTANT: The order of execution of the methods will determine the order of columns of the TestBench results
+    self.set_bert_score(ref_text, pred_text_list) # BERT SCORE SHOULD ALWAYS BE CALLED FIRST
+    self.set_rouge_score(ref_text, pred_text_list) 
+    self.set_bleu_score(ref_text, pred_text_list)
     self.set_bi_encoder_score(ref_text, pred_text_list, compare_all_texts = False, is_test_bench=is_test_bench)
     self.set_cross_encoder_score(ref_text, pred_text_list, is_test_bench = is_test_bench)
 

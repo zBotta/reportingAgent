@@ -27,6 +27,8 @@ class TestBench:
   """ A test bench for making parameter grid search on a single model. 
       NB: If testing several models, a TestBench class should be created for testing each model 
       This class handles as well the statistical analysis of the TestBench outputs
+      Every time the Test Bench launches a gridSearch, it takes a unique experiment_id until the end of the experiment.
+      This experiment id is used for exporting temporary and final results files.
   """
   __test__ = False # Specify to pytest to not collect test from this class
   def __init__(self, 
@@ -38,8 +40,8 @@ class TestBench:
     self.ml = ModelLoader
     self.clear_df_results()
     self.tmp_file = None
-    log.info("Test Bench loaded")
     self.experiment_id: str = "" # id containing model charged and
+    log.info("Test Bench loaded")
   
   def init_experiment(self):
     self.clear_df_results()
