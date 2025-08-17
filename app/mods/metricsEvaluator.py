@@ -53,6 +53,7 @@ class MetricsEvaluator:
         dict: Dictionary containing BLEU score, n-gram precisions,
               brevity penalty, and related statistics.
     """
+    # avoid bleu.compute division by zero errors
     for idx, pred_text in enumerate(pred_text_list):
       if len(pred_text) == 0: # If the predicted text is empty, we set it to a dummy value
         not_na_text = "_" # Avoid empty predicted text
