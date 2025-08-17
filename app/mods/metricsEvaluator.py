@@ -21,7 +21,7 @@ class MetricsEvaluator:
     self.scores = {}
     self.bertscore_model = load("bertscore")
     self.rouge_model = load("rouge")
-    self.bleu_mode = load("bleu") 
+    self.bleu_model = load("bleu") 
     self.bert_type_model = t_model_bert
     self.be_model = SentenceTransformer(t_model_be) # all-MiniLM-L6-v2 model has 256 as seq length
     self.ce_model = CrossEncoder("cross-encoder/" + t_model_ce)
@@ -53,8 +53,11 @@ class MetricsEvaluator:
         dict: Dictionary containing BLEU score, n-gram precisions,
               brevity penalty, and related statistics.
     """
-    
-    res = self.bleu_mode.compute(predictions=pred_text_list, references=[ref_text], smooth=True) # Use smooth=True to avoid reporting score 0 when there is no high-order n-gram overlap (such as 4-grams)
+    for idx, pred_text in enumerate(pred_text_list):
+      if len(pred_text) == 0: # If the predicted text is empty, we set it to a dummy value
+        filtered_text = "_" # Avoid empty reference text
+        pred_text_list[idx] = filtered_text
+    res = self.bleu_model.compute(predictions=pred_text_list, references=[ref_text], smooth=True,) # Use smooth=True to avoid reporting score 0 when there is no high-order n-gram overlap (such as 4-grams)
     deleted_keys = ['brevity_penalty', 'length_ratio', 'translation_length', 'reference_length']
     for k in deleted_keys:
       res.pop(k)
