@@ -12,7 +12,7 @@ class ReportGenerator:
         self.tokenizer = tokenizer
         self.output_type = output_type # structured output (Report class, see DataHandler)
 
-    def prepare_token_ids(self, pad_token_id=None, eos_token_id=None):
+    def get_token_ids(self, pad_token_id=None, eos_token_id=None):
         '''
         Ensures pad_token_id and eos_token_id are defined.
         Uses tokenizer defaults or falls back to eos_token if needed.
@@ -43,8 +43,9 @@ class ReportGenerator:
          there is no need for tokenizing and decoding the prompt.
          The prompt, the structured output and the kwargs are passed to the generation.
         """
-
-        generation_args = {}
+        # Ensure pad_token_id and eos_token_id are set
+        pad_token_id, eos_token_id = self.get_token_ids()
+        generation_args = {"pad_token_id": pad_token_id, "eos_token_id": eos_token_id}
         generation_args.update(kwargs)
 
         if not "do_sample" in generation_args:
