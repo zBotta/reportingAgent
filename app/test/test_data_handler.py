@@ -73,17 +73,34 @@ def test_export_mean_scores():
     # Load data
     dh = DataHandler()
 
-    report_data = dh.import_reports()
     # Load model
     model_id = 'openai-community/gpt2' 
     ml = ModelLoader(model_id=model_id, device=env.device, torch_dtype=env.torch_dtype)
     tb = TestBench(MetricsEvaluator = met_eval, DataHandler=dh, ModelLoader=ml)
     tb.set_experiment_id()
 
-    fake_row_1 = {'report_idx': 34, 'prompt_method': 'C', 'temperature': 0.7, 'top_p': 0.3, 'top_k': 30, 'max_new_tokens': 300, 'do_sample': True, 'repetition_penalty': 1, 'bs_precision': 1.0, 'bs_recall': 1.0, 'bs_f1': 1.0, 'be_sim': 1.0, 'ce_sim': 1.0, 'title': 'Wrong tablet counting', 'report': 'On July 2, 2025, at 3:30 PM, Erik Hansen loaded the wrong tablet counting disk during changeover on Bottle Packaging Line 2 for Batch RX500 of Neurocet 50 mg. Sarah Yoon from QA discovered the issue during AQL sampling. The line was stopped, 500 bottles were segregated, and rework and retraining were initiated.'}
-    fake_row_2 = {'report_idx': 34, 'prompt_method': 'B', 'temperature': 0.7, 'top_p': 0.3, 'top_k': 30, 'max_new_tokens': 300, 'do_sample': True, 'repetition_penalty': 1, 'bs_precision': 1.0, 'bs_recall': 1.0, 'bs_f1': 1.0, 'be_sim': 1.0, 'ce_sim': 1.0, 'title': 'Wrong tablet counting', 'report': 'On July 2, 2025, at 3:30 PM, Erik Hansen loaded the wrong tablet counting disk during changeover on Bottle Packaging Line 2 for Batch RX500 of Neurocet 50 mg. Sarah Yoon from QA discovered the issue during AQL sampling. The line was stopped, 500 bottles were segregated, and rework and retraining were initiated.'}
+    fake_row_1 = {'report_idx': 34, 'prompt_method': 'C', 'temperature': 0.7, 'top_p': 0.3, 'top_k': 30,
+                   'max_new_tokens': 300, 'do_sample': True, 'repetition_penalty': 1, 'bs_precision': 1.0, 'bs_recall': 1.0,
+                     'bs_f1': 1.0, 'rouge1': 0.2, 'rouge2': 0.1, 'rougeL': 0.1, 'rougeLsum':0.05, 
+                     'bleu':0.4, 'b_1_grams':0.8,'b_2_grams':0.3,'b_3_grams':0.2,'b_4_grams':0.1, 
+                     'be_sim': 1.0, 'ce_sim': 1.0, 'title': 'Wrong tablet counting', 'report': 'On July 2, 2025, at 3:30 PM, Erik Hansen loaded the wrong tablet counting disk during changeover on Bottle Packaging Line 2 for Batch RX500 of Neurocet 50 mg. Sarah Yoon from QA discovered the issue during AQL sampling. The line was stopped, 500 bottles were segregated, and rework and retraining were initiated.'}
+    fake_row_2 = {'report_idx': 35, 'prompt_method': 'C', 'temperature': 0.7, 'top_p': 0.3, 'top_k': 30,
+                   'max_new_tokens': 300, 'do_sample': True, 'repetition_penalty': 1, 'bs_precision': 1.0, 'bs_recall': 1.0,
+                   'bs_f1': 1.0, 'rouge1': 0.2, 'rouge2': 0.1, 'rougeL': 0.1, 'rougeLsum':0.05, 
+                   'bleu':0.4, 'b_1_grams':0.4,'b_2_grams':0.4,'b_3_grams':0.3,'b_4_grams':0.2, 
+                   'be_sim': 1.0, 'ce_sim': 1.0, 'title': 'Wrong tablet counting', 'report': 'On July 2, 2025, at 3:30 PM, Erik Hansen loaded the wrong tablet counting disk during changeover on Bottle Packaging Line 2 for Batch RX500 of Neurocet 50 mg. Sarah Yoon from QA discovered the issue during AQL sampling. The line was stopped, 500 bottles were segregated, and rework and retraining were initiated.'}
+    fake_row_3 = {'report_idx': 34, 'prompt_method': 'B', 'temperature': 0.7, 'top_p': 0.3, 'top_k': 30,
+                   'max_new_tokens': 300, 'do_sample': True, 'repetition_penalty': 1, 'bs_precision': 1.0, 'bs_recall': 1.0,
+                     'bs_f1': 1.0, 'rouge1': 0.2, 'rouge2': 0.1, 'rougeL': 0.1, 'rougeLsum':0.05, 
+                     'bleu':0.4, 'b_1_grams':0.8,'b_2_grams':0.3,'b_3_grams':0.2,'b_4_grams':0.1, 
+                     'be_sim': 1.0, 'ce_sim': 1.0, 'title': 'Wrong tablet counting', 'report': 'On July 2, 2025, at 3:30 PM, Erik Hansen loaded the wrong tablet counting disk during changeover on Bottle Packaging Line 2 for Batch RX500 of Neurocet 50 mg. Sarah Yoon from QA discovered the issue during AQL sampling. The line was stopped, 500 bottles were segregated, and rework and retraining were initiated.'}
+    fake_row_4 = {'report_idx': 35, 'prompt_method': 'B', 'temperature': 0.7, 'top_p': 0.3, 'top_k': 30,
+                   'max_new_tokens': 300, 'do_sample': True, 'repetition_penalty': 1, 'bs_precision': 1.0, 'bs_recall': 1.0,
+                   'bs_f1': 1.0, 'rouge1': 0.2, 'rouge2': 0.1, 'rougeL': 0.1, 'rougeLsum':0.05, 
+                   'bleu':0.4, 'b_1_grams':0.4,'b_2_grams':0.4,'b_3_grams':0.3,'b_4_grams':0.2, 
+                   'be_sim': 1.0, 'ce_sim': 1.0, 'title': 'Wrong tablet counting', 'report': 'On July 2, 2025, at 3:30 PM, Erik Hansen loaded the wrong tablet counting disk during changeover on Bottle Packaging Line 2 for Batch RX500 of Neurocet 50 mg. Sarah Yoon from QA discovered the issue during AQL sampling. The line was stopped, 500 bottles were segregated, and rework and retraining were initiated.'}
     
-    fake_df = pd.DataFrame([fake_row_1, fake_row_2])
+    fake_df = pd.DataFrame([fake_row_1, fake_row_2, fake_row_3, fake_row_4])
     n_comb = 1
     prompt_method_list = ['B', 'C']
 

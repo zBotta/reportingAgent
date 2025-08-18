@@ -38,23 +38,43 @@ class pyTests():
 
 class MetricsEvaluator():
    # ALL KEYS MUST BE PREFIXED WITH "S_" TO EASE FINDING THEM ON EXCEL EXPORTS
+   # ROUGE
+   R_1G_KEY = "rouge1"
+   R_2G_KEY = "rouge2"
+   R_L_KEY = "rougeL"
+   R_L_SUM_KEY = "rougeLsum"
+   # BLEU
+   B_SCORE_KEY = "bleu"
+   B_1G_KEY = "b_1_grams"
+   B_2G_KEY = "b_2_grams"
+   B_3G_KEY = "b_3_grams"
+   B_4G_KEY = "b_4_grams"
+   # BERT
    BERT_MODEL ="distilbert-base-uncased"
    BS_PRECISION_KEY = "bs_precision" 
    BS_RECALL_KEY = "bs_recall"
    BS_F1_KEY = "bs_f1"
+   # BI ENCODER
    BE_MODEL = "all-MiniLM-L6-v2"
    BE_SIM_KEY = "be_sim"
+   # CROSS-ENCODER
    CE_MODEL = "ms-marco-MiniLM-L6-v2"
    CE_SIM_KEY = "ce_sim"
 
 class Analysis():
    TOP_SCORE = MetricsEvaluator.CE_SIM_KEY # Select the score to sort the Analysis values
    TOP_K_PARAM = 5 # CHOOSE THE PARAMS THAT GIVE THE BEST K VALUES
+   # This list will be used for calculating the statistics table and saved into an excel sheet
+   # Select only the most important metrics for study
    TOP_SCORE_LIST = [MetricsEvaluator.BS_PRECISION_KEY,
-                          MetricsEvaluator.BS_RECALL_KEY,
-                          MetricsEvaluator.BS_F1_KEY,
-                          MetricsEvaluator.BE_SIM_KEY,
-                          MetricsEvaluator.CE_SIM_KEY] # The scores to include in the best parameter analysis
+                     MetricsEvaluator.BS_RECALL_KEY,
+                     MetricsEvaluator.BS_F1_KEY,
+                     MetricsEvaluator.R_2G_KEY,
+                     MetricsEvaluator.R_L_SUM_KEY,
+                     MetricsEvaluator.B_2G_KEY,
+                     MetricsEvaluator.B_SCORE_KEY,
+                     MetricsEvaluator.BE_SIM_KEY,
+                     MetricsEvaluator.CE_SIM_KEY] # The scores to include in the best parameter analysis
    AN_RESULTS_F = os.path.join("results", "analysis") 
 
 
