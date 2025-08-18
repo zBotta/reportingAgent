@@ -5,7 +5,7 @@
 ########################
 FROM python:3.11-slim AS fetcher
 
-ARG GIT_REPO="https://github.com/zBotta/reportingAgent.git"
+ARG GIT_REPO=https://github.com/zBotta/reportingAgent.git
 # TODO: after tests change GIT_REF to main
 ARG GIT_REF=dev   # branch or tag (for a specific commit, see notes below) 
 
@@ -46,18 +46,16 @@ RUN useradd -m appuser
 WORKDIR /reportAgent
 
 # Install Python deps first for better layer caching
-# (requirements.txt is at root/)
-COPY src/requirements.txt reportAgent/requirements.txt
+COPY --from=fetcher src/requirements.txt /reportAgent/requirements.txt
 RUN pip install -r requirements.txt
 
-COPY src/projectSetup.py /reportAgent/
-COPY src/entry_point.sh /reportAgent/
-RUN chmod +x /entrypoint.sh && chown -R appuser:appuser /reportAgent /entrypoint.sh /home/appuser
-USER appuser
-
+COPY --from=fetcher src/projectSetup.py /reportAgent/projectSetup.py
+COPY --from=fetcher src/entry_point.sh /reportAgent/entry_point.sh
 # Copy your app code (root/app -> /app)
-COPY src/reportAgent/app/ reportAgent/app/
-RUN chown -R appuser:appuser reportAgent/ /home/appuser
+COPY --from=fetcher src/app/ /reportAgent/app/
+
+RUN chmod +x /reportAgent/entry_point.sh && chown -R appuser:appuser /reportAgent /reportAgent/entry_point.sh /home/appuser
+RUN chown -R appuser:appuser /reportAgent/ /home/appuser
 
 # Drop root
 USER appuser

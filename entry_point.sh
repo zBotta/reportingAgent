@@ -18,4 +18,4 @@ fi
 printf 'STREAMLIT_SERVER_PORT=%s\n' "${STREAMLIT_SERVER_PORT:-8501}" >> "$ENVFILE"
 
 # Launch your app
-exec streamlit run /reportAgent/app/reportAgent.py --server.address=0.0.0.0 --server.port="${STREAMLIT_SERVER_PORT:-8501}"
+exec streamlit run /reportAgent/app/reportingAgent.py --server.address=0.0.0.0 --server.port="${STREAMLIT_SERVER_PORT:-8501}"
