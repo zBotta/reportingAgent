@@ -111,7 +111,7 @@ class MetricsEvaluator:
 
     # ... and all sentences in the corpus
     corpus = pred_text_list
-    #corpus.insert(0, ref_text) # add the ref text to the beginning of the corpus
+    corpus.insert(0, ref_text) # add the ref text to the beginning of the corpus
 
     # 2. We rank all sentences in the corpus for the query
     ranks = self.ce_model.rank(query, corpus)
