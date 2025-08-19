@@ -2,8 +2,8 @@
 set -euo pipefail
 
 # Create .env on the fly using runtime env vars (provided by Spaces).
-# Do NOT echo secrets to logs.
-umask 177  # files created with 600 perms
+
+umask 077  # files created with 600 perms
 
 ENVFILE=".env"
 : > "$ENVFILE"  # truncate or create

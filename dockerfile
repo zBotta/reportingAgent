@@ -54,8 +54,25 @@ COPY --from=fetcher src/entry_point.sh /reportAgent/entry_point.sh
 # Copy your app code (root/app -> /app)
 COPY --from=fetcher src/app/ /reportAgent/app/
 
+# Create & own runtime dirs the app/entrypoint will use
+RUN mkdir -p /home/appuser/.cache/huggingface /reportAgent/app/logs \
+ && chown -R appuser:appuser /home/appuser /reportAgent/app/logs/
+
 RUN chmod +x /reportAgent/entry_point.sh && chown -R appuser:appuser /reportAgent /reportAgent/entry_point.sh /home/appuser
 RUN chown -R appuser:appuser /reportAgent/ /home/appuser
+
+# Give rights to the app user in tmp dir (for downloading HF models)
+ENV HF_HOME=/home/appuser/.cache/huggingface \
+    HUGGINGFACE_HUB_CACHE=/home/appuser/.cache/huggingface/hub \
+    TRANSFORMERS_CACHE=/home/appuser/.cache/huggingface/transformers \
+    PYTORCH_HUB_DIR=/home/appuser/.cache/torch \
+    TMPDIR=/home/appuser/tmp
+
+RUN mkdir -p "$HF_HOME" "$HUGGINGFACE_HUB_CACHE" "$TRANSFORMERS_CACHE" "$PYTORCH_HUB_DIR" "$TMPDIR" \
+ && chown -R appuser:appuser /home/appuser \
+ && chmod 700 "$TMPDIR" \
+ && chmod 1777 /tmp   # belt & suspenders: ensure /tmp is world-writable with sticky bit
+
 
 # Drop root
 USER appuser
@@ -64,4 +81,4 @@ EXPOSE 8501
 
 HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
 
-ENTRYPOINT ["/entry_point.sh"]
+ENTRYPOINT ["/reportAgent/entry_point.sh"]
