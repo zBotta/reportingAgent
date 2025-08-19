@@ -15,9 +15,17 @@ log = logging.getLogger(__name__)
 
 from projectSetup import Setup
 import streamlit as st
+
+# PDF
 from io import BytesIO
+from xml.sax.saxutils import escape
+
 from reportlab.lib.pagesizes import A4
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Preformatted
+from reportlab.lib.units import mm
+from reportlab.platypus import (
+    SimpleDocTemplate, Paragraph, Spacer,
+    ListFlowable, ListItem
+)
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 
 
@@ -224,30 +232,52 @@ def generate_local(prompt, max_new_tokens, temperature, top_p, rep_penalty):
     return title, report
 
 def make_pdf(report_text: str, title: str = "Generated Report") -> bytes:
-    """Return PDF bytes for the given text content."""
+    """Create a nicely wrapped PDF from plain/markdown-ish text."""
     buf = BytesIO()
     doc = SimpleDocTemplate(
         buf,
         pagesize=A4,
-        rightMargin=36, leftMargin=36,
-        topMargin=36, bottomMargin=36,
-        title=title
+        leftMargin=18*mm, rightMargin=18*mm,
+        topMargin=16*mm, bottomMargin=16*mm,
+        title=title,
     )
+
     styles = getSampleStyleSheet()
-    flow = [
-        Paragraph(title, styles["Title"]),
-        Spacer(1, 12),
-    ]
-    mono = ParagraphStyle(
-        name="Mono",
+    body = ParagraphStyle(
+        "Body",
         parent=styles["Normal"],
-        fontName="Courier",
-        fontSize=10,
-        leading=12,
+        fontSize=10.5,
+        leading=14,
+        spaceAfter=6,
     )
-    # Preformatted preserves newlines/spacing (good for markdown-ish text)
-    flow.append(Preformatted(report_text, mono))
-    doc.build(flow)
+
+    story = [Paragraph(escape(title), styles["Title"]), Spacer(1, 8)]
+
+    # Normalize and split into blocks on blank lines (paragraphs)
+    text = (report_text or "").replace("\r\n", "\n").strip()
+    blocks = [b for b in text.split("\n\n") if b.strip()]
+
+    def is_bulleted(block: str) -> bool:
+        lines = [l.strip() for l in block.split("\n") if l.strip()]
+        return len(lines) >= 2 and all(l.startswith(("-", "•", "*")) for l in lines)
+
+    for block in blocks:
+        if is_bulleted(block):
+            items = []
+            for line in block.split("\n"):
+                line = line.strip()
+                if not line:
+                    continue
+                # strip leading bullet and spaces
+                clean = line.lstrip("-•* ").strip()
+                items.append(ListItem(Paragraph(escape(clean), body)))
+            story.append(ListFlowable(items, bulletType="bullet", leftIndent=12))
+        else:
+            # Convert single newlines to <br/> so they render as line breaks
+            html = "<br/>".join(escape(l) for l in block.split("\n"))
+            story.append(Paragraph(html, body))
+
+    doc.build(story)
     pdf = buf.getvalue()
     buf.close()
     return pdf
