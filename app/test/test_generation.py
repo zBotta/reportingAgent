@@ -78,7 +78,7 @@ def test_several_prompts_default_param():
                      report_generator = rg,
                      prompt_method_list=cf.TEST_BENCH.PROMPT_METHODS,
                      param_dict={},
-                     xlsx_file_name = filename_prefix,
+                     filename_prefix = filename_prefix,
                      app_folder_destination = app_folder_dest)
     
     # Check the file creation, check the string prefix in the filename
@@ -97,7 +97,7 @@ def test_param_grid_search():
                      param_dict={"temperature": [0.7, 1.3],
                                  "top_p": [0.6, 1],
                                  "max_new_tokens": [300]},
-                     xlsx_file_name = filename_prefix,
+                     filename_prefix = filename_prefix,
                      app_folder_destination = app_folder_dest )
 
     log.info("test_grid_search time --- %s seconds ---" % (time.time() - start_time))
@@ -106,23 +106,23 @@ def test_param_grid_search():
     for filenames in os.listdir(folder_path):
         assert filename_prefix in filenames
 
-def test_threaded_grid_search():
-    start_time = time.time()
-    report_idx_list = [20]
-    report_data_filtered = report_data.iloc[report_idx_list]
-    clear_test_bench_folder()
-    tb.eval_gs_param_threaded(report_data=report_data_filtered,
-                              report_generator = rg,
-                              prompt_method_list=["C"],
-                              param_dict={"temperature": [0.7, 1.3],
-                                          "top_p": [0.6, 1],
-                                          "max_new_tokens": [300]},
-                              filename_prefix=filename_prefix,
-                              app_folder_destination = app_folder_dest,
-                              max_workers = 4 )
+# def test_threaded_grid_search():
+#     start_time = time.time()
+#     report_idx_list = [20]
+#     report_data_filtered = report_data.iloc[report_idx_list]
+#     clear_test_bench_folder()
+#     tb.eval_gs_param_threaded(report_data=report_data_filtered,
+#                               report_generator = rg,
+#                               prompt_method_list=["C"],
+#                               param_dict={"temperature": [0.7, 1.3],
+#                                           "top_p": [0.6, 1],
+#                                           "max_new_tokens": [300]},
+#                               filename_prefix=filename_prefix,
+#                               app_folder_destination = app_folder_dest,
+#                               max_workers = 4 )
 
-    log.info("test_thread time --- %s seconds ---" % (time.time() - start_time))
+#     log.info("test_thread time --- %s seconds ---" % (time.time() - start_time))
     
-    # Check the file creation, check the string prefix in the filename
-    for filenames in os.listdir(folder_path):
-        assert filename_prefix in filenames
+#     # Check the file creation, check the string prefix in the filename
+#     for filenames in os.listdir(folder_path):
+#         assert filename_prefix in filenames

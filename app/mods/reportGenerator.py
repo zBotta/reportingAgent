@@ -3,7 +3,7 @@
 
 from mods.dataHandler import Report, DataHandler
 from conf.projectConfig import Config as cf
-
+import torch
 
 class ReportGenerator:
 
@@ -34,6 +34,7 @@ class ReportGenerator:
 
         return pad_token_id, eos_token_id
 
+    @torch.no_grad()
     def generate_report(
         self,
         prompt: str,
@@ -57,5 +58,5 @@ class ReportGenerator:
             generation_args.update({"max_new_tokens": cf.MODEL.MAX_NEW_TOKENS})
 
         output = self.model(prompt, output_type=self.output_type, **generation_args)
-        
+            
         return output, generation_args
