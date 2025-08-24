@@ -7,6 +7,8 @@ from app.conf.logManager import Logger
 import os
 import logging
 import pandas as pd
+from openpyxl import load_workbook
+from openpyxl.utils.dataframe import dataframe_to_rows
 from pydantic import BaseModel
 from fastapi.encoders import jsonable_encoder
 
@@ -92,7 +94,7 @@ class DataHandler:
     df.to_excel(excel_path, index=False)
     log.info(f"Saving df to excel in: {excel_path}")
 
-  def export_df_to_excel_by_sheet_name(self, df: list,
+  def export_df_to_excel_by_sheet_name(self, df: pd.DataFrame.dtypes,
                                        xlsx_file_name: str, 
                                        sheet_name: str,
                                        app_folder_destination: str = cf.DATA.DH_DEFAULT_RESULTS_F):
@@ -108,12 +110,36 @@ class DataHandler:
     with pd.ExcelWriter(excel_path, engine='openpyxl', mode=mode) as writer: #, engine='xlsxwriter'
       df.to_excel(writer, sheet_name=sheet_name, index=True)
 
+  def export_df_to_excel_to_one_sheet(self, df: pd.DataFrame.dtypes,
+                                       xlsx_file_name: str,
+                                        sheet_name: str,
+                                        app_folder_destination: str = cf.DATA.DH_DEFAULT_RESULTS_F):
+    """ Exports a dataframe to an excel file in a given sheet name.
+        If the file already exists, it appends the dataframe to the existing sheet."""
+    xlsx_file_name = xlsx_file_name + ".xlsx"
+    excel_path = self._get_filename_path(xlsx_file_name, app_folder_destination)
+    
+    if not self.check_file_exists(excel_path):
+      print(f"Saving df to excel in: {excel_path}")
+      with pd.ExcelWriter(excel_path, engine='openpyxl', mode="w") as writer: #, engine='xlsxwriter'
+        df.to_excel(writer, sheet_name=sheet_name, index=False)
+    else:
+      # open the existing excel file
+      workbook = load_workbook(excel_path) 
+      try:
+        sheet = workbook[sheet_name]
+        # append the dataframe results to the current excel file
+        for row in dataframe_to_rows(df, header = False, index = False):
+          sheet.append(row)
+        workbook.save(excel_path)  # save workbook
+        workbook.close()  # close workbook
+      except Exception as e: # Sheet does not exist, create it
+        log.info(f"Creating new sheet in existing excel file: {sheet_name}")
+        with pd.ExcelWriter(excel_path, engine='openpyxl', mode="a") as writer:
+          df.to_excel(writer, sheet_name=sheet_name, index=False)
+
   def _get_filename_path(self, xlsx_file_name, app_folder_destination):
     """ Checks file path exists and adds time stamp to filename"""
-    # # Add time of creation to filename
-    # dt_creation = dt.now().strftime("%d-%m%Y %H-%M-%S")
-    # _xlsx_file_name = xlsx_file_name + "-" + dt_creation + ".xlsx"
-    # Check folder destination and create it if does not exist
     folder_path = os.path.join(cf.APP_PATH, app_folder_destination).__str__()
     self.check_folder_exists(folder_path)
     excel_path = os.path.join(cf.APP_PATH, app_folder_destination, xlsx_file_name).__str__()
@@ -143,7 +169,9 @@ class DataHandler:
                                         report_data :pd.DataFrame.dtypes, 
                                         model_name :str, 
                                         filename :str,
-                                        app_folder_destination: str = cf.API.API_GEN_REPORTS_F):
+                                        sheet_name :str,
+                                        app_folder_destination: str = cf.API.API_GEN_REPORTS_F,
+                                        ):
     """
     Takes the model output (response) and converts it into a dataframe, then it saves it in datasets
     """
@@ -152,10 +180,12 @@ class DataHandler:
 
     model_name = self.treat_model_name_for_filename(model_name)    
     folder_path = os.path.join(cf.APP_PATH, app_folder_destination).__str__()
+    # Check folder destination and create it if does not exist
     self.check_folder_exists(folder_path)
     xlsx_file_name = filename + "-" + model_name
-    self.export_df_to_excel(df=df,
+    self.export_df_to_excel_to_one_sheet(df=df,
                             xlsx_file_name=xlsx_file_name,
+                            sheet_name=sheet_name,
                             app_folder_destination=app_folder_destination)
 
   def treat_model_name_for_filename( self, model_name: str):
