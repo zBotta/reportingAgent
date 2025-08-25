@@ -1,0 +1,282 @@
+[
+  {
+    "input": "What: Scraping sides between Vehicle A (taxi) and Vehicle B (bus)\nWhen: Occurrence: June 1, 2024, 13:38\nWhere: Market Street near River Plaza\nWho: Mr. Arturo Delgado – Taxi driver (Vehicle A); Ms. Helen Wu – Bus driver (Vehicle B)\nHow: Vehicle A began lane change parallel to Vehicle B, resulting in scraping sides\nWhy: Blind spot, unclear signals\nContingencyActions: Passengers checked, police and company supervisors notified",
+    "target": "On June 1, 2024, at 13:38, a taxi (Vehicle A) began changing lanes on Market Street near River Plaza, not noticing a public bus (Vehicle B) adjacent to it. The two vehicles scraped sides at low speed. No injuries among the taxi or bus passengers. Police and company supervisors were notified and reports filed."
+  },
+  {
+    "input": "What: rear-end collision involving sedan and SUV\nWhen: Occurrence: March 14, 2024, 08:12; Discovery: 08:13\nWhere: Intersection of Main Street and 4th Avenue\nWho: Mr. Paul Evans – sedan (Vehicle A); Ms. Linda Harper – SUV (Vehicle B)\nHow: Sedan failed to brake in time at red light behind SUV\nWhy: Driver inattention by Vehicle A\nContingencyActions: Police on scene; both vehicles moved off road; no serious injuries; ambulance checked both drivers",
+    "target": "On March 14, 2024, at 08:12, Mr. Paul Evans driving a sedan (Vehicle A) failed to stop at a red light and rear-ended Ms. Linda Harper's SUV (Vehicle B) at the intersection of Main and 4th Avenue. Ms. Harper complained of minor neck pain. Police arrived within minutes, moved the vehicles to the roadside, and ambulance staff assessed both drivers."
+  },
+  {
+    "input": "What: collision between car and taxi in roundabout\nWhen: Occurrence: October 16, 2024, 20:17\nWhere: Riverside Roundabout\nWho: Ms. Elise Bauer – hatchback (Vehicle A); Mr. Alex Sampaio – taxi (Vehicle B)\nHow: Both entered roundabout simultaneously from opposing entries\nWhy: Unclear right-of-way\nContingencyActions: Police clarified roles, documented damage, traffic maintained",
+    "target": "A collision occurred on October 16, 2024, at 20:17 when Ms. Elise Bauer (Vehicle A) and Mr. Alex Sampaio (Vehicle B) both entered Riverside Roundabout simultaneously. There was moderate vehicle damage but no injuries. Scene was documented and traffic continued flowing."
+  },
+  {
+    "input": "What: Collision at intersection: Vehicles A and B\nWhen: Occurrence: April 18, 2024, 11:20\nWhere: 5th Avenue & Elm Street\nWho: Mr. Lucas Romero – Compact car (Vehicle A, at fault); Ms. Hana Yilmaz – SUV driver (Vehicle B)\nHow: Vehicle A turned left in front of oncoming traffic, hitting Vehicle B\nWhy: Misjudged gap by Vehicle A\nContingencyActions: EMT treated Ms. Yilmaz, traffic managed by police",
+    "target": "At 11:20 on April 18, 2024, on 5th Avenue & Elm Street, Vehicle A, driven by Mr. Lucas Romero, turned left in front of oncoming Vehicle B, an SUV driven by Ms. Hana Yilmaz, causing a crash. Ms. Yilmaz sustained minor injuries and received on-site treatment. Police managed traffic and completed an accident report."
+  },
+  {
+    "input": "What: rear-end crash between taxi and hatchback\nWhen: Occurrence: May 12, 2024, 17:25; Discovery: May 12, 2024, 17:26\nWhere: Highway 9, near Exit 17\nWho: Ms. Ana Torres – taxi driver (Vehicle A); Mr. Carlos Jimenez – hatchback driver (Vehicle B)\nHow: Taxi failed to brake in time in stopped traffic\nWhy: Distracted driving, inattention\nContingencyActions: Tow trucks called, rear vehicle towed, drivers checked by paramedics",
+    "target": "May 12, 2024, 17:25, saw a rear-end collision on Highway 9, near Exit 17. A taxi (Vehicle A, driver Ms. Ana Torres) struck the rear of a red hatchback (Vehicle B, driver Mr. Carlos Jimenez) in heavy traffic. No injuries, but both vehicles sustained damage. Tow trucks and paramedics were dispatched, and vehicles moved to the shoulder."
+  },
+  {
+    "input": "What: Motorcycle (A) collided with pickup (B) at intersection\nWhen: Occurrence: May 22, 2024, 07:20\nWhere: 5th Ave & Maple Road\nWho: Mr. Diego Murillo, motorcycle (Vehicle A, injured); Ms. Carla James, pickup (Vehicle B)\nHow: Vehicle B turned left, crossing path of oncoming motorcycle\nWhy: Pickup failed to yield to oncoming traffic\nContingencyActions: Immediate medical attention, intersection partially closed, traffic managed",
+    "target": "May 22, 2024, at 07:20, Vehicle A (motorcycle) operated by Mr. Diego Murillo struck Vehicle B (pickup) driven by Ms. Carla James at 5th Ave & Maple Road. Ms. James turned left without yielding, resulting in the collision. Mr. Murillo sustained a leg injury and was attended by paramedics. Traffic was temporarily redirected."
+  },
+  {
+    "input": "What: multi-car pileup involving sedan, SUV, and truck\nWhen: Occurrence: February 22, 2024, 07:16\nWhere: Route 5, Foggy Hollow overpass\nWho: Ms. Andrea Bishop, sedan driver (Vehicle A); Mr. John Howard, SUV driver (Vehicle B); Ms. Karla Sato, truck driver (Vehicle C) – all affected\nHow: Limited visibility led to chain-reaction crashes\nWhy: Heavy fog, drivers unable to stop in time\nContingencyActions: Rescue teams dispatched, road temporarily closed",
+    "target": "On February 22, 2024, at 07:16, dense fog on Route 5 near Foggy Hollow overpass contributed to a pileup involving Vehicle A (sedan, Ms. Andrea Bishop), Vehicle B (SUV, Mr. John Howard), and Vehicle C (truck, Ms. Karla Sato). Rescue teams treated minor injuries and closed the road for cleanup."
+  },
+  {
+    "input": "What: rear-end collision between Vehicle A (sedan) and Vehicle B (SUV)\nWhen: Occurrence: May 5, 2024, 08:30; Discovery: May 5, 2024, 08:31\nWhere: Intersection of Maple Avenue and 14th Street, Springfield\nWho: Mr. Alex Turner – driver of sedan (Vehicle A); Ms. Carla Lopez – driver of SUV (Vehicle B)\nHow: Vehicle A failed to stop in time at a red light behind Vehicle B, causing a rear-end impact\nWhy: Distracted driving by Vehicle A\nContingencyActions: Police notified, minor first aid provided, vehicles moved to roadside",
+    "target": "On May 5, 2024, at 08:30, Vehicle A (a sedan driven by Mr. Alex Turner) failed to stop at a red light and collided with the rear of Vehicle B (an SUV driven by Ms. Carla Lopez) at Maple Avenue and 14th Street, Springfield. The accident was discovered immediately. No serious injuries reported. Police were called, first aid given, and both vehicles were moved to the roadside."
+  },
+  {
+    "input": "What: Side-impact collision between Vehicle A and Vehicle B\nWhen: Occurrence: July 10, 2025, 14:15; Discovery: Same time\nWhere: Intersection of Elm Street and 5th Avenue\nWho: Mr. David Lee – hatchback (Vehicle A), driver; Ms. Julia Rose – SUV (Vehicle B), driver\nHow: SUV ran red light, striking hatchback on driver’s side\nWhy: Vehicle B ignored traffic signal\nContingencyActions: Traffic diverted, emergency services onsite, drivers checked for injuries",
+    "target": "At 14:15 on July 10, 2025, at Elm Street and 5th Avenue, Vehicle A (hatchback) driven by Mr. David Lee was struck on the driver’s side by Vehicle B (SUV) driven by Ms. Julia Rose. The SUV failed to stop at a red light and collided with the hatchback. Emergency responders checked both drivers and traffic was diverted briefly. No severe injuries reported; both vehicles towed."
+  },
+  {
+    "input": "What: Motorcycle solo accident to avoid animal\nWhen: Occurrence: June 4, 2024, 21:45\nWhere: Oakridge Highway, mile 15\nWho: Mr. Jake Watson, motorcycle rider (Vehicle A)\nHow: Swerved to avoid deer, lost control and slid off shoulder\nWhy: Unexpected animal crossing, loss of control\nContingencyActions: EMS arrived, rider treated for minor scrapes, motorcycle recovered",
+    "target": "On June 4, 2024, at 21:45, Mr. Jake Watson (Vehicle A, motorcycle) swerved to avoid a deer on Oakridge Highway, lost control and slid off the road. Mr. Watson sustained minor injuries. Emergency services provided on-site aid and the motorcycle was retrieved."
+  },
+  {
+    "input": "What: motorcycle (vehicle A) skidded and crashed\nWhen: Occurrence: April 9, 2024, 20:10\nWhere: Crossroad of Pine Lane and Elm Street, Houston\nWho: Vehicle A: Mr. Steven Kaine, motorcycle. No other vehicles involved\nHow: Motorcycle lost traction on wet surface and skidded\nWhy: Slippery road due to rain\nContingencyActions: Bystanders called ambulance, police secured area",
+    "target": "Mr. Steven Kaine lost control of his motorcycle on April 9, 2024, at 20:10, at Pine Lane & Elm Street, Houston, after hitting a slippery spot on the wet road. He suffered mild abrasions. Bystanders quickly called for an ambulance, and the police secured the crash site."
+  },
+  {
+    "input": "What: intersection crash, bus and pickup\nWhen: Occurrence: March 10, 2024, 22:17; Discovery: March 10, 2024, 22:19\nWhere: Crossroads Blvd & Vine Street\nWho: Mr. Alex Hunter – city bus driver (Vehicle A); Ms. Gina McLean – pickup truck driver (Vehicle B)\nHow: Bus running a yellow light struck turning pickup\nWhy: Misjudgment of traffic signal timing\nContingencyActions: Passengers evacuated, area cordoned off, police and EMT on site",
+    "target": "At 22:17 on March 10, 2024, a city bus (Vehicle A, Mr. Alex Hunter) struck a pickup (Vehicle B, Ms. Gina McLean) during a left turn at Crossroads Blvd & Vine Street. The bus ran a yellow light. Three passengers were checked for minor injuries. Police cordoned off the area, and EMTs responded quickly."
+  },
+  {
+    "input": "What: rear-end collision between vehicle A and vehicle B\nWhen: Occurrence: April 2, 2024, 14:15\nWhere: Elm Street, Springfield\nWho: Mr. Leo Fowler – sedan driver (Vehicle A, responsible); Ms. Clara Jensen – SUV driver (Vehicle B, victim)\nHow: Vehicle A failed to stop in time at a red light and struck Vehicle B from behind\nWhy: Distracted driving by Vehicle A\nContingencyActions: Police and paramedics called, traffic cones placed, first aid administered",
+    "target": "On April 2, 2024, at 14:15, Vehicle A (a sedan) driven by Mr. Leo Fowler rear-ended Vehicle B (an SUV) operated by Ms. Clara Jensen at a red light on Elm Street, Springfield. Mr. Fowler was distracted by his mobile phone. Police and paramedics arrived quickly. Ms. Jensen complained of neck pain and received first aid. Traffic was guided around the scene."
+  },
+  {
+    "input": "What: hit-and-run collision\nWhen: Occurrence: July 21, 2024, 19:11; Discovery: July 21, 2024, 19:13\nWhere: University Drive, outside mall entrance\nWho: Unknown driver fleeing scene (Vehicle A); Ms. Carla Peters, nurse, parked car owner (Vehicle B)\nHow: Vehicle A sideswiped parked Vehicle B and left scene\nWhy: Unknown, driver did not stop\nContingencyActions: Witnesses reported, police searched for suspect, area canvassed for footage",
+    "target": "A hit-and-run occurred outside the mall on University Drive at 19:11, July 21, 2024. An unknown motorist (Vehicle A) sideswiped a parked car (Vehicle B) owned by Ms. Carla Peters and fled the scene. No injuries were reported. Witnesses gave descriptions, police canvassed for video evidence and are seeking the suspect."
+  },
+  {
+    "input": "What: Reversing collision: Vehicle B (SUV) backed into Vehicle A (motorcycle)\nWhen: Occurrence: June 5, 2024, 12:50\nWhere: Shell Gas Station, pump #4\nWho: Mr. Walter Lane – Vehicle B (responsible, SUV); Ms. Ines Guardia – Vehicle A (motorcycle, victim)\nHow: Vehicle B reversed without noticing motorcycle behind\nWhy: Blind spot misjudgment by Vehicle B\nContingencyActions: Staff assisted, exchanged contacts, no serious injury, security camera reviewed",
+    "target": "On June 5, 2024, at 12:50, at Shell Gas Station pump #4, Mr. Walter Lane reversed his SUV (Vehicle B) and struck a stopped motorcycle (Vehicle A) belonging to Ms. Ines Guardia. No significant injuries were reported, staff assisted with exchange of information, and security footage was checked to verify events."
+  },
+  {
+    "input": "What: vehicle A rear-ended vehicle B at traffic light\nWhen: Occurrence: March 5, 2024, 08:20; Discovery: immediate\nWhere: Main St. & 4th Ave, Springfield\nWho: Jane Smith, sedan driver (Vehicle A); Daniel Lee, delivery van driver (Vehicle B)\nHow: Vehicle A failed to brake in time at red light\nWhy: Distracted driving (Vehicle A)\nContingencyActions: Police alerted; traffic cone setup; medical evaluation",
+    "target": "On March 5, 2024, at 8:20 AM, Jane Smith, driving Vehicle A (sedan), failed to brake in time and rear-ended Daniel Lee’s delivery van (Vehicle B) at the Main St. and 4th Ave intersection, Springfield. Police responded immediately, erected traffic cones, and medical staff evaluated both parties, with no serious injuries reported."
+  },
+  {
+    "input": "What: minor scrape, taxi and van\nWhen: Occurrence: February 2, 2024, 05:53\nWhere: Market Square, Boston\nWho: Mr. Sunil Kapoor – Taxi driver (Vehicle A); Ms. Doris Reed – Delivery van driver (Vehicle B)\nHow: Both vehicles moving in congested area, sides touched while passing\nWhy: Limited space during early rush hour\nContingencyActions: Incident documented, supervisors informed, police report filed",
+    "target": "At 05:53 on February 2, 2024, Market Square, Boston, Vehicle A (taxi, Sunil Kapoor) and Vehicle B (delivery van, Doris Reed) sustained minor damage when their sides rubbed while navigating a tight congested turn. Both parties reported to their companies and police wrote an incident report."
+  },
+  {
+    "input": "What: multiple vehicle rear-ends on slippery bridge\nWhen: Occurrence: September 3, 2024, 18:10\nWhere: Riverbank Bridge, westbound\nWho: Mr. Lucas Trent – pickup truck (Vehicle A); Ms. Sonia Espino – sedan (Vehicle B); Mr. Nate Brooks – small truck (Vehicle C)\nHow: Pickup braked on slick surface, following cars unable to stop, causing pileup\nWhy: Reduced road grip due to rain\nContingencyActions: Police controlled traffic, warning signs deployed",
+    "target": "At 18:10 on September 3, 2024, Lucas Trent braked his pickup truck (Vehicle A) on a rain-slicked Riverbank Bridge, causing Sonia Espino (sedan, Vehicle B) and Nate Brooks (small truck, Vehicle C) to rear-end each other. No injuries. Police managed traffic and placed slick road warnings."
+  },
+  {
+    "input": "What: Rear-end collision, compact car (A) and taxi (B)\nWhen: Occurrence: October 23, 2024, 08:22\nWhere: Broadway Street, city center\nWho: Mr. Ivan Castro – compact car (Vehicle A); Ms. Maria Sun – taxi driver (Vehicle B)\nHow: Car (A) failed to keep distance and collided with stopping taxi (B)\nWhy: Tailgating by Vehicle A\nContingencyActions: Traffic officers called, minor medical check for whiplash",
+    "target": "On October 23, 2024, at 08:22, Mr. Ivan Castro’s compact car (A) rear-ended a taxi (B) driven by Ms. Maria Sun on Broadway Street. The taxi stopped abruptly for a passenger. Mr. Castro was following too closely. Officers and medical staff assessed the situation for potential injuries."
+  },
+  {
+    "input": "What: three-car chain collision\nWhen: Occurrence: May 3, 2024, 18:25; Discovery: May 3, 2024, 18:27\nWhere: Oak Bridge, western approach\nWho: Ms. Leila Ortiz – Vehicle A (sedan, driver, responsible); Mr. Kevin Mayer – Vehicle B (SUV, driver); Ms. Priya Nair – Vehicle C (compact car, driver)\nHow: Vehicle A hit Vehicle B, which then struck Vehicle C, stopped in traffic\nWhy: Tailgating by Vehicle A\nContingencyActions: Ambulance dispatched, police handled traffic, minor injuries treated onsite",
+    "target": "On May 3, 2024, at 18:25, a three-car collision occurred on the western approach of Oak Bridge. Vehicle A, a sedan driven by Ms. Leila Ortiz, struck Vehicle B, an SUV driven by Mr. Kevin Mayer, which was pushed into Vehicle C, a compact car driven by Ms. Priya Nair. The accident was caused by tailgating and sudden braking. Ambulance arrived quickly, minor injuries were checked, and police managed traffic flow until all vehicles were towed."
+  },
+  {
+    "input": "What: Vehicle B struck Vehicle A on passenger side\nWhen: Occurrence and Discovery: March 29, 2024, 14:50\nWhere: Downtown Intersection, Austin, TX\nWho: Mr. James Cooper – compact car (Vehicle A, driver, victim); Ms. Sofia Nguyen – pickup truck (Vehicle B, driver, responsible)\nHow: Pickup ran red light, hitting the compact car\nWhy: Failure to observe traffic signal (Vehicle B)\nContingencyActions: EMS called, intersection cleared, minor injuries treated",
+    "target": "At 14:50 on March 29, 2024, Vehicle B, a pickup truck driven by Ms. Sofia Nguyen, ran a red light and struck Vehicle A, a compact car driven by Mr. James Cooper, on the passenger side at a downtown Austin intersection. Minor injuries were reported. EMS treated the injured and the intersection was cleared."
+  },
+  {
+    "input": "What: Minor collision at intersection during rush hour\nWhen: Occurrence: May 28, 2025, 17:58\nWhere: Junction of Main Street and Bellevue Road\nWho: Vehicle A: Ms. Fatima Osei (hatchback, at fault); Vehicle B: Mr. John Lamb (SUV, impacted)\nHow: Vehicle A turned without yielding to oncoming vehicle B\nWhy: Failure to yield right of way\nContingencyActions: Police arrived, insurance exchanged, traffic directed",
+    "target": "On May 28, 2025, at 17:58, Vehicle A (driven by Ms. Fatima Osei) collided with Vehicle B (SUV operated by Mr. John Lamb) at the Main Street and Bellevue Road junction. Ms. Osei turned left without yielding. Police quickly directed rush hour traffic. Both drivers exchanged information and there were no injuries."
+  },
+  {
+    "input": "What: Vehicle A sideswiped stationary Vehicle B\nWhen: Occurrence: January 30, 2024, 06:30; Discovery: January 30, 2024, 06:31\nWhere: East Industrial Blvd near Block D\nWho: Mr. Ivan Norris – panel van (Vehicle A); Mr. Samuel Brooks – parked excavator (Vehicle B, no driver)\nHow: Panel van drifted into construction lane\nWhy: Driver distraction by Vehicle A\nContingencyActions: Construction crew assisted, police processed scene, no delays",
+    "target": "On January 30, 2024, at 06:30, Vehicle A (panel van) driven by Mr. Ivan Norris sideswiped Vehicle B (unattended excavation vehicle) parked on East Industrial Blvd. Only minor vehicle damage, no injuries to construction personnel. Police processed scene, allowing traffic flow to resume quickly."
+  },
+  {
+    "input": "What: side-swipe collision between Vehicle A (pickup truck) and Vehicle B (van)\nWhen: Occurrence: June 3, 2024, 16:12; Discovery: June 3, 2024, 16:12\nWhere: Main Street near 7th Avenue, Dayton\nWho: Ms. Elsa Nguyen – pickup truck (Vehicle A); Mr. Brian Ortiz – delivery van (Vehicle B)\nHow: Vehicle A merged into the adjacent lane, sideswiping Vehicle B\nWhy: Failure to check blind spot by Vehicle A\nContingencyActions: Area marked with cones, insurance details exchanged, police intervened",
+    "target": "At 16:12 on June 3, 2024, on Main Street near 7th Avenue, Dayton, Vehicle A (pickup truck driven by Ms. Elsa Nguyen) merged without checking the blind spot, sideswiping Vehicle B (a delivery van driven by Mr. Brian Ortiz). The scene was secured, traffic cones placed, police arrived, and insurance information was exchanged."
+  },
+  {
+    "input": "What: Bus and hatchback collision at intersection\nWhen: Occurrence: January 8, 2024, 15:22; Discovery: January 8, 2024, 15:24\nWhere: Pine Avenue & Cedar Lane intersection\nWho: Ms. Emily Russo – bus driver (Vehicle A); Mr. Felipe Gonzalez – hatchback driver (Vehicle B)\nHow: Vehicle B failed to yield and was struck by bus\nWhy: Hatchback ignored yield sign\nContingencyActions: Passengers checked, medical attention for minor injuries, intersection closed briefly",
+    "target": "At 15:22 on January 8, 2024, a public bus driven by Ms. Emily Russo collided with a hatchback (Mr. Felipe Gonzalez) at Pine Avenue and Cedar Lane when the hatchback failed to yield. Two bus passengers experienced minor whiplash. Both vehicles blocked the intersection until authorities arrived, redirected traffic, and ensured injured parties received medical attention."
+  },
+  {
+    "input": "What: Multi-vehicle collision in heavy rain\nWhen: Occurrence: October 2, 2024, 17:30\nWhere: Intersection of Oak Street and Elm Road\nWho: Vehicle A: Mr. Eric Polanco (sedan); Vehicle B: Ms. Yara Mohamed (minivan); Vehicle C: Mr. Tyler Banks (taxi)\nHow: Reduced visibility and slippery road led to chain collision\nWhy: Adverse weather conditions caused loss of control\nContingencyActions: Rescue dispatched, area cordoned, involved parties evaluated",
+    "target": "At 17:30 on October 2, 2024, during heavy rain, Vehicle A (driven by Mr. Eric Polanco) lost traction at the Oak Street and Elm Road intersection, colliding with Vehicle B (Ms. Yara Mohamed’s minivan) and then Vehicle C (a taxi driven by Mr. Tyler Banks). Emergency services responded and cordoned off the wet, hazardous area."
+  },
+  {
+    "input": "What: crash between van (A) and motorcycle (B)\nWhen: Occurrence: June 28, 2024, 19:50\nWhere: Grand Ave and 2nd Street\nWho: Mr. Luis Horta – van driver (A); Mr. Brian Yu – motorcycle rider (B)\nHow: Van turned left across path of motorcycle in oncoming lane\nWhy: Misjudgment of approaching motorcycle’s speed\nContingencyActions: Police and ambulance on scene, both parties tended",
+    "target": "At Grand Ave and 2nd Street, on June 28, 2024, 19:50, Mr. Luis Horta’s van (A) turned left, misjudging the speed of Mr. Brian Yu’s motorcycle (B), resulting in a collision. Both parties were treated for non-life-threatening injuries and interviewed by police."
+  },
+  {
+    "input": "What: Rear-end accident between two parked vehicles\nWhen: Occurrence: May 15, 2024, 19:10\nWhere: Southgate Mall parking lot\nWho: Mr. Elias Ford – Vehicle A (sedan); Ms. Cheryl Wu – Vehicle B (station wagon)\nHow: Vehicle A reversed into Vehicle B parked nearby\nWhy: Lack of rear visibility by Vehicle A\nContingencyActions: Mall security assisted, contact info exchanged",
+    "target": "At 19:10 on May 15, 2024, in Southgate Mall parking, Mr. Elias Ford (Vehicle A) reversed out of a spot and struck Ms. Cheryl Wu’s parked station wagon (Vehicle B). No injuries reported. Mall security responded and both parties exchanged insurance details."
+  },
+  {
+    "input": "What: Vehicle A struck wild animal, swerved and hit Vehicle B\nWhen: Occurrence: May 31, 2024, 23:58; Discovery: Immediate\nWhere: Route 138, outskirts of Montpellier, France\nWho: Vehicle A: Mr. Luc Garnier, hatchback driver; Vehicle B: Ms. Nia Dupont, compact car driver\nHow: Vehicle A hit a wild boar, lost control and collided with Vehicle B\nWhy: Unexpected animal crossing at night\nContingencyActions: Police and animal control notified, tow trucks sent",
+    "target": "On May 31, 2024, at 23:58, Vehicle A (hatchback, Mr. Luc Garnier) struck a wild boar and, after losing control, collided with Vehicle B (compact car, Ms. Nia Dupont) on Route 138 near Montpellier, France. No human injuries reported, but both cars required towing. Police and animal control responded to the scene."
+  },
+  {
+    "input": "What: Low-speed collision in parking lot\nWhen: Occurrence: May 5, 2024, 14:55; Discovery: Immediate\nWhere: Eastwood Mall parking lot, Minneapolis\nWho: Ms. Tara Singh – Vehicle A, hatchback; Mr. Joel Baxter – Vehicle B, van\nHow: Both vehicles backed out simultaneously, collided\nWhy: Inattention during backing by both drivers\nContingencyActions: Contact information exchanged, security notified, police report taken",
+    "target": "On May 5, 2024, at 2:55 p.m., a minor accident occurred in the Eastwood Mall lot. Ms. Tara Singh, reversing her hatchback (Vehicle A), and Mr. Joel Baxter, reversing his van (Vehicle B), backed out at the same time and struck each other. No injuries occurred. Both parties exchanged information, mall security was informed, and a routine police report was filed."
+  },
+  {
+    "input": "What: parked vehicle struck by reversing SUV\nWhen: Occurrence: July 1, 2024, 11:54; Discovery: July 1, 2024, 11:54\nWhere: Greenleaf Supermarket parking lot\nWho: Ms. Hallie Moore – parked car (Vehicle A, owner absent); Mr. Roger Cruz – SUV (Vehicle B, driver at fault)\nHow: Vehicle B reversed into stationary Vehicle A\nWhy: Lack of rear visibility, driver inattention\nContingencyActions: Store security contacted, insurance details exchanged",
+    "target": "On July 1, 2024, at 11:54, in Greenleaf Supermarket parking lot, Vehicle B, an SUV driven by Mr. Roger Cruz, reversed into parked Vehicle A owned by Ms. Hallie Moore. Ms. Moore was not present during the incident. Security was notified, and the drivers exchanged insurance information."
+  },
+  {
+    "input": "What: Side swipe between vehicle A and B\nWhen: Occurrence: June 15, 2024, 14:55; Discovery: June 15, 2024, 14:55\nWhere: Lincoln Boulevard, near 14th Street\nWho: Ms. Anna Torres, hatchback driver – Vehicle A; Mr. Daniel Yu, van driver – Vehicle B\nHow: Vehicle A changed lanes without signaling\nWhy: Failure to signal during lane change by Vehicle A\nContingencyActions: Both vehicles moved to shoulder, police notified, damage assessed",
+    "target": "At 14:55 on June 15, 2024, Vehicle A, a hatchback driven by Ms. Anna Torres, sideswiped Vehicle B, a van operated by Mr. Daniel Yu, while changing lanes on Lincoln Boulevard near 14th Street. Lane change was made without signaling, resulting in minor damage. Both drivers moved to the shoulder and called police, who assessed the situation."
+  },
+  {
+    "input": "What: delivery van struck pedestrian at crosswalk\nWhen: Occurrence: August 3, 2024, 12:14; Discovery: August 3, 2024, 12:14\nWhere: City Center, Liberty Plaza\nWho: Mr. Ethan Green – delivery van (Vehicle A, driver); Mr. Paul Brody – pedestrian (injured)\nHow: Vehicle A failed to see pedestrian and hit him at marked crosswalk\nWhy: Obstructed view, pedestrian crossed with signal\nContingencyActions: Emergency teams called, traffic stopped at plaza",
+    "target": "On August 3, 2024, at 12:14, in Liberty Plaza, City Center, Mr. Paul Brody was struck by a delivery van (Vehicle A) operated by Mr. Ethan Green while crossing at a marked crosswalk. The driver failed to see the pedestrian. Emergency services responded and the area was temporarily closed to traffic."
+  },
+  {
+    "input": "What: Rear-end collision between sedan and SUV\nWhen: Occurrence: April 6, 2024, 08:10; Discovery: April 6, 2024, 08:11\nWhere: Intersection of Main St. and Maple Ave.\nWho: Vehicle A: Ms. Karen Liu, accountant, driver; Vehicle B: Mr. Peter Hodge, delivery driver\nHow: Sedan failed to stop and rear-ended SUV at red light\nWhy: Distracted driving (cell phone use) by Vehicle A\nContingencyActions: Police arrived, vehicles moved to shoulder, injured checked by paramedics",
+    "target": "On April 6, 2024, at 08:10, Ms. Karen Liu (Vehicle A, sedan) collided with the rear of Mr. Peter Hodge's SUV (Vehicle B) at Main St. and Maple Ave. The accident occurred when Ms. Liu, reportedly distracted by her cellphone, failed to stop for a red light. Police and paramedics arrived promptly; minor injuries treated on site."
+  },
+  {
+    "input": "What: Multi-car pileup involving Vehicle A, Vehicle B, and Vehicle C\nWhen: Occurrence: April 28, 2024, 6:35pm; Discovery: immediate\nWhere: Highway 44 near Exit 12\nWho: Evan Carter – pickup truck (Vehicle A); Mia Gomez – sedan (Vehicle B); Tom Wu – compact car (Vehicle C)\nHow: Sudden braking led to sequential rear-end impacts\nWhy: Heavy rain reduced visibility and traction\nContingencyActions: Emergency services responded, traffic diverted, tow trucks dispatched",
+    "target": "On April 28, 2024, 6:35pm, a pileup involving Evan Carter (pickup, Vehicle A), Mia Gomez (sedan, Vehicle B), and Tom Wu (compact, Vehicle C) occurred on Highway 44 near Exit 12. Reduced visibility due to rain caused sudden braking and back-to-back collisions. EMTs treated minor injuries and traffic was diverted."
+  },
+  {
+    "input": "What: Vehicle B hit Vehicle A while exiting\nWhen: Occurrence: June 5, 2024, 17:30\nWhere: I-90 westbound off-ramp, Seattle\nWho: Ms. Laura Wilson – truck (Vehicle A); Mr. Peter Kim – coupe (Vehicle B)\nHow: Vehicle B sped up, failing to yield while merging\nWhy: Unsafe merge by Vehicle B\nContingencyActions: Police notified, warning signs placed",
+    "target": "At 17:30 on June 5, 2024, on the westbound I-90 off-ramp in Seattle, Vehicle B (coupe, driven by Mr. Peter Kim) accelerated to merge ahead of Vehicle A (truck, Ms. Laura Wilson) and clipped her vehicle's rear. Police were notified, placed warning signs, and both vehicles were driven to a nearby safe area. No injuries reported."
+  },
+  {
+    "input": "What: Low-speed collision in parking lot\nWhen: Occurrence: March 13, 2024, 17:05; Discovery: March 13, 2024, 17:06\nWhere: MegaMart Parking Lot, Row 4\nWho: Mr. Diego Rivera – SUV (Vehicle A, backing out); Ms. Helena Smith – sedan (Vehicle B, passing)\nHow: Vehicle A backed out into the path of Vehicle B\nWhy: Failure to check surroundings by Vehicle A\nContingencyActions: Drivers called security, exchanged information, no injuries",
+    "target": "At 17:05 on March 13, 2024, Mr. Diego Rivera, reversing his SUV (Vehicle A) from a MegaMart parking spot, struck Ms. Helena Smith’s passing sedan (Vehicle B). No injuries occurred. Security was notified and drivers exchanged contact and insurance details."
+  },
+  {
+    "input": "What: Low-speed sideswipe accident in parking lot\nWhen: Occurrence: May 28, 2024, 16:40\nWhere: Central Mall Parking Lot, Zone D\nWho: Mr. Fabio Ruiz – Vehicle A (pickup, driver); Ms. Sophie Grant – Vehicle B (compact car, driver)\nHow: Vehicle A turned sharply into parking space, sideswiping adjacent Vehicle B\nWhy: Driver misjudged turn angle\nContingencyActions: Security notified, drivers exchanged information, site cleaned of minor debris",
+    "target": "On May 28, 2024, at 16:40, Mr. Fabio Ruiz, driving pickup Vehicle A, turned sharply into a parking space in Central Mall Parking Lot (Zone D) and sideswiped Vehicle B, a compact car operated by Ms. Sophie Grant. No one was injured. Mall security responded, documentation was exchanged, and minor debris was cleaned."
+  },
+  {
+    "input": "What: Vehicle A (bus) collided with Vehicle B (delivery van)\nWhen: Occurrence: July 28, 2024, 11:46\nWhere: Depot entrance, Industrial Road\nWho: Mr. Alan Meijer – bus driver (Vehicle A); Mr. Tomas Garcia – van driver (Vehicle B)\nHow: Bus entering depot, struck van exiting\nWhy: Failure to yield at depot gate by Vehicle A\nContingencyActions: Depot security notified; paramedics called; minor treatment on site",
+    "target": "On July 28, 2024, at 11:46, a bus driven by Alan Meijer (Vehicle A) collided with a delivery van driven by Tomas Garcia (Vehicle B) at the entrance to the Industrial Road depot. The bus, entering the depot, failed to yield and struck the exiting van. Depot security and paramedics responded for minor injuries."
+  },
+  {
+    "input": "What: side-swipe accident between two vehicles\nWhen: Occurrence: May 14, 2024, 15:17; Discovery: May 14, 2024, 15:17\nWhere: Coastal Drive near Bayview Park\nWho: Ms. Elena Ruiz – coupe (Vehicle A); Mr. Matt Herman – pickup truck (Vehicle B)\nHow: Vehicle A attempted to switch lanes, side-swiped Vehicle B\nWhy: Blind spot not checked by Vehicle A\nContingencyActions: Roadside flares used, police and insurance notified",
+    "target": "At 15:17 on May 14, 2024, on Coastal Drive near Bayview Park, Ms. Elena Ruiz (Vehicle A, coupe) attempted a lane change without checking her blind spot and side-swiped Vehicle B (pickup truck) driven by Mr. Matt Herman. Roadside flares were set out and police and insurance representatives were notified."
+  },
+  {
+    "input": "What: T-bone collision involving Vehicles A and B at intersection\nWhen: Occurrence: September 4, 2024, 14:58\nWhere: 5th Ave & King St, Seattle\nWho: Mr. Jacob Brown, driver – Hatchback (Vehicle A, responsible); Ms. Elisa Romero, driver – Minivan (Vehicle B)\nHow: Vehicle A ran red light, striking Vehicle B’s side\nWhy: Traffic signal violation by Vehicle A\nContingencyActions: Emergency units dispatched, intersection closed, injured persons transported",
+    "target": "On September 4, 2024, at 14:58, Vehicle A (hatchback) operated by Mr. Jacob Brown ran a red light at 5th Ave & King St, Seattle, colliding with Vehicle B (minivan) driven by Ms. Elisa Romero. Two injuries reported. Emergency teams cleared scene and closed intersection."
+  },
+  {
+    "input": "What: three-vehicle rear-end pileup\nWhen: Occurrence: June 12, 2024, 16:03; Discovery: June 12, 2024, 16:04\nWhere: Highway 110 northbound, near Exit 23B\nWho: Ms. Grace Lee, sedan (Vehicle A); Mr. Alberto Torres, SUV (Vehicle B); Ms. Nadia Jones, truck driver (Vehicle C)\nHow: Sudden braking led to successive rear-end collisions\nWhy: Traffic congestion, delayed response\nContingencyActions: EMTs assessed injuries, tow trucks cleared vehicles, police controlled scene",
+    "target": "At 16:03 on June 12, 2024, a three-vehicle rear-end collision occurred on Highway 110 northbound near Exit 23B. Vehicle A, driven by Ms. Grace Lee, stopped abruptly due to congestion. Vehicle B, driven by Mr. Alberto Torres, and Vehicle C, operated by Ms. Nadia Jones, followed, resulting in a pileup. Minor neck injuries were reported. Emergency crews responded and traffic was temporarily diverted."
+  },
+  {
+    "input": "What: pedestrian accident\nWhen: Occurrence: August 15, 2024, 10:46; Discovery: August 15, 2024, 10:46\nWhere: 2nd Ave. crosswalk near Library\nWho: Ms. Sophia Kim – pedestrian; Mr. Frank Weldon – sedan driver (Vehicle A)\nHow: Vehicle failed to yield to pedestrian in crosswalk\nWhy: Driver inattention by Vehicle A\nContingencyActions: Bystanders assisted victim and called paramedics; police documented scene",
+    "target": "At 10:46 on August 15, 2024, Ms. Sophia Kim was struck by a sedan (Vehicle A) driven by Mr. Frank Weldon at a marked crosswalk on 2nd Ave. near the Library. Driver failed to notice pedestrian entering the roadway. Kim suffered minor injuries. Witnesses rendered first aid and called paramedics. Police documented statements and temporarily closed the crosswalk."
+  },
+  {
+    "input": "What: vehicle A spun out, hit guardrail, vehicle B avoided\nWhen: Occurrence: January 19, 2024, 22:40; Discovery: immediate\nWhere: I-495 Southbound, mile 48, Boston\nWho: Lauren White, sports car (A); Noah Kim, sedan (B)\nHow: High-speed maneuver by Vehicle A caused spinout\nWhy: Loss of traction due to wet road, speeding\nContingencyActions: Traffic slowed; tow and rescue called",
+    "target": "On January 19, 2024, at 10:40 PM, Lauren White (sports car, Vehicle A) lost control during a high-speed lane change on I-495 southbound near Boston, spinning out and striking the guardrail. Noah Kim (sedan, Vehicle B) narrowly avoided involvement. Authorities slowed traffic and dispatched tow and rescue crews."
+  },
+  {
+    "input": "What: Intersection collision between sedan and delivery van\nWhen: Occurrence: June 3, 2024, 08:15; Discovery: June 3, 2024, 08:16\nWhere: Elm Street and Oak Avenue intersection\nWho: Ms. Lisa Brown – sedan driver (Vehicle A); Mr. Daniel Lee – delivery van driver (Vehicle B)\nHow: Vehicle A ran a red light and struck Vehicle B in the side\nWhy: Failure of Vehicle A to stop at red light\nContingencyActions: Police called, blocked intersection, ensured both drivers safe, ambulance dispatched for minor injuries",
+    "target": "At 08:15, June 3, 2024, a sedan (Vehicle A), driven by Ms. Lisa Brown, collided with a delivery van (Vehicle B) at the intersection of Elm Street and Oak Avenue. The sedan ran a red light and struck the van's side. Police and medics responded quickly, securing the intersection and treating both drivers for minor injuries."
+  },
+  {
+    "input": "What: Side-swipe: Vehicle A (truck) grazed Vehicle B (pickup)\nWhen: Occurrence: June 4, 2024, 11:25\nWhere: Northbound Highway 7\nWho: Mr. Henry Rogers – Vehicle A (responsible); Mr. Andre Silva – Vehicle B (victim)\nHow: Vehicle A changed lanes without signaling\nWhy: Negligence in lane change procedure\nContingencyActions: Drivers stopped on shoulder, information exchanged, highway patrol responded",
+    "target": "Vehicle A, a delivery truck driven by Mr. Henry Rogers, sideswiped Vehicle B, a pickup driven by Mr. Andre Silva, during an unsignaled lane change on Highway 7 at 11:25, June 4, 2024. Highway patrol assisted, and both vehicles moved to the shoulder to avoid blocking traffic."
+  },
+  {
+    "input": "What: Vehicle A hit a pole while attempting to avoid pedestrian\nWhen: Occurrence: August 8, 2024, 16:15; Discovery: August 8, 2024, 16:15\nWhere: King’s Road, corner of Oakwood Ave\nWho: Ms. Sandra Gill – SUV (Vehicle A), solo driver\nHow: Driver swerved suddenly to avoid jaywalker\nWhy: Pedestrian crossed unexpectedly, evasive maneuver by Vehicle A\nContingencyActions: Police secured scene, checked both pedestrian and driver",
+    "target": "At 16:15 on August 8, 2024, Ms. Sandra Gill, driving an SUV (Vehicle A), swerved to avoid a pedestrian at the corner of King’s Road and Oakwood Ave, hitting a light pole. No serious injuries. Police checked the pedestrian and driver and managed traffic until debris removal."
+  },
+  {
+    "input": "What: Car collides with cyclist in crosswalk\nWhen: Occurrence: June 3, 2024, 15:22\nWhere: West Lake Road at Maple Street\nWho: Ms. Gloria Kim, hatchback driver (Vehicle A) responsible; Mr. Liam Andrews, cyclist (Vehicle B), injured\nHow: Car failed to yield, struck crossing cyclist\nWhy: Driver failed to observe pedestrian right-of-way\nContingencyActions: Police closed intersection, ambulance transported cyclist",
+    "target": "A vehicle (hatchback, Vehicle A) operated by Ms. Gloria Kim failed to yield at a crosswalk and struck Mr. Liam Andrews (Vehicle B, cyclist) at 15:22 on June 3, 2024. Mr. Andrews suffered moderate injuries. Police closed the area and EMS transported the cyclist to hospital. Investigation ongoing."
+  },
+  {
+    "input": "What: truck and car collision\nWhen: Occurrence: June 28, 2024, 13:45; Discovery: June 28, 2024, 13:46\nWhere: Factory Lane near warehouse entrance\nWho: Ms. Fatima Rahman, truck driver (Vehicle A); Mr. Omar El-Sayed, IT specialist, sedan (Vehicle B)\nHow: Vehicle B pulled from parking lot into path of Vehicle A\nWhy: Poor visibility, obstructed view by parked vehicles\nContingencyActions: Ambulance called, drivers assisted, area cordoned, traffic rerouted",
+    "target": "On June 28, 2024, at approximately 13:45, a truck (Vehicle A) driven by Ms. Fatima Rahman collided with a sedan (Vehicle B) operated by Mr. Omar El-Sayed near the warehouse on Factory Lane. The sedan exited a parking lot with obstructed visibility. Police and ambulance services responded. One minor injury was recorded and traffic was rerouted."
+  },
+  {
+    "input": "What: truck reversing accident with injury\nWhen: Occurrence: June 10, 2024, 15:26; Discovery: June 10, 2024, 15:27\nWhere: Construction site, River Road extension\nWho: Mr. Alex Murphy – Delivery truck (Vehicle A), Mr. Steven Brooks – Construction worker (injured)\nHow: Truck reversed into worker in blind spot\nWhy: Lack of spotter during reversing\nContingencyActions: Construction medics responded, truck immobilized, incident logged",
+    "target": "On June 10, 2024, at 15:26, Vehicle A (delivery truck) operated by Mr. Alex Murphy reversed into Mr. Steven Brooks, a construction worker, within a blind spot at the River Road extension construction site. Mr. Brooks was treated for a leg injury on scene. Site medics responded and the incident was officially logged."
+  },
+  {
+    "input": "What: sideswipe parked car, 2 vehicles\nWhen: Occurrence: August 4, 2024, 15:20; Discovery: August 4, 2024, 15:22\nWhere: Oak Street, curbside\nWho: Mr. Hassan Musa – Vehicle A (taxi), driver; Owner: Ms. Dana Scott – Vehicle B (parked sedan)\nHow: Taxi sideswiped parked car during lane change\nWhy: Insufficient clearance during maneuver\nContingencyActions: Driver left contact note, police notified",
+    "target": "On August 4, 2024, at 15:20, a taxi driven by Mr. Hassan Musa (Vehicle A) sideswiped a legally parked car (Vehicle B) owned by Ms. Dana Scott as he was changing lanes on Oak Street. The taxi driver left a note with contact details, and police filed a report."
+  },
+  {
+    "input": "What: side-swipe between two sedans\nWhen: Occurrence: April 15, 2024, 19:23; Discovery: Immediate\nWhere: Northbound Route 6, exit 12 ramp\nWho: Mr. Steven Lau – blue sedan (A); Ms. Diana Perez – silver sedan (B)\nHow: Vehicle A changed lanes without signaling, striking B\nWhy: Failure to signal\nContingencyActions: Emergency lane blocked, road flares placed, information exchanged",
+    "target": "On April 15, 2024, at 19:23, a side-swipe occurred on Route 6, exit 12 ramp. Mr. Lau (A) moved into the right lane without signaling and struck sedan B operated by Ms. Perez. Police blocked the emergency lane and facilitated information exchange. No injuries were reported."
+  },
+  {
+    "input": "What: Vehicle A struck pedestrian at crosswalk\nWhen: Occurrence: April 3, 2024, 18:10\nWhere: Calle Larios, Málaga\nWho: Mr. Pablo Torres (Vehicle A, SUV driver); Ms. Ines Rivera (pedestrian, injured)\nHow: Vehicle A failed to yield at crosswalk, striking Ms. Rivera\nWhy: Failure to yield to pedestrian\nContingencyActions: Emergency medical response, police report, area cordoned off",
+    "target": "On April 3, 2024, at 18:10, Vehicle A, an SUV driven by Mr. Pablo Torres, failed to yield to Ms. Ines Rivera, who was crossing at a designated crosswalk on Calle Larios, Málaga. Ms. Rivera sustained minor leg injuries. Paramedics attended to her while police took statements and temporarily closed the crosswalk area."
+  },
+  {
+    "input": "What: sideswipe between SUV and sedan\nWhen: Occurrence: April 19, 2024, 07:45, Discovery: April 19, 2024, 07:46\nWhere: Fourth Avenue and Pine Street, Rivertown\nWho: Mr. Daniel Ford - SUV driver (Vehicle A); Ms. Sofia Batista - sedan driver (Vehicle B)\nHow: Vehicle A changing lanes without signaling, sideswiped Vehicle B\nWhy: Failure to signal during lane change by Vehicle A\nContingencyActions: Vehicles moved to side, minor first aid, police contacted",
+    "target": "On April 19, 2024, at 07:45, Mr. Daniel Ford (Vehicle A, SUV) sideswiped a sedan driven by Ms. Sofia Batista (Vehicle B) at the intersection of Fourth Avenue and Pine Street, Rivertown. Mr. Ford attempted a lane change without signaling. No serious injuries were reported. Both vehicles were moved to the roadside and police were contacted while minor first aid was given."
+  },
+  {
+    "input": "What: Collision with parked vehicle\nWhen: Occurrence: July 23, 2024, 11:05\nWhere: Oak Avenue, in front of building No. 17\nWho: Ms. Linda Ma – Van A (driver, at fault), Truck B (parked, owner absent)\nHow: Van drifted into parked truck\nWhy: Driver inattention\nContingencyActions: Police attended, insurance details exchanged, van towed",
+    "target": "On July 23, 2024, at 11:05, Ms. Linda Ma (Vehicle A, a delivery van) drifted while parking and struck a stationary Truck B on Oak Avenue in front of building No. 17. The truck was unoccupied. Police attended, no injuries occurred, both parties' insurers were notified, and the van was towed for repairs."
+  },
+  {
+    "input": "What: truck-bicycle accident Vehicle A (delivery truck) and Vehicle B (bicycle)\nWhen: Occurrence: March 30, 2024, 07:50; Discovery: March 30, 2024, 07:50\nWhere: 10th St bike lane, Miami Beach\nWho: Mr. John Foster (delivery truck, Vehicle A, driver); Ms. Diane Kim (bicycle, Vehicle B, rider)\nHow: Vehicle A turned into bike lane, colliding with Vehicle B\nWhy: Vehicle A failed to check blind spot before right turn\nContingencyActions: EMT and police arrived, bicycle rider treated at scene",
+    "target": "At 07:50 on March 30, 2024, Ms. Diane Kim was injured when Mr. John Foster, driving Vehicle A (delivery truck), made a right turn into the 10th St bike lane, striking her bicycle (Vehicle B). EMT provided on-site care; police investigated and issued a citation."
+  },
+  {
+    "input": "What: Sedan struck cyclist at intersection\nWhen: Occurrence: January 30, 2024, 17:10; Discovery: January 30, 2024, 17:11\nWhere: Sycamore and Third, downtown\nWho: Mr. Ben Halvorsen – cyclist; Ms. Jeanette Park – sedan driver (Vehicle A)\nHow: Vehicle A failed to see cyclist during turn\nWhy: Poor visibility, cyclist in blind spot\nContingencyActions: Bystanders aided cyclist, EMS arrived, police directed traffic",
+    "target": "At 17:10, January 30, 2024, Ms. Jeanette Park (Vehicle A) hit Mr. Ben Halvorsen, a cyclist, while turning at Sycamore and Third. Mr. Halvorsen suffered minor injuries. EMS attended promptly and the area was managed by police for investigation."
+  },
+  {
+    "input": "What: Rear-end collision between Vehicle A and city bus (Vehicle B)\nWhen: Occurrence: April 5, 2024, 17:05\nWhere: Lexington Ave, New York City\nWho: Ms. Maria Torres, driver – Taxi (Vehicle A, responsible); Bus Operator, MTA bus (Vehicle B)\nHow: Taxi failed to notice stopped bus and rear-ended it\nWhy: Distracted driving by Vehicle A\nContingencyActions: Police, EMTs on scene, passengers checked, area taped off",
+    "target": "On April 5, 2024 at 17:05, Vehicle A (taxi) driven by Ms. Maria Torres rear-ended Vehicle B (MTA bus) stopped for passengers on Lexington Ave, NYC. No major injuries but several were evaluated. Police and EMTs arrived, road section closed briefly."
+  },
+  {
+    "input": "What: bicycle-car collision\nWhen: Occurrence: May 29, 2024, 07:23; Discovery: May 29, 2024, 07:23\nWhere: Maple Dr. residential driveway\nWho: Mr. Samuel Green – cyclist (Vehicle A); Ms. Janet Li – sedan driver (Vehicle B)\nHow: Car reversed from driveway and struck oncoming cyclist\nWhy: Driver failed to see cyclist while reversing (Vehicle B)\nContingencyActions: Residents provided first aid; local police filed an incident report",
+    "target": "At 07:23 on May 29, 2024, Mr. Samuel Green was struck by a sedan (Vehicle B) driven by Ms. Janet Li, who reversed out of her driveway on Maple Dr. and failed to spot the approaching cyclist. Mr. Green sustained minor abrasions. Neighbors helped provide first aid, and local police took an accident report at the scene."
+  },
+  {
+    "input": "What: Vehicle A clipped Vehicle B in parking slot dispute\nWhen: Occurrence: November 11, 2024, 14:45; Discovery: November 11, 2024, 14:46\nWhere: Sunset Mall parking lot\nWho: Mr. Brice Anton – crossover (Vehicle A); Ms. Kara Li – coupe (Vehicle B)\nHow: Simultaneous parking attempt led to contact\nWhy: Lack of coordination between drivers\nContingencyActions: Mall security mediated, drivers exchanged info, cars moved",
+    "target": "Around 14:45 on November 11, 2024, Mr. Brice Anton (crossover, Vehicle A) clipped the rear of Ms. Kara Li's coupe (Vehicle B) during a double attempt to enter one parking space at Sunset Mall. No one injured. Mall security mediated and both vehicles were moved."
+  },
+  {
+    "input": "What: parking lot collision\nWhen: Occurrence: July 2, 2024, 16:33\nWhere: Northgate Mall parking lot\nWho: Mr. James Lee – hatchback driver (Vehicle A); Mrs. Sally Ng – SUV driver (Vehicle B)\nHow: Both vehicles reversed simultaneously from adjacent spots and collided\nWhy: Failure to check rear surroundings by both drivers\nContingencyActions: Security notified, insurance details exchanged, no injuries reported",
+    "target": "On July 2, 2024, at 16:33, Vehicle A (a hatchback) and Vehicle B (an SUV) reversed out of adjacent parking spaces at Northgate Mall and collided. Neither party reported injuries. Mall security documented the event and both parties exchanged insurance information before departing."
+  },
+  {
+    "input": "What: rear-end collision between sedan (A) and SUV (B)\nWhen: Occurrence: March 5, 2024, 08:30\nWhere: Main Street, near Central Library\nWho: Mr. Kevin Yates, sedan driver (A), responsible; Ms. Linda Zhou, SUV driver (B), involved\nHow: Sedan A failed to stop and rear-ended stopped SUV B at a traffic light\nWhy: Distraction by phone use by Vehicle A\nContingencyActions: Police called, injured checked by paramedics, traffic partially rerouted",
+    "target": "On March 5, 2024, at 08:30, Vehicle A, a sedan driven by Mr. Kevin Yates, failed to brake in time and struck Vehicle B, an SUV driven by Ms. Linda Zhou, which was stopped at a red light on Main Street. Paramedics evaluated the occupants for injuries; minor whiplash was reported. Police managed the scene and briefly rerouted traffic."
+  },
+  {
+    "input": "What: vehicle A sideswiped vehicle B during lane change\nWhen: Occurrence: June 11, 2024, 14:10; Discovery: immediate\nWhere: I-80 Westbound, mile marker 102\nWho: Oliver Webb, SUV driver (Vehicle A); Mark Loretto, compact car driver (Vehicle B)\nHow: Vehicle A changed lanes without clear view\nWhy: Blind spot oversight by Vehicle A\nContingencyActions: Both vehicles moved to shoulder; Highway Patrol notified",
+    "target": "At 2:10 PM on June 11, 2024, Oliver Webb (SUV, Vehicle A) sideswiped Mark Loretto (compact car, Vehicle B) while changing lanes westbound on I-80 (mile marker 102). Webb did not check his blind spot. Both vehicles moved safely to the shoulder. Highway Patrol responded and assisted with traffic."
+  },
+  {
+    "input": "What: car struck pedestrian at crosswalk\nWhen: Occurrence: March 30, 2024, 07:58; Discovery: March 30, 2024, 07:59\nWhere: Willow Street, crosswalk near Central Plaza\nWho: Ms. Rachel Choi, lawyer, SUV driver (Vehicle A); Mr. Samuel Young, construction worker, pedestrian\nHow: Vehicle A turning left failed to yield to pedestrian\nWhy: Failure to yield\nContingencyActions: First aid rendered, ambulance dispatched, area closed for investigation",
+    "target": "At 07:58 on March 30, 2024, Ms. Rachel Choi was turning left in her SUV (Vehicle A) on Willow Street near Central Plaza when she failed to yield to Mr. Samuel Young, a pedestrian in the crosswalk. The pedestrian fell and suffered a leg injury. Emergency services secured the area, provided first aid, and investigated the incident."
+  },
+  {
+    "input": "What: Pedestrian struck at marked crosswalk\nWhen: Occurrence: May 13, 2024, 17:05; Discovery: May 13, 2024, 17:06\nWhere: 3rd Ave and River Rd crosswalk\nWho: Mr. Daniel Cruz – sedan driver (Vehicle A); Ms. Hannah Lee – pedestrian (injured)\nHow: Vehicle failed to yield at crosswalk\nWhy: Driver distraction due to phone usage\nContingencyActions: Emergency services provided first aid, police interviewed witnesses",
+    "target": "At 17:05 on May 13, 2024, a sedan (Vehicle A) driven by Mr. Daniel Cruz failed to yield and struck Ms. Hannah Lee, who was crossing 3rd Ave at River Rd. The pedestrian suffered minor leg injuries. Emergency responders provided aid and police took statements from eyewitnesses. Traffic was slowed to allow investigation."
+  },
+  {
+    "input": "What: Taxi A collided with city bus B\nWhen: Occurrence: June 24, 2024, 08:42\nWhere: Lane 3, Harbor Avenue\nWho: Mr. Ahmed Wali (taxi A, responsible); Mr. Bruno Castor (bus B, driver); 4 bus passengers (affected)\nHow: Taxi A changed lanes abruptly, hitting bus B\nWhy: Impatient driving; unsafe lane change\nContingencyActions: Traffic officers called; passengers checked; bus route temporarily delayed",
+    "target": "At 08:42 on June 24, 2024, Ahmed Wali, driving taxi A, abruptly changed lanes on Harbor Avenue and collided with the side of city bus B, operated by Bruno Castor. Four passengers were jostled but not seriously hurt. Traffic officers responded, checked on all parties, and resumed bus service after brief delay."
+  },
+  {
+    "input": "What: Vehicles A, B, C involved in rear-end chain collision\nWhen: Occurrence: January 10, 2024, 13:55; Reported: 13:57\nWhere: Elm Street, near Central Library\nWho: Mr. Eric Daniels, sedan (Vehicle A); Ms. Linda Park, hatchback (Vehicle B); Mr. Saul Cohen, taxi (Vehicle C)\nHow: Vehicle A stopped abruptly, B and C could not react in time\nWhy: Sudden stop due to pedestrian crossing\nContingencyActions: Hazard lights activated, police and ambulance summoned",
+    "target": "On January 10, 2024, at 13:55, a pedestrian crossing Elm Street near the Central Library caused Vehicle A (sedan, driven by Mr. Eric Daniels) to stop suddenly. Vehicle B (hatchback, Ms. Linda Park) and Vehicle C (taxi, Mr. Saul Cohen) both collided sequentially into the line of traffic. There were no serious injuries. The scene was managed by police and no pedestrians were harmed."
+  },
+  {
+    "input": "What: Single-vehicle rollover accident\nWhen: Occurrence: March 17, 2024, 11:05\nWhere: Countryside Rd, near Mile 7\nWho: Mr. Henry Jalal – Vehicle A (SUV), sole occupant, injured\nHow: Vehicle A lost control on wet road and rolled over\nWhy: Hydroplaning\nContingencyActions: Fire dept responded, driver extricated, road temporarily closed",
+    "target": "A single-vehicle rollover occurred on March 17, 2024, at 11:05 when Mr. Henry Jalal lost control of his SUV (Vehicle A) on a wet section of Countryside Rd near Mile 7. The car rolled, trapping Mr. Jalal. Firefighters extricated the driver and temporarily closed the road for cleanup."
+  },
+  {
+    "input": "What: single-vehicle rollover after tire blowout\nWhen: Occurrence: June 24, 2024, 16:29; Discovery: June 24, 2024, 16:30\nWhere: Interstate 8, exit 41 ramp\nWho: Mrs. Lydia Zhang – SUV (Vehicle A, driver)\nHow: Vehicle A’s tire blew out, causing roll on exit ramp\nWhy: Tire failure at high speed\nContingencyActions: Highway patrol dispatched, traffic stopped on ramp, driver assisted",
+    "target": "At 16:29 on June 24, 2024, Mrs. Lydia Zhang was driving her SUV (Vehicle A) on the exit 41 ramp of Interstate 8 when a tire blew out, causing the vehicle to rollover. Highway patrol halted ramp traffic, and Mrs. Zhang was assisted out of the vehicle by first responders."
+  },
+  {
+    "input": "What: three-car pileup involving vehicles A, B, and C\nWhen: Occurrence: May 22, 2024, 11:22; Discovery: May 22, 2024, 11:22\nWhere: Highway 7, exit 16, Pittsburgh\nWho: Vehicle A: Mr. Karl Fisher, sedan; Vehicle B: Ms. Janet Wu, SUV; Vehicle C: Mr. Mike Ford, van\nHow: Vehicle C failed to slow down and hit Vehicle B, pushing it into Vehicle A\nWhy: Brake failure in Vehicle C\nContingencyActions: Ambulances on scene, tow trucks called, highway patrol controlled traffic",
+    "target": "On May 22, 2024, at 11:22, a three-car pileup occurred on Highway 7, exit 16, Pittsburgh. Vehicle C’s brakes failed, causing it to rear-end Vehicle B, which then hit Vehicle A. EMS treated two drivers for minor injuries. Tow trucks and patrol officers managed the crash."
+  }
+]
