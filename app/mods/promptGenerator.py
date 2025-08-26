@@ -39,8 +39,12 @@ class PromptGenerator:
             self.prompt = self.build_prompt_B()
             return self.prompt
 
-        if prompt_method == 'C': # Instruction prompt with example
+        if prompt_method == 'C': # Instruction prompt with PHARMA example
             self.prompt = self.build_prompt_C()
+            return self.prompt
+        
+        if prompt_method == 'D': # Instruction prompt with ACCIDENT example
+            self.prompt = self.build_prompt_D()
             return self.prompt
 
         else:
@@ -89,7 +93,7 @@ class PromptGenerator:
     
     def build_prompt_C(self):
       """
-      We add to prompt B an example giving inputs and expected output.
+      We add to prompt B an example giving inputs and expected output for a PHARMA DEVIATION.
       """
       text = f"\nwhat: {self.what} \nwhen: {self.when} \nwhere: {self.where} \nwho: {self.who} \nhow: {self.how} \nwhy: {self.why} \ncontingency actions: {self.contingency_actions}.\n"
       return f"""
@@ -106,6 +110,33 @@ class PromptGenerator:
         
       Input example :     what: Incorrect tablet count in bottle for Batch RX500 of Neurocet 50 mg \nwhen: July 2, 2025, 3:30 PM \nwhere: Bottle Packaging Line 2 \nwho: Erik Hansen (Packaging Operator, loaded wrong counting disk); Sarah Yoon (QA, identified deviation during AQL sampling) \nhow: Counting disk set for 60-count instead of 30-count \nwhy: Operator selected wrong format during changeover \ncontingency actions: Line stopped, 500 bottles segregated, rework initiated, operator retrained.
       Output example:   {{ "title": "Wrong tablet counting", "report": "On July 2, 2025, at 3:30 PM, Erik Hansen loaded the wrong tablet counting disk during changeover on Bottle Packaging Line 2 for Batch RX500 of Neurocet 50 mg. Sarah Yoon from QA discovered the issue during AQL sampling. The line was stopped, 500 bottles were segregated, and rework and retraining were initiated." }} 
+      
+      Input:
+      \"\"\"{text}\"\"\"
+
+      Output: Provide your response as a JSON in the given structure.
+        
+      """.strip()
+
+    def build_prompt_D(self):
+      """
+      We add to prompt B an example giving inputs and expected output for a TRAFFIC ACCIDENT.
+      """
+      text = f"\nwhat: {self.what} \nwhen: {self.when} \nwhere: {self.where} \nwho: {self.who} \nhow: {self.how} \nwhy: {self.why} \ncontingency actions: {self.contingency_actions}.\n"
+      return f"""
+      You are a reporting agent.
+      You task is to create a report when provided the what, when, why, who, how and where questions about the events. 
+      You are also given information about the contingency actions regarding the event. 
+
+      Guidelines:
+      - Generate only one report given the informations about the event
+      - Generate the report as text in one paragraph and a title
+      - It is important to focus on accuracy and coherence when generating the report so that the description content matches the information provided (what, when, where, who, how , why, contingency actions). 
+       If an information is not provided in (what, when, where, who, how , why, contingency actions), it must not be part of the generated text description.
+      - Take the information in the input example and output example to improve the report.
+        
+      Input example :     what: Side-impact collision between Vehicle A (city bus) and Vehicle B (motorcycle) \nwhere: Calle de Alcalá, Madrid \nwhen: Occurrence: August 24, 2025, 17:40; Discovery: August 24, 2025, 17:45 \nwho: who: Mr. Roberto Mena - A city bus (Vehicle A); Ms. Irene Valdés, injured - a motorcycle (Vehicle B) \nhow: Motorcycle attempted right-side overtake as bus turned \nwhy: Risky overtaking maneuver by Vehicle B \ncontingency_actions: Police and EMT response, traffic redirection, area secured.
+      Output example:   {{ "title": "Collision between city bus and motorcycle in Calle Alcalá", "report": "On August 24, 2025, at 17:40, Vehicle A (a city bus) driven by Mr. Roberto Mena collided with Vehicle B (a motorcycle) operated by Ms. Irene Valdés on Calle de Alcalá, Madrid. The bus was turning right when the motorcycle attempted to overtake from the right-hand side, causing a side impact. The incident was reported at 17:45 by a pedestrian. Ms. Valdés sustained minor injuries. Police and EMT arrived promptly. Area was secured and traffic was redirected." }} 
       
       Input:
       \"\"\"{text}\"\"\"
