@@ -69,10 +69,11 @@ class ApiReportGenerator():
      "Identify vehicules involved with the letters A, B, C in order of appearance"
     
       previous_message = """REFERENCE REPORT: On August 24, 2025, at 17:40, Vehicle A (a city bus) driven by Mr. Roberto 
-      Mena collided with Vehicle B (a motorcycle) operated by Ms. Irene Valdés
+        Mena collided with Vehicle B (a motorcycle) operated by Ms. Irene Valdés
         on Calle de Alcalá, Madrid. The bus was turning right when the motorcycle attempted to overtake from the right-hand 
         side, causing a side impact. The incident was reported at 17:45 by a pedestrian. Ms. Valdés sustained minor injuries. 
         Police and EMT arrived promptly. Area was secured and traffic was redirected.
+      - what: Side-impact collision between Vehicle A (city bus) and Vehicle B (motorcycle)
       - when: Occurrence: August 24, 2025, 17:40; Discovery: August 24, 2025, 17:45
       - where: Calle de Alcalá, Madrid
       - who: Mr. Roberto Mena – A city bus (Vehicle A); Ms. Irene Valdés, injured – a motorcycle (Vehicle B)
