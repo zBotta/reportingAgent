@@ -61,7 +61,7 @@ class TestBench:
         """
     # Add time of creation to filename
     treat_model_id = self.dh.treat_model_name_for_filename(self.ml.model_id)
-    dt_creation = dt.now().strftime("%d-%m%Y_%H-%M-%S")
+    dt_creation = dt.now().strftime("%d-%m%Y_%H-%M-%S_%f")
     exp_id = treat_model_id + "-" + dt_creation
     self.experiment_id = exp_id
     
