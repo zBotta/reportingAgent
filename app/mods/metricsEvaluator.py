@@ -25,8 +25,15 @@ class MetricsEvaluator:
     self.rouge_model = load("rouge")
     self.bleu_model = load("bleu") 
     self.bert_type_model = t_model_bert
-    self.be_model = SentenceTransformer(t_model_be) # all-MiniLM-L6-v2 model has 256 as seq length
+    self.be_model = SentenceTransformer(t_model_be, device=self.device) # all-MiniLM-L6-v2 model has 256 as seq length
     self.ce_model = CrossEncoder("cross-encoder/" + t_model_ce, max_length=cf.MODEL.MAX_NEW_TOKENS, device=self.device)
+    # Eval mode + no grad to reduce memory
+    self.be_model.model.eval()
+    for p in self.be_model.model.parameters():
+      p.requires_grad_(False)
+    self.ce_model.model.eval()
+    for p in self.ce_model.model.parameters():
+      p.requires_grad_(False)
 
   def set_rouge_score(self, ref_text: str, pred_text_list: list):
      """
