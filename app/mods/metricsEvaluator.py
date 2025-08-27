@@ -29,7 +29,7 @@ class MetricsEvaluator:
     self.ce_model = CrossEncoder("cross-encoder/" + t_model_ce, max_length=256, device=self.device)
     # Eval mode + no grad to reduce memory
     self.be_model.eval()
-    for p in self.be_model.model.parameters():
+    for p in self.be_model.parameters():
       p.requires_grad_(False)
     self.ce_model.model.eval()
     for p in self.ce_model.model.parameters():
