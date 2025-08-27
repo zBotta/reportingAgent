@@ -60,6 +60,7 @@ class MetricsEvaluator():
    # CROSS-ENCODER
    CE_MODEL = "ms-marco-MiniLM-L6-v2"
    CE_SIM_KEY = "ce_sim"
+   CE_BATCH_SIZE = 8 # Cross-encoder batch size for similarity computation
 
 class Analysis():
    TOP_SCORE = MetricsEvaluator.CE_SIM_KEY # Select the score to sort the Analysis values

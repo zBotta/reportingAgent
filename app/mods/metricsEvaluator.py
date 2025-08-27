@@ -7,6 +7,7 @@ from sentence_transformers.cross_encoder import CrossEncoder
 from sentence_transformers import SentenceTransformer
 import numpy as np
 from app.conf.projectConfig import Config as cf
+import torch
 
 class MetricsEvaluator:
 
@@ -18,13 +19,14 @@ class MetricsEvaluator:
                t_model_bert : str = cf.METRICS.BERT_MODEL,
                t_model_be : str = cf.METRICS.BE_MODEL, 
                t_model_ce :str = cf.METRICS.CE_MODEL):
+    self.device = "cuda" if torch.cuda.is_available() else "cpu"
     self.scores = {}
     self.bertscore_model = load("bertscore")
     self.rouge_model = load("rouge")
     self.bleu_model = load("bleu") 
     self.bert_type_model = t_model_bert
     self.be_model = SentenceTransformer(t_model_be) # all-MiniLM-L6-v2 model has 256 as seq length
-    self.ce_model = CrossEncoder("cross-encoder/" + t_model_ce)
+    self.ce_model = CrossEncoder("cross-encoder/" + t_model_ce, max_length=cf.MODEL.MAX_NEW_TOKENS, device=self.device)
 
   def set_rouge_score(self, ref_text: str, pred_text_list: list):
      """
@@ -106,32 +108,31 @@ class MetricsEvaluator:
     return self.scores[cf.METRICS.BE_SIM_KEY]
 
   def set_cross_encoder_score(self, ref_text: str, pred_text_list : list, is_test_bench = False):
-    # We want to compute the similarity between the query sentence...
+    # We want to compute the similarity between the query sentence and the corpus
     query = ref_text
+    corpus = list(pred_text_list)  # copy, do NOT insert into the original list
 
-    # ... and all sentences in the corpus
-    corpus = pred_text_list
-    if not is_test_bench: # When we are not in TB, using the method alone
-      corpus.insert(0, ref_text) # add the ref text to the beginning of the corpus
+    # 2) Batch score (ref, pred) pairs — no 'rank' over a big corpus
+    #    Keep batches tiny to cap memory (adjust if you have more VRAM/RAM)
+    batch_size = cf.METRICS.CE_BATCH_SIZE
+    pairs = [(query, c) for c in corpus]
+    ce_scores = []  # raw (ref,pred) scores
+    with torch.inference_mode():
+        for i in range(0, len(pairs), batch_size):
+            ce_scores.extend(self.ce_model.predict(pairs[i:i + batch_size]))
+    ce_scores = np.asarray(ce_scores, dtype=np.float32)
 
-    # 2. We rank all sentences in the corpus for the query
-    ranks = self.ce_model.rank(query, corpus)
+    # 3) Normalization
+    if not is_test_bench:
+        with torch.inference_mode():
+            denom = float(self.ce_model.predict([(query, query)])[0]) + 1e-8
+    else:
+        denom = float(ce_scores.max()) + 1e-8 if ce_scores.size else 1.0
 
-    # 3. calculate max score
-    max_score = -100
+    # 4) Vectorized normalization (no np.append in a loop)
+    ce_sim_score = ce_scores / denom
 
-    for rank in ranks:
-      max_score = max(max_score, rank['score'])
-
-    # 4. return scores in percentage vs max_score
-    ce_sim_score = np.array([])
-    for rank in ranks:
-        score = rank['score']/max_score
-        ce_sim_score = np.append(ce_sim_score,score)
-
-    if is_test_bench:
-      ce_sim_score = np.delete(ce_sim_score, 0)
-
+    # 5) Store result (same key/shape as before)
     self.scores[cf.METRICS.CE_SIM_KEY] = ce_sim_score
 
   def get_cross_encoder_score(self)  -> list:   
