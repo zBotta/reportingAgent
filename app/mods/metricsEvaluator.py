@@ -91,7 +91,7 @@ class MetricsEvaluator:
     """
     
     # The sentences to encode
-    sentences = pred_text_list
+    sentences = list(pred_text_list)
     sentences.insert(0, ref_text) # add the ref text to the beginning of the list
     # 2. Calculate embeddings by calling model.encode()
     embeddings = self.be_model.encode(sentences)
@@ -107,10 +107,10 @@ class MetricsEvaluator:
   def get_bi_encoder_score(self) -> np.dtype:
     return self.scores[cf.METRICS.BE_SIM_KEY]
 
-  def set_cross_encoder_score(self, ref_text: str, pred_text_list : list, is_test_bench = False):
+  def set_cross_encoder_score(self, ref_text: str, pred_text_list : list):
     # We want to compute the similarity between the query sentence and the corpus
     query = ref_text
-    corpus = list(pred_text_list)  # copy, do NOT insert into the original list
+    corpus = list(pred_text_list) # Make a copy of the list to avoid modifying the original list
 
     # 2) Batch score (ref, pred) pairs — no 'rank' over a big corpus
     #    Keep batches tiny to cap memory (adjust if you have more VRAM/RAM)
@@ -123,11 +123,8 @@ class MetricsEvaluator:
     ce_scores = np.asarray(ce_scores, dtype=np.float32)
 
     # 3) Normalization
-    if not is_test_bench:
-        with torch.inference_mode():
-            denom = float(self.ce_model.predict([(query, query)])[0]) + 1e-8
-    else:
-        denom = float(ce_scores.max()) + 1e-8 if ce_scores.size else 1.0
+    with torch.inference_mode():
+        denom = float(self.ce_model.predict([(query, query)])[0]) + 1e-8
 
     # 4) Vectorized normalization (no np.append in a loop)
     ce_sim_score = ce_scores / denom
@@ -148,7 +145,7 @@ class MetricsEvaluator:
     self.set_rouge_score(ref_text, pred_text_list) 
     self.set_bleu_score(ref_text, pred_text_list)
     self.set_bi_encoder_score(ref_text, pred_text_list, compare_all_texts = False, is_test_bench=is_test_bench)
-    self.set_cross_encoder_score(ref_text, pred_text_list, is_test_bench = is_test_bench)
+    self.set_cross_encoder_score(ref_text, pred_text_list)
 
   def get_scores(self) -> dict:
     return self.scores  
