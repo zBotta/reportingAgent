@@ -62,7 +62,9 @@ def test_api_export():
     dh.export_to_excel_from_api_response(report_data=report_data, 
                                          model_name="gpt2", 
                                          filename=filename_prefix,
-                                         app_folder_destination=app_folder_dest)
+                                         sheet_name="api-test",
+                                         app_folder_destination=app_folder_dest,
+                                         )
     # Check the file creation, check the string prefix in the filename
     for filenames in os.listdir(folder_path):
         assert filename_prefix in filenames

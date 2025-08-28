@@ -202,6 +202,9 @@ class TestBench:
                                   report_generator = report_generator,
                                   prompt_method = prompt_method)
       df_row = pd.DataFrame.from_dict(res)
+      self.dh.export_df_row_to_tmp_file(df_row, 
+                                         xlsx_file_name=self.experiment_id,
+                                         app_folder_destination=cf.TEST_BENCH.TB_RESULTS_F) # pass the experiment id as filename
       self.df_res = pd.concat([self.df_res, df_row], axis=0)
         
   def generate_one_param_set(self,
