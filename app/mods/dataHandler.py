@@ -23,6 +23,18 @@ class Report(BaseModel):
   report: str
 
 
+class StreamlitReport(BaseModel):
+  """
+  A pydantic class containing the structured outputs of the LMs for Streamlit app
+  """
+  title: str
+  summary: str
+  event_details: str
+  immediate_actions: str
+  next_steps: str
+  conclusions: str
+
+
 class DataHandler:
   """
   This class can: 

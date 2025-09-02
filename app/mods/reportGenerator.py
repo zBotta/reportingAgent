@@ -51,8 +51,8 @@ class ReportGenerator:
 
         if not "do_sample" in generation_args:
             generation_args.update({"do_sample": True})
-        elif generation_args["do_sample"] is not True:
-            generation_args.update({"do_sample": True})
+        # elif generation_args["do_sample"] is not True:
+        #     generation_args.update({"do_sample": True})
 
         if not "max_new_tokens" in generation_args:
             generation_args.update({"max_new_tokens": cf.MODEL.MAX_NEW_TOKENS})

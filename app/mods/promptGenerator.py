@@ -27,7 +27,7 @@ class PromptGenerator:
         self.contingency_actions = input('\nWhich contingency actions have been taken? \n[Enumerate all actions taken subsequently to event] \n') if contingency_actions is None else contingency_actions
 
 
-    def create_prompt(self, prompt_method: str = 'A'):
+    def create_prompt(self, prompt_method: str = 'A', language = "English"):
         '''Create prompts with various methods'''
         self.prompt_example = 'Extra information: \n\nThis is an example of the expected output: "On July 2, 2025, at 3:30 PM, Erik Hansen loaded the wrong tablet counting disk during changeover on Bottle Packaging Line 2 for Batch RX500 of Neurocet 50 mg. Sarah Yoon from QA discovered the issue during AQL sampling. The line was stopped, 500 bottles were segregated, and rework and retraining were initiated."\n\
         The event information provided to have this output is the following: "what: Incorrect tablet count in bottle for Batch RX500 of Neurocet 50 mg \nwhen: July 2, 2025, 3:30 PM \nwhere: Bottle Packaging Line 2 \nwho: Erik Hansen (Packaging Operator, loaded wrong counting disk); Sarah Yoon (QA, identified deviation during AQL sampling) \nhow: Counting disk set for 60-count instead of 30-count \nwhy: Operator selected wrong format during changeover \ncontingency actions: Line stopped, 500 bottles segregated, rework initiated, operator retrained"'
@@ -35,16 +35,20 @@ class PromptGenerator:
             self.prompt = self.build_base_prompt() 
             return self.prompt
 
-        if prompt_method == 'B': # Complex instruction prompt
+        elif prompt_method == 'B': # Complex instruction prompt
             self.prompt = self.build_prompt_B()
             return self.prompt
 
-        if prompt_method == 'C': # Instruction prompt with PHARMA example
+        elif prompt_method == 'C': # Instruction prompt with PHARMA example
             self.prompt = self.build_prompt_C()
             return self.prompt
         
-        if prompt_method == 'D': # Instruction prompt with ACCIDENT example
+        elif prompt_method == 'D': # Instruction prompt with ACCIDENT example
             self.prompt = self.build_prompt_D()
+            return self.prompt
+        
+        elif prompt_method == 'Q': # Instruction prompt with ACCIDENT example
+            self.prompt = self.build_prompt_Q(language=language)
             return self.prompt
 
         else:
@@ -144,3 +148,37 @@ class PromptGenerator:
       Output: Provide your response as a JSON in the given structure.
         
       """.strip()
+    
+    def build_prompt_Q(self, language):
+      input_text = f"\nwhat: {self.what} \nwhen: {self.when} \nwhere: {self.where} \nwho: {self.who} \nhow: {self.how} \nwhy: {self.why} \ncontingency actions: {self.contingency_actions}.\n"
+      return """
+              You are an assistant specialized in writing professional reports.
+              Language: write in {LANGUAGE}.
+              You are given structured information about an event using the 5W1H framework:
+
+              {INPUT_TEXT}
+
+              Your task:
+              1. Write a clear, formal, and professional report.
+              2. Do NOT invent any information. Use ONLY the provided details in the 5W1H.
+              3. Use formal language and maintain a neutral tone throughout the report.
+              4. The output is given in a JSON with ONLY the following sections:
+                - **Title**
+                - **Summary**
+                - **Event Details**
+                - **Immediate Actions Taken**
+                - **Next Steps / Recommendations**
+                - **Conclusions**
+              5. Ensure the **Title** is concise and accurately reflects the event.
+              6. The **Summary** should provide a short overview of the event and its significance (2-3 lines).
+              7. In **Event Details**, is a prose description of the event, incorporating ALL relevant 5W1H information (5-7 lines).
+              8. In **Immediate Actions Taken**, describe any actions that were taken in response to the event.
+              9. In **Next Steps / Recommendations**, suggest any follow-up actions or preventive measures.
+              10. In **Conclusions**, summarize the overall impact and any lessons learned.
+              
+
+              Output: Provide your response as a JSON in the given structure. 
+
+              """.format(LANGUAGE=language,
+                        INPUT_TEXT=input_text)
+    
