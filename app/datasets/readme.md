@@ -5,7 +5,7 @@ The excel files training_`*`.xslx can be seen as the TRAINING and EVAL sets for 
 # Training and eval data sets
 For the training task, we have 5k rows and we have generated a train and evaluation dataset.
 
-For the training we have used **Lora + PEFT** to optimize the training runtime and resources used.
+For the training we have used **Quantization + PEFT** to optimize the training runtime and resources used.
 
 The model that we have trained is a **SmolLM2-360M-Instruct** to adhere to a one paragraph report output.
 
