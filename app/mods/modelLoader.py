@@ -51,7 +51,7 @@ class ModelLoader:
 
 
         # Load tokenizer and model
-        tokenizer = tokenizer_class.from_pretrained(self.model_id, **model_kwargs)
+        self.tokenizer = tokenizer_class.from_pretrained(self.model_id, **model_kwargs)
         model = model_class.from_pretrained(
             self.model_id,
             torch_dtype=self.torch_dtype,
@@ -61,9 +61,10 @@ class ModelLoader:
         model.to(self.device)
         
         # We charge the model and tokenizer into model_outlines to be able to handle structured outputs
-        model_outlines = outlines.from_transformers(model, tokenizer)
+        self.model = outlines.from_transformers(model, self.tokenizer)
+        del model
 
-        return model_outlines, tokenizer
+        return self.model, self.tokenizer
 
     def _get_default_parameters(self, verbose = False) -> dict:
         """ Get the default parameters of the model
