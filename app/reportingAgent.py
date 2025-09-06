@@ -15,8 +15,6 @@ log = logging.getLogger(__name__)
 
 from projectSetup import Setup
 import streamlit as st
-import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
 # PDF
 from io import BytesIO
 from xml.sax.saxutils import escape
@@ -39,8 +37,10 @@ env = Setup()
 st.set_page_config(page_title="LLM Report Generator", page_icon="🤖", layout="wide")
 st.title("Reporting Agent 🤖")
 # st.subheader("Instructions:")
-st.markdown("Select a model, load it and wait until is ready. Then, generate a report from your form inputs.\n" \
-"If you change the **language**, the **inputs** in the form must be in that language.\n")
+st.markdown("""**Steps**:\n
+1) On the left sidebar. *Select* a model. *Load* it and wait until is ready.  
+2) Input the form and click on *generate*, to a report.  
+\n**NB**: If you change the **language**, the **inputs** in the form must be in that language.\n""")
 st.caption("If the models have been loaded once, they will be cached for faster reloads.")
 
 # ──────────────────────────────────────────────────────────────────────────────
