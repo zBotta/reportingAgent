@@ -37,7 +37,7 @@ env = Setup()
 st.set_page_config(page_title="LLM Report Generator", page_icon="🤖", layout="wide")
 st.title("Reporting Agent 🤖")
 # st.subheader("Instructions:")
-st.markdown("""**Steps**:\n
+st.markdown("""**Instructions**:\n
 1) On the left sidebar. *Select* a model. *Load* it and wait until is ready.  
 2) Input the form and click on *generate*, to a report.  
 \n**NB**: If you change the **language**, the **inputs** in the form must be in that language.\n""")
