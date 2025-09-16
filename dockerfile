@@ -6,8 +6,8 @@
 FROM python:3.11-slim AS fetcher
 
 ARG GIT_REPO=https://github.com/zBotta/reportingAgent.git
-# TODO: after tests change GIT_REF to main
-ARG GIT_REF=dev   # branch or tag (for a specific commit, see notes below) 
+
+ARG GIT_REF=main   # branch or tag (for a specific commit, see notes below) 
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git ca-certificates && \
