@@ -2,7 +2,7 @@
 .pytest_cache/
 .vscode/
 __pycache__/
-**/__pycache__/
-**/**/__pycache__/
-**/**/**/__pycache__/
-app/datasets/tests/**
+app/test/**/
+app/results/**
+.venv
+app/logs
