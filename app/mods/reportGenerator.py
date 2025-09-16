@@ -3,7 +3,7 @@
 
 from mods.dataHandler import Report, DataHandler
 from conf.projectConfig import Config as cf
-import torch
+
 
 class ReportGenerator:
 
@@ -12,7 +12,7 @@ class ReportGenerator:
         self.tokenizer = tokenizer
         self.output_type = output_type # structured output (Report class, see DataHandler)
 
-    def get_token_ids(self, pad_token_id=None, eos_token_id=None):
+    def prepare_token_ids(self, pad_token_id=None, eos_token_id=None):
         '''
         Ensures pad_token_id and eos_token_id are defined.
         Uses tokenizer defaults or falls back to eos_token if needed.
@@ -33,30 +33,48 @@ class ReportGenerator:
                 raise ValueError("Tokenizer has no eos_token_id defined.")
 
         return pad_token_id, eos_token_id
+    
+    # TODO: Discuss with Samd, the predifined or default parameters highly affects the outputs of the models. \
+    # We should think on charging the defult parameters of the charged model and change them accordingly / relatively
 
-    @torch.no_grad()
     def generate_report(
         self,
         prompt: str,
+        # max_length: int = cf.MODEL.MAX_NEW_TOKENS,
+        # temperature: float = 0.3,
+        # top_p: float = 0.9,
+        # top_k: int = 50,
+        # repetition_penalty: float = 1.0,
+        # do_sample: bool = True,
+        # num_beams: int = 1, # Use num_beam > 1 ONLY if do_sample == False
+        # pad_token_id: int = None,
+        # eos_token_id: int = None,
         **kwargs):
         """
         Text generation from the model. Since we are using the outlines library,
          there is no need for tokenizing and decoding the prompt.
          The prompt, the structured output and the kwargs are passed to the generation.
         """
-        # Ensure pad_token_id and eos_token_id are set
-        pad_token_id, eos_token_id = self.get_token_ids()
-        generation_args = {"pad_token_id": pad_token_id, "eos_token_id": eos_token_id}
+
+        # inputs = self.tokenizer(prompt, return_tensors="pt")
+
+        # pad_token_id, eos_token_id = self.prepare_token_ids(pad_token_id, eos_token_id)
+
+        # generation_args = {
+        #     "max_length": max_length,
+        #     "temperature": temperature,
+        #     "top_p": top_p,
+        #     "top_k": top_k,
+        #     "repetition_penalty": repetition_penalty,
+        #     "do_sample": do_sample,
+        #     "num_beams": num_beams,
+        #     "pad_token_id": pad_token_id,
+        #     "eos_token_id": eos_token_id,
+        # }
+        generation_args = {"max_new_tokens": cf.MODEL.MAX_NEW_TOKENS}
         generation_args.update(kwargs)
 
-        if not "do_sample" in generation_args:
-            generation_args.update({"do_sample": True})
-        # elif generation_args["do_sample"] is not True:
-        #     generation_args.update({"do_sample": True})
-
-        if not "max_new_tokens" in generation_args:
-            generation_args.update({"max_new_tokens": cf.MODEL.MAX_NEW_TOKENS})
-
         output = self.model(prompt, output_type=self.output_type, **generation_args)
-            
-        return output, generation_args
+        # outputs = self.model.generate(**inputs, **generation_args)
+        # text = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)[0]
+        return output
