@@ -79,6 +79,7 @@ Here we specify:
 - The start and end index on the test set. The test set is found in HF or in an excel file locally copied when cloned.
 - The data set filename: `pharma_dev_reports_collection.xlsx` or `traffic_accident_reports_collection.xlsx`
 
+**NB:** If your local machine does not have good GPU resources, we recommend you to clone and execute all this in a Google Colab T4 machine. An example of how to execute the grid search is found in the `dev` branch `PoC/reportAgent-remote.ipynb`
 
 # Data sets and models availability
 The models and data sets can be found in the HuggingFace [DSTI Community](https://huggingface.co/DSTI)
