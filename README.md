@@ -42,7 +42,7 @@ Several evaluation metrics have been calculated in the grid search:
 - **Cross-encoder similarity** (best score for evaluating texts with several sentences)
 
 # Training
-Withing the SFT framework, two training loss functions are used (see ``mods/trainingManager.py` class).:
+Withing the SFT framework, two training loss functions are used (see `mods/trainingManager.py` class).:
 - A Cross-Entropy only loss function
 - A Distilled (KL divergence + cross-entropy) loss function
 
