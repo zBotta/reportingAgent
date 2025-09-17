@@ -28,10 +28,10 @@ A grid search has been done to select the best generation parameters. Here below
 
 ![photo](assets/GridSearchSmallModels.png)
 
-## Best models
-The best models giving the highest cross encoder similarity score were:
--	Best small size model: **Qwen2.5-0.5B-Instruct**
--	Best medium size model: **Llama-3.2-3B-Instruct**
+## Best base models
+After doing the grid search for several generation paramenters, the best models giving the *highest cross encoder similarity score* were:
+-	Best *small size* model (< 1B): **Qwen2.5-0.5B-Instruct**
+-	Best *medium size* model (1B < size < 3B): **Llama-3.2-3B-Instruct**
 
 # Evaluation metrics
 Several evaluation metrics have been calculated in the grid search:
@@ -40,6 +40,18 @@ Several evaluation metrics have been calculated in the grid search:
 - **BERTscore**: precision, recall and f1
 - **Bi-encoder similarity** (cosine similarity between outputs sequences)
 - **Cross-encoder similarity** (best score for evaluating texts with several sentences)
+
+# Training
+Withing the SFT framework, two training loss functions are used (see ``mods/trainingManager.py` class).:
+- A Cross-Entropy only loss function
+- A Distilled (KL divergence + cross-entropy) loss function
+
+The results of the training shown that distillation is not appropriate for generating one-paragraph (simple) reports, as they are deterministic and distillation from a teacher does not add any value to it.  
+
+## Improving a base model
+We have obtained good results when training a *SmolLM2-360M-Instruct* model.  
+An increase of **10%** on the Cross encoder similarity was obtained and **a dramatic reduction of the standard deviation** when comparing to the **base model**.  
+The trained model can be downloaded at [DSTI's HuggingFace repo](https://huggingface.co/DSTI/smollm2-accident-reporter-360m-800) and also is included in the streamlit **web app** (`reportingAgent.py`).
 
 # Getting started
 
