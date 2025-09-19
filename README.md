@@ -65,6 +65,20 @@ To open the app, execute the following command in the root folder.
 
 ``` streamlit run app/reportingAgent.py --server.address=0.0.0.0 --server.port=8501 ```
 
+## Environments
+
+In order to make the app work properly, a `.env` file must be created **after** cloning the repo and place it in the root folder `reportingAgent`.  
+The `.env` file must contain the following environment variables that are either *API tokens* or a *Hugging Face token*.   
+```python
+API_GPT_KEY = <my_GPT_token>
+API_GROQ_KEY = <my_GROQ_token>
+EP_NGROK_TOKEN = <my_NGROQ_token>
+API_OPEN_ROUTER_KEY = <my_OPEN_ROUTER_token>
+HF_TOKEN = <my_HF_TOKEN>
+# NOTA: Create HF token for accessing Llama and Janus
+```
+**NB:** If the user does not have a certain API token the 'apiReportGenrator.py` may not work when using some of the proposed API services (*Grok, OpenRouter (free)*, *chatGPT (pay)*. In the case of using a Llama or Janus model, the Hugging Face importing may not work without a HF_TOKEN.
+
 ## Grid search execution
 
 To call the grid search, you can use the script `reportParamGridSearch.py` found in the `app` folder.
