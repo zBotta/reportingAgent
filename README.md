@@ -55,9 +55,28 @@ The trained model can be downloaded at [DSTI's HuggingFace repo](https://hugging
 
 # Getting started
 
+## Python version
+The python version of this project is **3.11.13**
+
+
+## Getting the repo
 Clone the repository and install the dependencies.
 
-``` pip install -r requirements.txt ```
+### Create a python environment (Conda)
+If you have a Conda installed, use the following commands:
+```
+conda create -n <name_of_environment> python=3.11 -y
+conda activate <name_of_environment>
+cd "project_path"
+pip install -r requirements.txt
+```
+
+### Already have a python 3.11 environment
+If you already have a 3.11 python environment
+```
+cd "project_path"
+pip install -r requirements.txt
+```
 
 ## App execution
 
