@@ -60,7 +60,8 @@ The python version of this project is **3.11.13**
 
 
 ## Getting the repo
-Clone the repository and install the dependencies.
+Clone the repository and install the dependencies. Here an example of how to create a python environment with conda.  
+If you already have one python 3.11 available, skip the Conda part.
 
 ### Create a python environment (Conda)
 If you have a Conda installed, use the following commands:
