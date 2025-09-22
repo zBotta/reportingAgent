@@ -58,7 +58,6 @@ The trained model can be downloaded at [DSTI's HuggingFace repo](https://hugging
 ## Python version
 The python version of this project is **3.11.13**
 
-
 ## Getting the repo
 Clone the repository and install the dependencies. Here an example of how to create a python environment with conda.  
 If you already have one python 3.11 available, skip the Conda part.
@@ -114,6 +113,11 @@ Here we specify:
 - The data set filename: `pharma_dev_reports_collection.xlsx` or `traffic_accident_reports_collection.xlsx`
 
 **NB:** If your local machine does not have good GPU resources, we recommend you to clone and execute all this in a Google Colab T4 machine. An example of how to execute the grid search is found in the `dev` branch `PoC/reportAgent-remote.ipynb`
+
+## Executing demo on Colab
+
+The file `reportingAgent_demo.ipynb` contains a mini-demo with a basic GUI to test the LM models.  
+**NB: This notebook is expected to be executed in google Colab and have a HF token declared in the google secrets `HF_TOKEN`** 
 
 # Data sets and models availability
 The models and data sets can be found in the HuggingFace [DSTI Community](https://huggingface.co/DSTI)
