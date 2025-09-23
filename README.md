@@ -1,7 +1,10 @@
-# AI Reporting Agent
-An AI reporting agent that uses a Language Model to generate reports
+# AI Reporting Agent - Summary
+This project focused on creating an NLP agent capable of generating clear and structured incident reports from minimal inputs, based on the 5W1H framework. Lacking public datasets, the authors generated over 200 synthetic cases covering pharmaceutical deviations and traffic accidents. Several open-source LLMs, ranging from 135M to 3B parameters, were tested with different prompting strategies and similarity metrics. Results showed that Qwen2.5-0.5B was the most reliable small model, while Llama-3.2-3B-Instruct achieved the highest performance, with similarity scores around 0.93. Domain-specific prompting further enhanced output quality, proving the importance of tailored input strategies.
 
-# Description
+To reduce resource demands, the team fine-tuned SmolLM2-360M-Instruct on 800 synthetic traffic accident cases using Supervised Fine-Tuning with QLoRA and PEFT. This improved performance to \~0.88, nearly matching larger 3B models while being ten times smaller and far more efficient. Training on larger datasets or applying knowledge distillation did not lead to additional improvements, as the task was too deterministic to benefit from teacher models. The study concludes that for top accuracy, Llama-3.2-3B is the best option, but specialized lightweight models like SmolLM2-360M provide an excellent trade-off between performance and efficiency, making them highly suitable for practical deployment.
+The report with the results and conclusions can be found in the repo folder 'docs/`.
+
+# Abstract
 
 In many industries, as part of a highly performing Quality Assurance and Customer Support functions, reporting unusual events, anomalies, or process deviations requires clear, structured documentation that captures the full context: what happened, when, where, who was involved, why it occurred, and what actions were taken… This project proposes the development of a chatbot assistant that interacts with the user to collect all relevant information through a series of structured questions. The assistant then automatically generates a well-written, standardized report based on the input. Here some of the tasks carried out:
 
